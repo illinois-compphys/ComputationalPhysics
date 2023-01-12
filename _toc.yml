@@ -1,0 +1,70 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: Overview.ipynb
+
+parts:
+  - caption: Setting up
+    chapters:
+    - file: GettingStarted.ipynb
+  - caption: Cellular Automata
+    chapters:
+    - file: CellularAutomata/CellularAutomata.ipynb  
+    - file: CellularAutomata/OtherAutomata.ipynb
+  - caption: Quantum Computing
+    maxdepth: 5
+    chapters:
+    - file: QC/Overview.ipynb
+    - file: QC/0-DiracNotation.ipynb
+    - file: QC/1a-QuantumComputingSimulator.ipynb
+      sections:
+      - file: QC/1b-QuantumComputingSimulator.ipynb
+    - file:  QC/NonAtomicGates.ipynb
+    - file:  QC/PhaseEstimation.ipynb
+    - file:  QC/QFT.ipynb
+    - file: QC/Shor-Overview.ipynb
+      sections:
+      - file: QC/Shor-Classical.ipynb
+      - file: QC/Shor-Quantum.ipynb
+      - file: QC/ModularMultiplication.ipynb
+      - file: QC/Shor-QuantumCircuit.ipynb
+  - caption: Quantum Computing (extensions)
+    chapters:
+    - file: QC/Gates.ipynb
+      sections:
+      - file: QC/ClassicalGates.ipynb
+      - file: QC/ControlledGates.ipynb
+      - file: QC/Universal.ipynb
+    - file: QC/BQPinPSPACE.ipynb
+  - caption: Ising Model
+    chapters:
+    - file: Ising/Overview.ipynb
+    - file: Ising/IsingModel.ipynb
+    - file: Ising/Measure.ipynb
+    - file: Ising/RG.ipynb
+    - file: Ising/ParallelTempering.ipynb
+  - caption: Machine Learning
+    chapters:
+    - file: ML/Overview.ipynb
+    - file: ML/Hopfield.ipynb
+    - file: ML/RBM.ipynb
+  - caption: Topological Insulators
+    chapters:
+    - file: TI/Overview.ipynb
+    - file: TI/Lattice.ipynb
+    - file: TI/TightBinding.ipynb
+    - file: TI/ChernInsulators.ipynb
+
+  
+    #- file: IsingModel-2.ipynb
+    #- file: IsingModel-3.ipynb
+  #- caption: Name of Not-numbered Part 2
+    #chapters:
+    #- file: path/to/part2/chapter1
+    #- file: path/to/part2/chapter2
+
+#chapters:
+#- file: IsingModel-1.ipynb #done
+#- file: IsingModel-2.ipynb #done
+#- file: IsingModel-3.ipynb #done
