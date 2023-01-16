@@ -44,6 +44,7 @@ parts:
     - file: Ising/Measure.ipynb
     - file: Ising/RG.ipynb
     - file: Ising/ParallelTempering.ipynb
+    - file: Ising/SimulatedAnnealing.ipynb
   - caption: Machine Learning
     chapters:
     - file: ML/Overview.ipynb
