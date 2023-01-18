@@ -11,6 +11,7 @@ parts:
   - caption: Cellular Automata
     chapters:
     - file: CellularAutomata/CellularAutomata.ipynb  
+    - file: CellularAutomata/Sand.ipynb  
     - file: CellularAutomata/OtherAutomata.ipynb
   - caption: Quantum Computing
     maxdepth: 5
