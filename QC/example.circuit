@@ -1,0 +1,9 @@
+3
+INITSTATE FILE myInputState.txt
+H 1
+H 2
+P 2 0.3
+CNOT 2 1
+H 1
+H 2
+CNOT 2 0
