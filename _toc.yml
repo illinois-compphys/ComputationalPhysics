@@ -51,6 +51,7 @@ parts:
     - file: ML/Overview.ipynb
     - file: ML/Hopfield.ipynb
     - file: ML/RBM.ipynb
+    - file: ML/Diffusion.ipynb
   - caption: Topological Insulators
     chapters:
     - file: TI/Overview.ipynb
