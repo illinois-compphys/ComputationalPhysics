@@ -350,27 +350,26 @@ document.write(`
 <li><p>Unitary matrices have eigenvalues and eigenvectors.</p></li>
 <li><p>The eigenvalues are always of the form <span class="math notranslate nohighlight">\(e^{2\pi i\theta}\)</span>.</p></li>
 </ul>
-<p>Our goal in phase estimation will be to take an eigenvector <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> of <span class="math notranslate nohighlight">\(U\)</span> such that <span class="math notranslate nohighlight">\(U|\Psi_j\rangle = e^{2\pi i\theta_j/2^N}\)</span> where <span class="math notranslate nohighlight">\(N\)</span> is the number of top wires and get our quantum circuit to tell us <span class="math notranslate nohighlight">\(\theta_j\)</span>
-<span class="math notranslate nohighlight">\(0\leq \theta &lt; 2^N\)</span>.</p>
-<!-- This means that if the binary string we get is "011" that this is $(0 \times 1/2) + (1 \times 1/4) + (1 \times 1/8)$. -->
+<p>Our goal in phase estimation will be to take an eigenvector <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> of <span class="math notranslate nohighlight">\(U\)</span> such that <span class="math notranslate nohighlight">\(U|\Psi_j\rangle = e^{2\pi i\theta_j}\)</span> and get our quantum circuit to tell us <span class="math notranslate nohighlight">\(\theta_j\)</span>
+<span class="math notranslate nohighlight">\(0\leq \theta &lt; 1\)</span>.<br />
+This means that if the binary string we get is “011” that this is <span class="math notranslate nohighlight">\((0 \times 1/2) + (1 \times 1/4) + (1 \times 1/8)=3/8\)</span>.  Another way we can think of <span class="math notranslate nohighlight">\(\theta_j\)</span> is the binary number (i.e. 011 or 3) divided by the size of the Hilbert space, <span class="math notranslate nohighlight">\(2^\textrm{number of top wires}\)</span> (i.e <span class="math notranslate nohighlight">\(2^3=8\)</span>).  In our above example this also gives us 3/8.</p>
 <p>We will assume in this process that we have access to the gates which make up <span class="math notranslate nohighlight">\(U\)</span> as well as a way to start in an eigenvector.</p>
 <p>We will split up our wires into two parts:  the top (blue below) and bottom (red).</p>
 <p>At the top we are going to put it <span class="math notranslate nohighlight">\(|0\rangle\)</span> and at the bottom we are going to put in <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> so the total state is <span class="math notranslate nohighlight">\(|0\rangle|\Psi_j\rangle\)</span></p>
 <p>At the end of the circuit we want the top to be <span class="math notranslate nohighlight">\(|\theta_j\rangle\)</span> and the bottom to still be <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> so the total state is <span class="math notranslate nohighlight">\(|\theta_j \rangle |\Psi_j \rangle\)</span>.</p>
 <p><img alt="PhaseEstimation" src="../_images/PhaseEstimation.png" /></p>
-<p>Let’s just consider the case where the unitary circuit <span class="math notranslate nohighlight">\(U\)</span> is just a single phase gate <span class="math notranslate nohighlight">\(P(\phi)\)</span>.  First, notice that the eigenvalue of <span class="math notranslate nohighlight">\(P\)</span> are <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span> with eigenvalues <span class="math notranslate nohighlight">\(e^{i 0}\)</span> and <span class="math notranslate nohighlight">\(e^{2\pi i (\phi/2\pi)}\)</span>.  So <span class="math notranslate nohighlight">\(\theta_0/2^N = 0\)</span> and <span class="math notranslate nohighlight">\(\theta_1/2^N = \phi/(2\pi)\)</span>.</p>
+<p>Let’s just consider the case where the unitary circuit <span class="math notranslate nohighlight">\(U\)</span> is just a single phase gate <span class="math notranslate nohighlight">\(P(\phi)\)</span>.  First, notice that the eigenvalue of <span class="math notranslate nohighlight">\(P\)</span> are <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span> with eigenvalues <span class="math notranslate nohighlight">\(e^{i 0}\)</span> and <span class="math notranslate nohighlight">\(e^{2\pi i (\phi/2\pi)}\)</span>.  So <span class="math notranslate nohighlight">\(\theta_0 = 0\)</span> and <span class="math notranslate nohighlight">\(\theta_1 = \phi/(2\pi)\)</span>.</p>
 <p>The number of bottom wires then is going to be 1 (since our unitary <span class="math notranslate nohighlight">\(U\)</span> only has one wire).  The number of top wires is going to depend how accurate we want to be.</p>
-<p>If we only have one wire on the top then all we can say is that the phase <span class="math notranslate nohighlight">\(\theta_j/2^N =\phi/2\pi\)</span> is close to 0 or close to 1/2.</p>
-<p>If we have two wires on the top then we could get the binary numbers: <span class="math notranslate nohighlight">\(|00 \rangle \rightarrow 0\)</span>, <span class="math notranslate nohighlight">\(|01\rangle \rightarrow 1/4\)</span> , <span class="math notranslate nohighlight">\(|10\rangle \rightarrow 1/2\)</span> , <span class="math notranslate nohighlight">\(|11\rangle \rightarrow 3/4\)</span>.  So the best we could hope for is whether <span class="math notranslate nohighlight">\(\theta_j/2^N\)</span> is  close to <span class="math notranslate nohighlight">\(0,1/4,1/2\)</span>, or <span class="math notranslate nohighlight">\(3/4\)</span>.</p>
+<p>If we only have one wire on the top then all we can say is that the phase <span class="math notranslate nohighlight">\(\theta_j =\phi/2\pi\)</span> is close to 0 or close to 1/2.</p>
+<p>If we have two wires on the top then we could get the binary numbers: <span class="math notranslate nohighlight">\(|00 \rangle \rightarrow 0\)</span>, <span class="math notranslate nohighlight">\(|01\rangle \rightarrow 1/4\)</span> , <span class="math notranslate nohighlight">\(|10\rangle \rightarrow 1/2\)</span> , <span class="math notranslate nohighlight">\(|11\rangle \rightarrow 3/4\)</span>.  So the best we could hope for is whether <span class="math notranslate nohighlight">\(\theta_j\)</span> is  close to <span class="math notranslate nohighlight">\(0,1/4,1/2\)</span>, or <span class="math notranslate nohighlight">\(3/4\)</span>.</p>
 <p>Let’s start with one wire where we can largely work things out by hand. Implement the following circuit into your simulator and check that you get the right result.
-<img alt="PhaseEstimation" src="../_images/a1.png" />
-<strong>there is a factor of 1/sqrt(2) missing in this picture</strong></p>
+<img alt="PhaseEstimation" src="../_images/a1.png" /></p>
 <p>To initialize your simulator in the configuration shown in the picture you want to start your initial basis as <span class="math notranslate nohighlight">\(|1\rangle\)</span> (<em>Do you understand why this is?</em>)</p>
 <p>Let’s now consider what you get on the top wire after measurement.
 With probabibility <span class="math notranslate nohighlight">\(|(1/2) \times (1+\exp[i\phi])|^2\)</span> you get a zero and with probability <span class="math notranslate nohighlight">\(|(1/2) \times (1-\exp[i\phi])|^2\)</span> you get a one.</p>
 <ul class="simple">
-<li><p>if <span class="math notranslate nohighlight">\(\theta_j/2^N=0; 2\pi\theta_j/2^N=\phi_j=0\)</span> then we should always see 0 on the top wire with 100% probability.</p></li>
-<li><p>if <span class="math notranslate nohighlight">\(\theta_j/2^N=1/2; 2\pi\theta_j/2^N=\phi_j=\pi\)</span> then we should always see 1 on the top wire with 100% probability.</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\theta_j=0; 2\pi\theta_j=\phi_j=0\)</span> then we should always see 0 on the top wire with 100% probability.</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\theta_j=1/2; 2\pi\theta_j=\phi_j=\pi\)</span> then we should always see 1 on the top wire with 100% probability.</p></li>
 <li><p>Consider what we get in the other cases.</p></li>
 </ul>
 <div class="caution admonition">
@@ -380,8 +379,7 @@ With probabibility <span class="math notranslate nohighlight">\(|(1/2) \times (1
 </div>
 <p>Let’s try to improve upon our accuracy (let <span class="math notranslate nohighlight">\(N\)</span> be the number of top wires which sets our accuracy):
 <img alt="PhaseEstimation" src="../_images/a3.png" />
-The reverse gate, as you might expect, reverses the order of its input wires. For two wires this is the same as a swap gate.
-<strong>That last term should be <span class="math notranslate nohighlight">\(\phi/(2\pi)*2^N\)</span></strong></p>
+The reverse gate, as you might expect, reverses the order of its input wires. For two wires this is the same as a swap gate.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Implement this circuit and produce the same graphs as above.  Post them in your document.</p>
@@ -391,7 +389,7 @@ The reverse gate, as you might expect, reverses the order of its input wires. Fo
 (*Notice: * If you look through the math there was nothing special about the phase gate.  In the picture below we will use <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span>.  You can mentally replace these with <span class="math notranslate nohighlight">\(U=P(\phi)\)</span> and <span class="math notranslate nohighlight">\(|\Psi_j\rangle=|1\rangle\)</span> and <span class="math notranslate nohighlight">\(|\theta_j\rangle = |\phi/2\pi\rangle\)</span>)</p>
 <div class="math notranslate nohighlight">
 \[|000\rangle |\Psi_j\rangle \rightarrow \sum_k |k\rangle |\Psi_j\rangle \rightarrow  \sum_k |k\rangle e^{2\pi i k\theta_j }|\Psi_j \rangle  \rightarrow |\theta_j \rangle |\Psi_j \rangle\]</div>
-<p>(Notice that <span class="math notranslate nohighlight">\(\sum_k |k\rangle e^{2\pi i k\theta_j/2^N }|\Psi_j \rangle\)</span> is the same as <span class="math notranslate nohighlight">\(\left( \sum_k e^{2\pi i\theta_j/2^N k } |k\rangle \right)\otimes |\Psi_j \rangle\)</span>)</p>
+<p>(Notice that <span class="math notranslate nohighlight">\(\sum_k |k\rangle e^{2\pi i k\theta_j }|\Psi_j \rangle\)</span> is the same as <span class="math notranslate nohighlight">\(\left( \sum_k e^{2\pi i\theta_j k } |k\rangle \right)\otimes |\Psi_j \rangle\)</span>)</p>
 <p>To get the second arrow correct, we can think of the number <span class="math notranslate nohighlight">\(k\)</span> in binary as <span class="math notranslate nohighlight">\(k_2 k_1 k_0\)</span>.  Then we could write what we want to do as</p>
 <p><span class="math notranslate nohighlight">\(\sum_k |k_2 k_1 k_0\rangle U^{k_0} (U^2)^{k_1} (U^4)^{k_2}\)</span>.</p>
 <p>This can be done by having a control wire from each of the wires for <span class="math notranslate nohighlight">\(|k\rangle\)</span> down to <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(U^2\)</span> and <span class="math notranslate nohighlight">\(U^4\)</span> respectively.</p>
