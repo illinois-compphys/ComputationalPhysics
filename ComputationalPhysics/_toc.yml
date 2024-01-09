@@ -20,7 +20,10 @@ parts:
     - file: QC/0-DiracNotation.ipynb
     - file: QC/1a-QuantumComputingSimulator.ipynb
       sections:
+      - file: QC/SimulatorS.ipynb
       - file: QC/1b-QuantumComputingSimulator.ipynb
+      - file: QC/Measuring.ipynb
+
     - file:  QC/NonAtomicGates.ipynb
     - file:  QC/PhaseEstimation.ipynb
     - file:  QC/QFT.ipynb
