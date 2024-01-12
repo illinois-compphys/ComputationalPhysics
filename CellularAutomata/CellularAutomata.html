@@ -463,12 +463,12 @@ then it’s hard to compress and has high entropy.  After you’ve produced conf
 <li><p>Our compression algorithm only sees one string at time t, not the full set of strings <span class="math notranslate nohighlight">\(i\)</span> with their respectively likelihood <span class="math notranslate nohighlight">\(p_i(t)\)</span> that it might need to compress.  We are therefore assuming that the compression algorithm it is selecting having seen only one string is the same if it had seen all the strings (and know their respective weights).  (One could think of this assumption as assuming that the probability distribution over space and time are interchangable.)  It turns out that this is roughly true as well given our string sizes.</p></li>
 </ol>
 </div>
-<p>If your configuration <code class="docutils literal notranslate"><span class="pre">a</span></code> is a numpy array, you can do</p>
+<p>If your configuration <code class="docutils literal notranslate"><span class="pre">state</span></code> is a numpy array, you can do</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()))</span>
 </pre></div>
 </div>
 <p>to get the size of the compressed state.</p>
-<p>Alternatively, if your configuration <code class="docutils literal notranslate"><span class="pre">a</span></code> is stored as a long string, you can use</p>
+<p>Alternatively, if your configuration <code class="docutils literal notranslate"><span class="pre">state</span></code> is stored as a long string, you can use</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">gzip</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">state</span><span class="p">,</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
 </pre></div>
 </div>
