@@ -361,13 +361,13 @@ document.write(`
 </li>
 </ul>
 <p>This is not only a cellular automata but also a markov chain (the probability of a new configuration is independent of anything but the current configuration).</p>
-<p>Write a simulation which performs this cellular automata. Use <span class="math notranslate nohighlight">\(N=25\)</span> and <span class="math notranslate nohighlight">\(k=4\)</span>.</p>
+<p>Write a simulation which performs this cellular automata. Use <span class="math notranslate nohighlight">\(N=25\)</span> and <span class="math notranslate nohighlight">\(k=3\)</span>.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Measure the following two properties using a <a class="reference external" href="https://en.wikipedia.org/wiki/Moving_average">window averaging</a> of 100 steps:</p>
 <ul class="simple">
 <li><p>the number of pieces of sand as a function of time.</p></li>
-<li><p>the size of each avalanch as a function of time.</p></li>
+<li><p>the size (number of columns of sand involved) of each avalanch as a function of time.</p></li>
 <li><p>a snapshot of the sand in equilibrium (i.e. after 1000 steps).</p></li>
 </ul>
 </div>
@@ -380,9 +380,10 @@ document.write(`
 <p><img alt="sand2.png" src="../_images/sand2.png" /></p>
 <p>(it would be fun to turn this into a video - it shouldn’t be too hard if you look up how animations work in pylab)</p>
 </div>
-<p>The number of avalanches actually follow a power law - i.e. the probability of an avalanch goes as <span class="math notranslate nohighlight">\(s^{-b}\)</span> where <span class="math notranslate nohighlight">\(s\)</span> is the size of the avalanch.  You should attempt to figure out the exponent <span class="math notranslate nohighlight">\(b\)</span>. The trick to do this is to look at the size <span class="math notranslate nohighlight">\(s\)</span> versus the number of such avalanches on a log-log plot. The slope will be <span class="math notranslate nohighlight">\(-b\)</span>.</p>
+<p>The number of avalanches actually follow a power law - i.e. the probability of an avalanch goes as <span class="math notranslate nohighlight">\(s^{-b}\)</span> where <span class="math notranslate nohighlight">\(s\)</span> is the size (number of columns of sand which avalanch) of the avalanch.  You should attempt to figure out the exponent <span class="math notranslate nohighlight">\(b\)</span>. The trick to do this is to look at the size <span class="math notranslate nohighlight">\(s\)</span> versus the number of such avalanches on a log-log plot. The slope will be <span class="math notranslate nohighlight">\(-b\)</span>.</p>
 <p>My graph looks like this:</p>
 <p><img alt="sand3.png" src="../_images/sand3.png" /></p>
+<p><strong>I should have labelled these axis as log(# of avalanches of a given size) vs log(size - i.e. # of columns of sand involved in avalanch)</strong></p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Produce this plot and compute <span class="math notranslate nohighlight">\(b\)</span></p>
