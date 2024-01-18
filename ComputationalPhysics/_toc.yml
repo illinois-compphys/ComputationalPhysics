@@ -47,8 +47,10 @@ parts:
     - file: Ising/IsingModel.ipynb
     - file: Ising/Measure.ipynb
     - file: Ising/RG.ipynb
-    - file: Ising/ParallelTempering.ipynb
     - file: Ising/SimulatedAnnealing.ipynb
+      sections: 
+        - file: Ising/ProteinFolding.ipynb
+    - file: Ising/ParallelTempering.ipynb
   - caption: Machine Learning
     chapters:
     - file: ML/Overview.ipynb
