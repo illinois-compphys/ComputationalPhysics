@@ -349,19 +349,19 @@ document.write(`
 <p>This page is <strong>20 points extra credit</strong></p>
 </div>
 <p>On this page you will simulate a model of sand building up on a table (and the resulting avalanches that it causes).</p>
-<p>In this model, sand will be placed on a table which has <span class="math notranslate nohighlight">\(N \times N\)</span> spaces for granules of sand.  The granules of sand can be stacked up into columns.  Once a column becomes larger then <span class="math notranslate nohighlight">\(k\)</span> granules high, 4 granules of sand slide off the pile with one granule ending up on each of the four neighbors.  If the column of sand is on the edge of the table without four neighbors it still ends up with 4 less pieces of sand;  the extra sand just falls off the table.</p>
+<p>In this model, sand will be placed on a table which has <span class="math notranslate nohighlight">\(N \times N\)</span> spaces for granules of sand.  The granules of sand can be stacked up into columns.  Once a column becomes larger then or equal to <span class="math notranslate nohighlight">\(k\)</span> granules high, 4 granules of sand slide off the pile with one granule ending up on each of the four neighbors.  If the column of sand is on the edge of the table without four neighbors it still ends up with 4 less pieces of sand;  the extra sand just falls off the table.</p>
 <p>For the first part of this problem, we are going to have sand rain from the sky onto random spots on the table.</p>
 <p>This gives us essentially a cellular automata with four rules:</p>
 <ul class="simple">
 <li><p>Choose a random spot on the table and add a new piece of sand</p></li>
-<li><p>While some column of sand has more then <span class="math notranslate nohighlight">\(k\)</span> pieces:</p>
+<li><p>While some column of sand has <span class="math notranslate nohighlight">\(\geq k\)</span> pieces:</p>
 <ul>
 <li><p>choose a random such column and replace it with <span class="math notranslate nohighlight">\(k-4\)</span> pieces of sand and increase the sand on each of its neighbors by one.</p></li>
 </ul>
 </li>
 </ul>
 <p>This is not only a cellular automata but also a markov chain (the probability of a new configuration is independent of anything but the current configuration).</p>
-<p>Write a simulation which performs this cellular automata. Use <span class="math notranslate nohighlight">\(N=25\)</span> and <span class="math notranslate nohighlight">\(k=3\)</span>.</p>
+<p>Write a simulation which performs this cellular automata. Use <span class="math notranslate nohighlight">\(N=25\)</span> and <span class="math notranslate nohighlight">\(k=4\)</span>.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Measure the following two properties using a <a class="reference external" href="https://en.wikipedia.org/wiki/Moving_average">window averaging</a> of 100 steps:</p>
