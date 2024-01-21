@@ -405,7 +405,7 @@ Then the total state of the two wires is</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="mf">0.316227766017</span>  <span class="o">|</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">+</span> <span class="mf">0.632455532034</span>  <span class="o">|</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="o">-</span><span class="mf">0.707106781187</span>  <span class="o">|</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>(This code should work for any number of wires and any state.)  The following python call will probably be useful to you: <code class="docutils literal notranslate"><span class="pre">np.binary_repr(myInteger,numberOfQubits)</span></code></p>
+<p>(This code should work for any number of wires and any state.)  The following python calls will probably be useful to you: <code class="docutils literal notranslate"><span class="pre">bin(myInteger)[2:].zfill(numberOfQubits)</span></code> or <code class="docutils literal notranslate"><span class="pre">format(4,'0'+str(numberOfQubits)+'b')</span></code> as well as <code class="docutils literal notranslate"><span class="pre">int(binaryNumber,2)</span></code>.</p>
 <p>Later on in the assignment, you will find it useful to make some other “PrettyPrinting” functions.  For example, it will be useful to write out two integers where the first integer corresponds to the first half of the bits and the second integer will correspond to the second half of the bits.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -420,7 +420,9 @@ Then the total state of the two wires is</p>
 </div>
 </div>
 <hr class="docutils" />
-<p>Now,  write code <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">StateToVec(myState)</span></code> and <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">VecToState(myVec)</span></code> which converts back and forth between states in vector notation and states in Dirac Notation.</p>
+<p>Now,  write code <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">DiracToVec(myState)</span></code> and <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">VecToDirac(myVec)</span></code> which converts back and forth between states in vector notation and states in Dirac Notation.
+i.e. <code class="docutils literal notranslate"><span class="pre">DiracToVec(myState2)</span></code> should return <code class="docutils literal notranslate"><span class="pre">[0.707,0,-0.632,0,0,0.31j,0,0]</span></code> and
+<code class="docutils literal notranslate"><span class="pre">VecToDirac([0.707,0,-0.632,0,0,0.31j,0,0])</span></code> should return the list in <code class="docutils literal notranslate"><span class="pre">myState2</span></code>.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Post the output of the following code into your document.</p>
