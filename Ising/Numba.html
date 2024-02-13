@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Training your RBM on sequences of Protein &#8212; Computing in Physics (Phy446)</title>
+    <title>Speeding Up Your Python Code With Numba &#8212; Computing in Physics (Phy446)</title>
   
   
   
@@ -62,7 +62,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/RBM_protein';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/Numba';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -203,21 +205,21 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
 <ul class="nav bd-sidenav">
@@ -315,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Training your RBM on sequences of Protein</h1>
+    <h1>Speeding Up Your Python Code With Numba</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -325,7 +327,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-your-results">Analyze your results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numba-for-the-ising-model">Numba for the Ising Model</a></li>
 </ul>
             </nav>
         </div>
@@ -337,54 +339,62 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="training-your-rbm-on-sequences-of-protein">
-<h1>Training your RBM on sequences of Protein<a class="headerlink" href="#training-your-rbm-on-sequences-of-protein" title="Permalink to this heading">#</a></h1>
-<p>We would like you to train your RBM on a sequence of proteins across a large number of creatures.  This closely follows this paper by Francesco Zamponi.</p>
-<p>The protein sequences you are given are strings of 20 amino acids (plus a - to indicate no protein).</p>
-<p>To get the data, use the following code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install bio
-import pylab as plt
-import random
-from Bio import SeqIO
-import numpy as np
-import time
-get_bin = lambda x, n: format(x, &#39;b&#39;).zfill(n)
-
-p=dict()
-count=0
-input_file=&#39;PF00014_mgap6.fasta&#39;
-fasta_sequences = SeqIO.parse(open(input_file),&#39;fasta&#39;)
-for fasta in fasta_sequences:
-    name, sequence = fasta.id, str(fasta.seq)
-    for s in sequence:
-        if s not in p.keys():
-            p[s]=[0 if k==&#39;0&#39; else 1 for k in get_bin(count,5)]
-            count=count+1
-            
-def SeqToIsing(sequence):
-    visible=[]
-    for s in sequence:
-        visible=visible+p[s]
-    return np.array(visible)
-
-input_file=&#39;PF00014_mgap6.fasta&#39;
-fasta_sequences = list(SeqIO.parse(open(input_file),&#39;fasta&#39;))
-
-sequences=[]
-for seq in fasta_sequences:
-    sequences.append(SeqToIsing(seq))
-sequences=np.array(sequences)
+  <section class="tex2jax_ignore mathjax_ignore" id="speeding-up-your-python-code-with-numba">
+<h1>Speeding Up Your Python Code With Numba<a class="headerlink" href="#speeding-up-your-python-code-with-numba" title="Permalink to this heading">#</a></h1>
+<p>Python is slow partially because it is not being compiled - i.e. it is an interpretive language.  One solution to this is to compile it. Unfortunately, it’s difficult to compile everything that one can do in python.  That said, there are ways to compile functions that use a subset of python.  One tool that allows you to do that is <a class="reference external" href="https://numba.pydata.org/">numba</a></p>
+<p>Here we will see how to use numba to compile an important subset of functions which will then allow our code to run significantly faster.   Include numba by doing <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numba</span></code></p>
+<p>The key trick to use numba is to add <code class="docutils literal notranslate"><span class="pre">&#64;njit</span></code> on top of functions that you want it to compile - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">myPreviouslySlowFunction</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">):</span>
+  <span class="c1"># here I am doing stuff</span>
+  <span class="k">return</span> <span class="n">myAnswer</span>
 </pre></div>
 </div>
-<p>This will convert the 21 symbols into binary numbers.</p>
-<p>Please train your RBM on these sequences. <strong>Note:</strong> You can do this with your standard RBM.  In practice it will work “ok” but really what you want to do for it to work best is to not do an Ising model (with an up or down spin) but do a model where each site has 21 different spins.  This is called a Potts model.  You don’t have to do this, but if you do and make it work correctly, you get an <strong>extra 10 points (so 20 total points of extra credit for this section)</strong>.</p>
-<section id="analyze-your-results">
-<h2>Analyze your results<a class="headerlink" href="#analyze-your-results" title="Permalink to this heading">#</a></h2>
+<p>will now be compiled (just in time - jit) when you run the program and so, if you call it many times, this will significantly speed up your simulation.  This is especially the case if your function has <code class="docutils literal notranslate"><span class="pre">for</span></code> loops in it.</p>
+<p>Three useful hints here:</p>
 <ul class="simple">
-<li><p>Plot the free energy as a function of epoch</p></li>
-<li><p>Produce 10 sequences that are 1 Gibbs sample away from already existing sequences.  See if those sequences seem reasonable.  In the real world, what we would do is take these sequences and try to produce them.</p></li>
-<li><p>Produce many many sequences and compare the probability of seeing a given amino acid on site 3 with the histogram of that probability in your dataset.</p></li>
+<li><p>There are some things that numba doesn’t like to compile  - objects, named parameters in functions, etc.  If you try to run it and it complains that it is not happy compiling it, try to (1) change out the things it is unhappy about and (2) see if you can factor out the slow parts into smaller functions that don’t do the disallowed things</p></li>
+<li><p>If you’re compiling a function, you probably also want to compile the functions it calls.  So generally I start by getting the innermost functions compiling and then work outwards from there.</p></li>
+<li><p>The trick with optimization is to first get something working and then speed up the things that are slow.  Work one step at a time and don’t worry about making everything fast.  Most things don’t matter.</p></li>
 </ul>
+<section id="numba-for-the-ising-model">
+<h2>Numba for the Ising Model<a class="headerlink" href="#numba-for-the-ising-model" title="Permalink to this heading">#</a></h2>
+<p>I ended up needing to do the following to get numba to significantly speed up my Ising model. Currently your code probably looks something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">deltaE</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span><span class="n">flipX</span><span class="p">,</span><span class="n">flipY</span><span class="p">):</span>
+    <span class="c1"># do stuff</span>
+    <span class="k">return</span> <span class="n">change_in_energy</span>
+
+<span class="k">def</span> <span class="nf">Energy</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+    <span class="c1"># do stuff</span>
+    <span class="k">return</span> <span class="n">myEnergy</span>
+
+<span class="k">for</span> <span class="n">sweep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1">#flip spins</span>
+    <span class="c1"># measure </span>
+</pre></div>
+</div>
+<p>I did the following.  I got it to compile my deltaE and Energy functions.  I then pulled out that <code class="docutils literal notranslate"><span class="pre">for</span></code> loop over steps and turned it into a <code class="docutils literal notranslate"><span class="pre">Sweep</span></code> function and also had it compile that.  Later on in the assignment I also compiled the <code class="docutils literal notranslate"><span class="pre">coarse_grain</span></code> function which returns the coarse-grained lattice.  So I had</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">deltaE</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span><span class="n">flipX</span><span class="p">,</span><span class="n">flipY</span><span class="p">):</span>
+    <span class="c1"># do stuff</span>
+    <span class="k">return</span> <span class="n">change_in_energy</span>
+
+<span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">Energy</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+    <span class="c1"># do stuff</span>
+    <span class="k">return</span> <span class="n">myEnergy</span>
+<span class="nd">@njit</span>
+<span class="k">def</span> <span class="nf">Sweeps</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+    <span class="c1">#flip spins</span>
+ 
+<span class="k">for</span> <span class="n">sweep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="n">Sweep</span><span class="p">(</span><span class="n">spins</span><span class="p">)</span>
+    <span class="c1"># measure </span>
+</pre></div>
+</div>
+<p>This was sufficient for me to be able to do approximately 10,000 sweeps on an <span class="math notranslate nohighlight">\(81 \times 81\)</span> lattice in about ten seconds on google colab.</p>
 </section>
 </section>
 
@@ -401,7 +411,7 @@ sequences=np.array(sequences)
         },
         kernelOptions: {
             name: "python3",
-            path: "./ML"
+            path: "./Ising"
         },
         predefinedOutput: true
     }
@@ -433,7 +443,7 @@ sequences=np.array(sequences)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-your-results">Analyze your results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numba-for-the-ising-model">Numba for the Ising Model</a></li>
 </ul>
   </nav></div>
 

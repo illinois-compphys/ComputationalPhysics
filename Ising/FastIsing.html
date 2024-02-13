@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Training your RBM on sequences of Protein &#8212; Computing in Physics (Phy446)</title>
+    <title>Speeding Up Your Code (especially python) &#8212; Computing in Physics (Phy446)</title>
   
   
   
@@ -62,7 +62,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/RBM_protein';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/FastIsing';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -203,21 +205,21 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
 <ul class="nav bd-sidenav">
@@ -315,7 +317,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Training your RBM on sequences of Protein</h1>
+    <h1>Speeding Up Your Code (especially python)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -325,7 +327,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-your-results">Analyze your results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heat-bath">Heat Bath</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#many-spins-at-once">Many Spins At Once</a></li>
 </ul>
             </nav>
         </div>
@@ -337,54 +340,77 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="training-your-rbm-on-sequences-of-protein">
-<h1>Training your RBM on sequences of Protein<a class="headerlink" href="#training-your-rbm-on-sequences-of-protein" title="Permalink to this heading">#</a></h1>
-<p>We would like you to train your RBM on a sequence of proteins across a large number of creatures.  This closely follows this paper by Francesco Zamponi.</p>
-<p>The protein sequences you are given are strings of 20 amino acids (plus a - to indicate no protein).</p>
-<p>To get the data, use the following code:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install bio
-import pylab as plt
-import random
-from Bio import SeqIO
-import numpy as np
-import time
-get_bin = lambda x, n: format(x, &#39;b&#39;).zfill(n)
-
-p=dict()
-count=0
-input_file=&#39;PF00014_mgap6.fasta&#39;
-fasta_sequences = SeqIO.parse(open(input_file),&#39;fasta&#39;)
-for fasta in fasta_sequences:
-    name, sequence = fasta.id, str(fasta.seq)
-    for s in sequence:
-        if s not in p.keys():
-            p[s]=[0 if k==&#39;0&#39; else 1 for k in get_bin(count,5)]
-            count=count+1
-            
-def SeqToIsing(sequence):
-    visible=[]
-    for s in sequence:
-        visible=visible+p[s]
-    return np.array(visible)
-
-input_file=&#39;PF00014_mgap6.fasta&#39;
-fasta_sequences = list(SeqIO.parse(open(input_file),&#39;fasta&#39;))
-
-sequences=[]
-for seq in fasta_sequences:
-    sequences.append(SeqToIsing(seq))
-sequences=np.array(sequences)
+  <section class="tex2jax_ignore mathjax_ignore" id="speeding-up-your-code-especially-python">
+<h1>Speeding Up Your Code (especially python)<a class="headerlink" href="#speeding-up-your-code-especially-python" title="Permalink to this heading">#</a></h1>
+<p>To speed up your python code, what you want to do is avoid having a for-loop over steps; instead you should work with many of the spins at once.</p>
+<section id="heat-bath">
+<h2>Heat Bath<a class="headerlink" href="#heat-bath" title="Permalink to this heading">#</a></h2>
+<p>Before we do this, though, we need to make a minor change to the Monte Carlo move we are making (otherwise we accidentally get a pathological Markov Chain)</p>
+<p>Our current move is</p>
+<ul class="simple">
+<li><p>pick a random spin</p></li>
+<li><p>consider flipping it</p></li>
+</ul>
+<p>We are going to switch to another move - the <strong>heat bath</strong> move.</p>
+<ul class="simple">
+<li><p>Pick a random spin (say spin <span class="math notranslate nohighlight">\(i\)</span>)</p></li>
+<li><p>Consider</p>
+<ul>
+<li><p>making it spin-up with probability <span class="math notranslate nohighlight">\(\frac{\exp[-\beta E(...\uparrow_i,...)]}{\exp[-\beta E(...\uparrow_i,...)]+\exp[-\beta E(...\downarrow_i,...)}\)</span></p></li>
+<li><p>making it spin-down with probability <span class="math notranslate nohighlight">\(\frac{\exp[-\beta E(...\downarrow_i,...)]}{\exp[-\beta E(...\uparrow_i,...)]+\exp[-\beta E(...\downarrow_i,...)}\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Notice that this move doesn’t actually care what the current spin was!  This means sometimes you are going to replace a configuration with the same configuration.  (If you think for a minute you can convince yourself that if you’re considering doing this, you accept it with probability one).</p>
+<p>When we do this we need to be a little careful with the acceptance probability.  When we were flipping a spin, <span class="math notranslate nohighlight">\(T(c\rightarrow c') = T(c' \rightarrow c) =1/N\)</span> and the ratio of the <span class="math notranslate nohighlight">\(\frac{T(c' \rightarrow c)}{T(c \rightarrow c')}=1\)</span>. Therefore it didn’t come into the acceptance probability.</p>
+<p>In the new move, let’s assume we are moving from</p>
+<ul class="simple">
+<li><p>our current configuration <span class="math notranslate nohighlight">\(c = \{...\downarrow_i...\}\)</span> to</p></li>
+<li><p>our new configuration <span class="math notranslate nohighlight">\(c' = \{...\uparrow_i...\}\)</span></p></li>
+</ul>
+<p>Then we find that</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(T(c \rightarrow c')=(1/N) \frac{\exp[-\beta E(...\uparrow_i,...)]}{\exp[-\beta E(...\uparrow_i,...)]+\exp[-\beta E(...\downarrow_i,...)}\)</span> (since this is the probability of choosing spin-up) and</p></li>
+<li><p><span class="math notranslate nohighlight">\(T(c' \rightarrow c)=(1/N) \frac{\exp[-\beta E(...\downarrow_i,...)]}{\exp[-\beta E(...\uparrow_i,...)]+\exp[-\beta E(...\downarrow_i,...)}\)</span>.</p></li>
+</ul>
+<p>Therefore, the ratio</p>
+<div class="math notranslate nohighlight">
+\[\frac{T(c' \rightarrow c)}{T(c \rightarrow c')} = \frac{\exp[-\beta E(...\downarrow_i,...)]}{\exp[-\beta E(...\uparrow_i,...)]}\]</div>
+<p>But our ratio of Boltzmann factors gives us
+$<span class="math notranslate nohighlight">\(\frac{\pi(c')}{\pi(c)} = \frac{\pi(\{...\uparrow_i...\})}{\pi(\{...\downarrow_i...\})} = \frac{\exp[-\beta E(...\uparrow_i,...)]}{\exp[-\beta E(...\downarrow_i,...)]}\)</span>$</p>
+<p>Therefore the total acceptance ratio (the product of these two terms)</p>
+<div class="math notranslate nohighlight">
+\[\frac{T(c' \rightarrow c)}{T(c \rightarrow c')} \frac{\pi(c')}{\pi(c)} =1   \]</div>
+<p>Therefore, we accept 100% of the moves that we consider (although this isn’t as good as it sounds because some of that time we are accepting a move that doesn’t do anything).</p>
+<p>If you do a little bit of algebra, you can rewrite this entire move so that the probability you flip your spin (i.e. the probability you compare to a random number) is <span class="math notranslate nohighlight">\((1+1/\exp(-\beta \Delta E))^{-1}\)</span> where <span class="math notranslate nohighlight">\(\Delta E\)</span> is the energy difference between your current configuration and the one with the spin-flipped.   <strong>Replace your acceptance criterion with this new criterion. This should be the only change you need.  Verify you get the same answers.</strong></p>
+</section>
+<section id="many-spins-at-once">
+<h2>Many Spins At Once<a class="headerlink" href="#many-spins-at-once" title="Permalink to this heading">#</a></h2>
+<p>Let’s consider the <span class="math notranslate nohighlight">\(7 \times 7\)</span> lattice.  Which spins can we flip simultaneously?</p>
+<p><img alt="graph.png" src="../_images/grid_color.png" /></p>
+<p>We can consider flipping all of the red squares at once, because the red squares aren’t neighbors of any other red squares (even with the periodic boundary conditions) and so if we flip them all at one time, there isn’t going to be any conflicts. The same is true of the blue, yellow, and green colors (the yellow and green exist to deal with the boundary conditions and the odd-size lattice).</p>
+<p>In python, we can access all the colors by doing</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is for a L x L lattice</span>
+<span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">((</span><span class="n">L</span><span class="p">,</span><span class="n">L</span><span class="p">))</span>
+<span class="n">red</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">==</span><span class="mi">0</span>   <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">&lt;</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">red</span><span class="p">[</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">blue</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">==</span><span class="mi">1</span>   <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">&lt;</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">green</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">==</span><span class="mi">0</span>   <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">==</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">green</span><span class="p">[</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="kc">False</span>
+<span class="n">yellow</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">==</span><span class="mi">1</span>   <span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">x</span><span class="o">==</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">==</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>This will convert the 21 symbols into binary numbers.</p>
-<p>Please train your RBM on these sequences. <strong>Note:</strong> You can do this with your standard RBM.  In practice it will work “ok” but really what you want to do for it to work best is to not do an Ising model (with an up or down spin) but do a model where each site has 21 different spins.  This is called a Potts model.  You don’t have to do this, but if you do and make it work correctly, you get an <strong>extra 10 points (so 20 total points of extra credit for this section)</strong>.</p>
-<section id="analyze-your-results">
-<h2>Analyze your results<a class="headerlink" href="#analyze-your-results" title="Permalink to this heading">#</a></h2>
+<p>For each color (say red as an example)</p>
 <ul class="simple">
-<li><p>Plot the free energy as a function of epoch</p></li>
-<li><p>Produce 10 sequences that are 1 Gibbs sample away from already existing sequences.  See if those sequences seem reasonable.  In the real world, what we would do is take these sequences and try to produce them.</p></li>
-<li><p>Produce many many sequences and compare the probability of seeing a given amino acid on site 3 with the histogram of that probability in your dataset.</p></li>
+<li><p>write a function that computes the <span class="math notranslate nohighlight">\(\Delta E\)</span> for all the red spins without using any for-loops.   Two things you might find useful here are that <code class="docutils literal notranslate"><span class="pre">spins[red]</span></code> will access all the red spins.  In addition, <code class="docutils literal notranslate"><span class="pre">np.roll(spins,1,axis=0)</span></code> will return an array where all the spins are rolled over to the right.</p></li>
+<li><p>After calling this function, write one line of python that returns an array which says which red spins should be flipped.</p></li>
+<li><p>Write one line of python which flips just those spins.</p></li>
 </ul>
+<p>Just to give a sense, this is how long my version of the naive python code and the efficient python code take for 1000 sweeps:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Slow</span> <span class="n">Code</span> <span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mi">1</span><span class="nb">min</span> <span class="mi">20</span><span class="n">s</span>
+<span class="n">Efficient</span> <span class="n">Code</span> <span class="n">Wall</span> <span class="n">time</span><span class="p">:</span> <span class="mf">1.06</span> <span class="n">s</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -401,7 +427,7 @@ sequences=np.array(sequences)
         },
         kernelOptions: {
             name: "python3",
-            path: "./ML"
+            path: "./Ising"
         },
         predefinedOutput: true
     }
@@ -433,7 +459,8 @@ sequences=np.array(sequences)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-your-results">Analyze your results</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#heat-bath">Heat Bath</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#many-spins-at-once">Many Spins At Once</a></li>
 </ul>
   </nav></div>
 
