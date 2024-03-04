@@ -50,6 +50,7 @@ parts:
     - file: Ising/SimulatedAnnealing.ipynb
       sections: 
         - file: Ising/ProteinFolding.ipynb
+    - file: Ising/ParallelTempering.ipynb
   - caption: Machine Learning
     chapters:
     - file: ML/Overview.ipynb
