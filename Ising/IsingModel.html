@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -362,11 +363,10 @@ document.write(`
 <p>The Ising model is one of the <em>drosophila</em> of physics. At first look, it’s a simple model of crystalline materials which attributes magnetism to the orientation of magnetic moments on a lattice, summarized by the Hamiltonian or energy</p>
 <div class="math notranslate nohighlight">
 \[
-E = - \sum_{i,j} J_{ij} s_i s_j + \sum_i h_i s_i.
+E = - \sum_{i,j} s_i s_j.
 \]</div>
-<p>The variables <span class="math notranslate nohighlight">\(s_i\)</span> express the possible orientations for each moment, while the entries <span class="math notranslate nohighlight">\(J_{ij}\)</span>  of the (symmetric) <em>interaction matrix</em> characterize the interaction energy of moments <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. The value <span class="math notranslate nohighlight">\(h_i\)</span> specifies a magnetic field on each site <span class="math notranslate nohighlight">\(i\)</span>.</p>
-<p>Ising’s original formulation (often referred to as <em>the</em> Ising model) considers moments with two orientations, <span class="math notranslate nohighlight">\(s_{i} = \pm 1\)</span>, which only interact with their <em>nearest neighbors</em>. Below we will call this the two-dimensional Ising model.</p>
-<p>A <strong>configuration</strong> of an Ising model is a specification of every moment’s orientation — an assignment of values to the <span class="math notranslate nohighlight">\(s_i\)</span> variable for all moments in the system. For our purposes, configurations are ‘snapshots’ of the system which our simulator will hold in memory, like a vector containing <span class="math notranslate nohighlight">\(\pm 1\)</span> in its <span class="math notranslate nohighlight">\(i\)</span>th entry to specify whether moment <span class="math notranslate nohighlight">\(i\)</span> points up or down. <!-- (Later on, we will might see a different representation) --></p>
+<p>The spins have two orientations, <span class="math notranslate nohighlight">\(s_{i} = \pm 1\)</span>, which only interact with their *nearest neighbors. There are more complicated versions of the Ising model (<em>which we won’t use in the main part of the assignment</em>) whose energy terms have a different value <span class="math notranslate nohighlight">\(J_{ij}\)</span> for every bond <span class="math notranslate nohighlight">\((i,j)\)</span> - i.e. <span class="math notranslate nohighlight">\(J_{ij} s_i s_j\)</span> or an additional term for a magnetic field <span class="math notranslate nohighlight">\(\sum_i h_i s_i\)</span>.</p>
+<p>A <strong>configuration</strong> of an Ising model is a specification of every moment’s orientation — an assignment of values to the <span class="math notranslate nohighlight">\(s_i\)</span> variable for all moments in the system. For our purposes, configurations are ‘snapshots’ of the system which our simulator will hold in memory, like a vector containing <span class="math notranslate nohighlight">\(\pm 1\)</span> in its <span class="math notranslate nohighlight">\(i\)</span>th entry to specify whether moment <span class="math notranslate nohighlight">\(i\)</span> points up or down.</p>
 </section>
 <section id="statistical-mechanics">
 <h3>Statistical Mechanics<a class="headerlink" href="#statistical-mechanics" title="Permalink to this heading">#</a></h3>
@@ -416,9 +416,9 @@ E = - \sum_{i,j} J_{ij} s_i s_j + \sum_i h_i s_i.
 <hr class="docutils" />
 <section id="states-and-parameters">
 <h2>States and parameters<a class="headerlink" href="#states-and-parameters" title="Permalink to this heading">#</a></h2>
-<p>For our simulation, we are going to work on a two-dimensional lattice,  have no magnetic field (<span class="math notranslate nohighlight">\(h_i=0\)</span>) and set <span class="math notranslate nohighlight">\(J_{ij}=J\)</span> for all <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> being nearest neighbors (and zero otherwise).  This leaves us with an energy</p>
+<p>For our simulation, we are going to work on a two-dimensional lattice.  This leaves us with an energy</p>
 <div class="math notranslate nohighlight">
-\[E = -J \sum_{(x,y)} s_{(x,y)} s_{(x+a,y+b)}\]</div>
+\[E = - \sum_{(x,y)} s_{(x,y)} s_{(x+a,y+b)}\]</div>
 <p>where <span class="math notranslate nohighlight">\((a,b) \in \{(1,0) , (0,1), (-1,0), (0,-1)\}\)</span></p>
 <p>For this project we will be working on a <span class="math notranslate nohighlight">\(L \times L\)</span> grid (where <span class="math notranslate nohighlight">\(L\)</span> is 3 or 27 or 81).</p>
 <p>We are going to represent the state of our spins by a <span class="math notranslate nohighlight">\(L \times L\)</span> array which can have either a -1 (spin-down) or 1 (spin-up). To set up a random initial conidition you can do  <code class="docutils literal notranslate"><span class="pre">np.random.choice([1,-1],</span> <span class="pre">(L,L))</span></code> in python.   In C++, there are two approaches to storing the two dimensional array.  One approach is to use  the STL: <code class="docutils literal notranslate"><span class="pre">vector&lt;vector&lt;int&gt;</span> <span class="pre">&gt;</span> <span class="pre">spins</span></code>.  Another option is to use Eigen (see <a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">here</a>) where you will use <code class="docutils literal notranslate"><span class="pre">MatrixXi</span></code>.</p>
@@ -532,22 +532,21 @@ this (in c++)</p>
 <p>In python unfortunately, this will turn out to be very slow especially if you are using <code class="docutils literal notranslate"><span class="pre">for</span></code> loops.</p>
 <p>The code will be correct but it will take a very long time (this doesn’t matter and won’t necessarily show up for the <span class="math notranslate nohighlight">\(3 \times 3\)</span> system but will mean you have to wait a long time for the larger systems you will do later in this assignment).</p>
 </section>
+<hr class="docutils" />
 <section id="speeding-up-your-code">
 <h2>Speeding Up Your Code<a class="headerlink" href="#speeding-up-your-code" title="Permalink to this heading">#</a></h2>
-<p>Here are the options for speeding up your code (which you will need to do if your using python):</p>
+<p>In order for you to be able to finish your assignment, your code will need to be sufficiently fast. If you are working in C++ or Julia, it will be natively fast enough.  If you are using python, the simplest way to make it fast (and the way you should use) is to just-in-time compile the functions that are slow.  This can be done using numba.  See</p>
 <ul class="simple">
-<li><p>Use C++ or Julia which are both fast natively.</p></li>
-<li><p>Use just-in-time compiling with numba. See <a class="reference internal" href="Numba.html"><span class="doc std std-doc">this page</span></a> for instructions.  This is the simplest approach and also the fastest so I would do this.</p></li>
-<li><p>Avoid for loops and do large groups of spins in parallel with numpy by following <a class="reference internal" href="FastIsing.html"><span class="doc std std-doc">this page</span></a>.  This is interesting conceptually and we will do something similar with RBM.</p></li>
-<li><p>Implement cluster moves - i.e. the <a class="reference external" href="https://en.wikipedia.org/wiki/Wolff_algorithm">Wolff algorithm</a> or the <a class="reference external" href="https://en.wikipedia.org/wiki/Swendsen%E2%80%93Wang_algorithm">Swendsen-Wang Algorithm</a>. These algorithm use cluster-move which flips an entire cluster instead of a single spin at a time.    If you’re going to do this, it is interesting to plot your autocorrelation time of your simulation before and after you’ve implemented the cluster move as a function of temperature.  You should find that it explodes at the critical point for the normal set of moves.  If you’re going to do this you need to be a bit careful about what you mean by one sweep if you’re using the Wolff algorithm.  (<strong>Extra Credit: 5 points</strong>)</p></li>
-<li><p>Implement <a class="reference internal" href="ParallelTempering.html"><span class="doc std std-doc">parallel tempering</span></a>.  This not only will speed up your code but will let you get all the temperatures at once in parellel.  (<strong>Extra Credit: 20 points</strong>)</p></li>
+<li><p><a class="reference internal" href="Numba.html"><span class="doc std std-doc">numba</span></a> for instructions.  Numba can be slightly tempremental so you may have to modify your code in some ways so that it can compile through the functions.</p></li>
 </ul>
+<p>Before numba was working well enough, we had a slower approach which used numpy to avoid for-loops.  You can see this older approach on <a class="reference internal" href="FastIsing.html"><span class="doc std std-doc">this page</span></a> (<em>but you shouldn’t do this if you don’t have a good reason</em>).</p>
 <p>In terms of speed, roughly what you should find for 10,000 sweeps for an <span class="math notranslate nohighlight">\(81 \times 81\)</span> lattice:</p>
 <ul class="simple">
 <li><p>Naive Python: ~13min 18s</p></li>
 <li><p>Python with numpy avoiding for loops: ~56.3 s</p></li>
 <li><p>Python with numba on top of the naive approach: ~13.5 s</p></li>
 </ul>
+<p>Once you’ve implemented this with numba, each step should be very fast.  That will be sufficient to complete the assignment.   There is one thing that is still somewhat inefficient.  As you approach the critical temperature, the autocorrelation time goes up.  This causes you to need to do a lot of sweeps before you get an independent sample.  If you want to overcome this, you can implement a <span class="xref myst">cluster move</span> (<strong>Extra Credit: 5+5 points</strong>)</p>
 </section>
 <section id="coupling-from-the-past">
 <h2>Coupling From the Past<a class="headerlink" href="#coupling-from-the-past" title="Permalink to this heading">#</a></h2>

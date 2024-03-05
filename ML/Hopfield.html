@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="current nav bd-sidenav">
@@ -335,7 +336,6 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-some-inputs">Training some inputs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-memories-can-you-remember">How many memories can you remember?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-the-energy-landscape">Looking at the energy landscape</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-efficient-training-images">More efficient training (images)</a></li>
 </ul>
             </nav>
         </div>
@@ -416,7 +416,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 \[
 W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(v^{(k)}\)</span> is an <span class="math notranslate nohighlight">\(n \times 1\)</span> column vector representing the <span class="math notranslate nohighlight">\(k\)</span>-th memory.</p>
+<p>where <span class="math notranslate nohighlight">\(v^{(k)}\)</span> is an <span class="math notranslate nohighlight">\(n \times 1\)</span> column vector representing the <span class="math notranslate nohighlight">\(k\)</span>-th memory.  In the example below, there will be 2 memories so <span class="math notranslate nohighlight">\(m=2\)</span> and so there will be a memory <span class="math notranslate nohighlight">\(v^{(0)}\)</span> and v^{(1)}$</p>
 <p>Let’s have it learn some images (we will start with some small images and then work up to doing bigger images). Take the images generated in <a class="reference download internal" download="" href="../_downloads/b39008f4ba14faefed13c585b3f5eeaa/makeImage.py"><span class="xref download myst">makeImage.py</span></a>. These are just binary numbers that can be converted into the state of the neurons.</p>
 <p>Some example images to remember:
 <img alt="Face" src="../_images/face2.jpg" />
@@ -463,81 +463,12 @@ The description looks like</p>
 </pre></div>
 </div>
 <p>You can then load a svg file in your browser.</p>
-<p>Another way to understand the energy landscape is to use the energies. In python you can do something like</p>
-<div class="highlight-{.python notranslate"><div class="highlight"><pre><span></span>a=numpy.loadtxt(&quot;energies&quot;)
-ax = pylab.axes()
-ax.plot(a[:,0],a[:,1],&#39;o&#39;)
-for i in range(0,len(a[:,0])):
-    myDict[int(a[i,0])]=a[i,1]
-
-b=numpy.loadtxt(&quot;connections&quot;)
-for i in range(0,len(b[:,0])):
-    before=int(b[i,0])
-    after=int(b[i,1])
-    pylab.plot([before,after],[myDict[before],myDict[after]],&#39;--&#39;)
-</pre></div>
-</div>
 <p><em>Hint:</em> To do this, I used 6 neurons.  This means <span class="math notranslate nohighlight">\(2^6\)</span> states. For each state I looped over the 6 neurons and produced all of the states that I might get from doing an update of that neuron (to do this I needed to write a <code class="docutils literal notranslate"><span class="pre">Update(int</span> <span class="pre">neuron)</span></code> function that eats a neuron to try to update. Then I printed out the two integers that represent the binary numbers before and after the update.</p>
-<p>If you’re using C++, here’s one way of mapping binary number strings to integers.</p>
-<div class="highlight-{.numberLines notranslate"><div class="highlight"><pre><span></span> int theSize=6;
-  string targetString=&quot;&quot;;
-  string oneString=&quot;&quot;;
-  for (int i=0;i&lt;theSize;i++){
-    targetString=targetString+&quot;0&quot;;
-    oneString=oneString+&quot;1&quot;;
-  }
-
-  map&lt;string,int&gt; myStrings;
-  myStrings.insert(make_pair(targetString,0));
-  int count=0;
-  while (targetString!=oneString){
-    int digit=0;
-    while (targetString[digit]==&#39;1&#39;)
-      digit++;
-    if (digit!=theSize){
-      targetString[digit]=&#39;1&#39;;
-      for (int i=0;i&lt;digit;i++){
-        targetString[i]=&#39;0&#39;;
-      }
-    }
-    count++;
-    myStrings.insert(make_pair(targetString,count));
-  }
-</pre></div>
-</div>
-<p>Then to print out the strings do something like</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">myStrings</span><span class="p">[</span><span class="n">string1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; -&gt; &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">myStrings</span><span class="p">[</span><span class="n">string2</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;;&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</pre></div>
-</div>
 <p>My energy landscape pictures look a bit like this:
 <img alt="" src="../_images/energy.svg" /></p>
-<p><img alt="" src="../_images/energyLandscape.jpg" /></p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Show the energy landscape.</p>
-</div>
-</section>
-<hr class="docutils" />
-<section id="more-efficient-training-images">
-<h2>More efficient training (images)<a class="headerlink" href="#more-efficient-training-images" title="Permalink to this heading">#</a></h2>
-<div class="tip admonition">
-<p class="admonition-title">Extra Credit</p>
-<p><strong>This section is extra credit (5 points)!</strong></p>
-<p>Our images are a bit pixelated.  It would be nice to put more sophisticated images into memory, like a 64x64 gray-scale thumbnail.  Unfortunately such a thumbnail has 64x64x8 bits. Can the Hopfield network remember an image of that size?</p>
-<p>Understanding the computational efficiency of algorithms is one of the running themes of this class. The Hopfield network memory algorithm  stores a weight matrix which constitutes the majority of the algorithm’s space complexity, scaling as <span class="math notranslate nohighlight">\(O(n^2)\)</span> (<span class="math notranslate nohighlight">\(2^{30}\)</span> numbers for the 64x64 greyscale image). Concerning time complexity, the algorithm’s efficiency is <span class="math notranslate nohighlight">\(O(n)\)</span> (<em>you should understand why this is!</em>). Storage is the algorithm’s primary limitation.</p>
-<p>Given how we are training, let’s figure out if there’s a more efficient way to use space. Notice how updating a neuron uses only <span class="math notranslate nohighlight">\(n\)</span> values of <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Suppose you have a set of <span class="math notranslate nohighlight">\(p\)</span> memories to store, represented by the vectors <span class="math notranslate nohighlight">\(\{ v^{(k)} \}\)</span>, and want to find a particular weight <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Figure out how to reduce the space complexity to <span class="math notranslate nohighlight">\(O(pn)\)</span> in exchange for an increase in time complexity to <span class="math notranslate nohighlight">\(O(pn)\)</span>. <strong>Copy your code before implementing these changes because the old code (with weights as a matrix) will still be useful</strong>.</p>
-<p><strong>Snapshots of pictures during the neural net (extra credit)</strong></p>
-<p>Now you should be able to take thumbnails and remember them, modify them somehow and then recall them.
-To help you, we have some python code <a class="reference download internal" download="" href="../_downloads/977d62fd7729e36da01ffcaf0635ea75/img2.py"><span class="xref download myst">here</span></a> which</p>
-<ul class="simple">
-<li><p>takes an image and generates its binary number representation.</p></li>
-<li><p>takes a binary number and generate its image representation.</p></li>
-</ul>
-<p>Go ahead and learn some images (more then one). Run your Hopfield network with a corrupted version of one of these images as input and take some snapshots as your network updates. Make sure to take a snapshot of final state it converges to.</p>
-<div class="caution admonition">
-<p class="admonition-title">Grading</p>
-<p>Measure a few (say 2) thumbnail images. Then input one of the partially corrupted thumbnail images and show that if you run your hopfield network, it recovers the uncorrupted image.  This uses <span class="math notranslate nohighlight">\(n=64 \times 64 \times 8\)</span> neurons. Perturb by <span class="math notranslate nohighlight">\(64 \times 8 \times 20\)</span> states. Output a snapshot every <span class="math notranslate nohighlight">\(1000\)</span> updates. This takes a long time to run.</p>
-</div>
 </div>
 <hr class="docutils" />
 </section>
@@ -612,7 +543,6 @@ To help you, we have some python code <a class="reference download internal" dow
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-some-inputs">Training some inputs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-memories-can-you-remember">How many memories can you remember?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-the-energy-landscape">Looking at the energy landscape</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-efficient-training-images">More efficient training (images)</a></li>
 </ul>
   </nav></div>
 

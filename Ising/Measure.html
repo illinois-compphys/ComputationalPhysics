@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -398,7 +399,7 @@ whose average</p>
 </ul>
 <div class="admonition-testing admonition">
 <p class="admonition-title">Testing</p>
-<p>To test your results, it’s important to check limits that you are able to compute in some alternative way.  In our case, it is reasonably straightforward to figure out the <span class="math notranslate nohighlight">\(\beta=0\)</span> and <span class="math notranslate nohighlight">\(\beta=\infty\)</span> results.  These results can be figured out either analytically or writing a short five-line python code.  For these two limits, you should compute the histograms and average values of <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and <span class="math notranslate nohighlight">\(\langle E \rangle\)</span>.</p>
+<p>To test your results, it’s important to check limits that you are able to compute in some alternative way.  In our case, it is reasonably straightforward to figure out the <span class="math notranslate nohighlight">\(\beta=0\)</span> and <span class="math notranslate nohighlight">\(\beta=\infty\)</span> results.  These results can be figured out either analytically or writing a short five-line python code - i.e. for the <span class="math notranslate nohighlight">\(\beta=0\)</span> case randomly sample <span class="math notranslate nohighlight">\(27 \times 27\)</span> -1 and 1’s and then average.  For these two limits, you should compute the histograms and average values of <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and <span class="math notranslate nohighlight">\(\langle E \rangle\)</span>.</p>
 </div>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -417,11 +418,10 @@ whose average</p>
 <p>Another way to identify the transition is to compute the specific heat</p>
 <div class="math notranslate nohighlight">
 \[
-C_v = \frac{\partial E}{\partial T}
+C_v = \frac{\partial E}{\partial T} = \frac{\partial E}{\partial \beta}\frac{\partial \beta}{\partial T} = -\frac{1}{T^2}\frac{\partial E}{\partial \beta}
 \]</div>
 <p>and look for a peak.</p>
-<p>If it easy for you to compute a curve for <span class="math notranslate nohighlight">\(E\)</span> vs. <span class="math notranslate nohighlight">\(T\)</span> (you probably want constant <span class="math notranslate nohighlight">\(\Delta T\)</span> and not constant <span class="math notranslate nohighlight">\(\Delta \beta\)</span>.  We now have to think how to get the derivative. There are two ways to go about this. One is to just try to subtract your nearest neighbor points (something like <code class="docutils literal notranslate"><span class="pre">Energies[1:]</span> <span class="pre">-</span> <span class="pre">Energies[:-1]</span></code>).  This will work but requires you to have the error bars on your energies pretty small.</p>
-<p>An alternative (and more robust approach) is to first interpolate your <span class="math notranslate nohighlight">\(E\)</span> vs <span class="math notranslate nohighlight">\(T\)</span> curve.  You can do this using <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.UnivariateSpline</span></code>.  Then you can use <code class="docutils literal notranslate"><span class="pre">.derivative()</span></code> to get the derivative.</p>
+<p>To compute the specific heat you can compute <span class="math notranslate nohighlight">\(\partial E/\partial \beta\)</span> by taking your <span class="math notranslate nohighlight">\(E\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span> curve and  subtracting your nearest neighbor points - i.e. <code class="docutils literal notranslate"><span class="pre">Energies[1:]</span> <span class="pre">-</span> <span class="pre">Energies[:-1]</span></code>).</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Produce a curve of the specific heat vs. <span class="math notranslate nohighlight">\(T\)</span>.  Paste it into your document</p>

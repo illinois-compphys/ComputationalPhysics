@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
 <ul class="nav bd-sidenav">
@@ -333,7 +334,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-renormalization-group-with-an-ising-model-simulator">Implement the renormalization group with an Ising model simulator</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-graining">Coarse graining</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-j">Getting <span class="math notranslate nohighlight">\(R(J)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-beta">Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-exponents-and-stability-of-fixed-points">Critical Exponents and Stability of Fixed Points</a></li>
 </ul>
 </li>
@@ -350,7 +351,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="the-renormalization-group">
 <h1>The Renormalization Group<a class="headerlink" href="#the-renormalization-group" title="Permalink to this heading">#</a></h1>
-<p><strong>Note:</strong> On this page we are going to interchangably use <span class="math notranslate nohighlight">\(\beta J\)</span>, <span class="math notranslate nohighlight">\(J\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.  This is because it’s equivalent to think that <span class="math notranslate nohighlight">\(\beta\)</span> is constant and we change <span class="math notranslate nohighlight">\(J\)</span> or visa versa because the only place where either variable shows up is in the formula <span class="math notranslate nohighlight">\(\exp[-\beta J]\)</span> and they both show up together.</p>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -376,14 +376,14 @@ document.write(`
 <li><p>Coarse grain it in some way (i.e. perform a scale transformation)</p></li>
 <li><p>Interpret the new simulation as looking just like the old simulation, but with different parameters.</p></li>
 </ul>
-<p>In our implementation the parameter we will tune is the nearest-neighbor coupling constant <span class="math notranslate nohighlight">\(J\)</span>. Our objective is to define a function <span class="math notranslate nohighlight">\(R(J)\)</span> which eats <span class="math notranslate nohighlight">\(J\)</span> and generates a new constant <span class="math notranslate nohighlight">\(J'=R(J)\)</span> representing the coupling’s value after coarse graining.</p>
+<p>In our implementation the parameter we will tune is the the inverse temperature <span class="math notranslate nohighlight">\(\beta\)</span>. Our objective is to define a function <span class="math notranslate nohighlight">\(R(\beta)\)</span> which eats <span class="math notranslate nohighlight">\(\beta\)</span> and generates a new constant <span class="math notranslate nohighlight">\(\beta'=R(\beta)\)</span> representing the coupling’s value after coarse graining.</p>
 <section id="coarse-graining">
 <h3>Coarse graining<a class="headerlink" href="#coarse-graining" title="Permalink to this heading">#</a></h3>
 <p>The first step of renormalization is coarse-graining. To do this, we will take blocks of <span class="math notranslate nohighlight">\(3 \times 3\)</span> spins and turn them into a single spin by following a rule. The new spin is determined by majority voting: if most of the spins are up, make the coarse-grained spin up; if most of the spins are down, make the coarse-grained spin down.</p>
 <p><img alt="CG_small.png" src="../_images/CG_small.png" /></p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Generate snapshots of spin configurations for <span class="math notranslate nohighlight">\(\beta J \in [0.0,0.3,0.4,0.5,0.6,\infty]\)</span> for</p>
+<p>Generate snapshots of spin configurations for <span class="math notranslate nohighlight">\(\beta  \in [0.0,0.3,0.4,0.5,0.6,\infty]\)</span> for</p>
 <ul class="simple">
 <li><p>an <span class="math notranslate nohighlight">\(81 \times 81\)</span> spin configuration</p></li>
 <li><p>a single coarse-grained <span class="math notranslate nohighlight">\(27 \times 27\)</span> spin configuration  and</p></li>
@@ -392,19 +392,20 @@ document.write(`
 <p><em>Can you see where the transition is?</em></p>
 </div>
 <p>Now we want to do something more quantative. We will take an Ising model on an <span class="math notranslate nohighlight">\(N \times N\)</span> lattice, coarse grain it to a <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> lattice, then match the properties of the coarse-grained lattice to a natively <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> lattice. This will provide a way to generate the function <span class="math notranslate nohighlight">\(R\)</span>.</p>
-<p><img alt="RG_small.png" src="../_images/RG_small.png" /></p>
+<p><img alt="RG_small.png" src="../_images/RG_small.png" />
+<strong>Any <span class="math notranslate nohighlight">\(J\)</span> in this picture should be <span class="math notranslate nohighlight">\(\beta\)</span></strong></p>
 <p>To accomplish this we must find some quantitative feature of the model that can be compared to itself after coarse graining. Concretely, we will match the  <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span>. The approach is the following:</p>
 <ul class="simple">
 <li><p>Run your simulator on an <span class="math notranslate nohighlight">\(N \times N\)</span> model with a coupling constant <span class="math notranslate nohighlight">\(J\)</span>.</p>
 <ul>
 <li><p>While this simulator is running, compute the coarse-grained <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> model</p></li>
-<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2_{CG}[J] \rangle\)</span> of the coarse grained model.</p></li>
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2_{CG}[\beta] \rangle\)</span> of the coarse grained model.</p></li>
 <li><p>Make a graph of this for every <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
 </ul>
 </li>
 <li><p>Run your simulator on an <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> model.</p>
 <ul>
-<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2[J'] \rangle\)</span> of the coarse grained model.</p></li>
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2[\beta'] \rangle\)</span> of the coarse grained model.</p></li>
 <li><p>Make a graph for this for every <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
 </ul>
 </li>
@@ -413,7 +414,7 @@ document.write(`
 <li><p>Where the curves intersect are fixed points.</p></li>
 </ul>
 </li>
-<li><p>From these two curves you should be able to generate a graph of <span class="math notranslate nohighlight">\(R(J)\)</span> vs. <span class="math notranslate nohighlight">\(J\)</span></p></li>
+<li><p>From these two curves you should be able to generate a graph of <span class="math notranslate nohighlight">\(R(\beta)\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
 </ul>
 <div class="admonition-testing admonition">
 <p class="admonition-title">Testing</p>
@@ -428,21 +429,26 @@ document.write(`
 <p>Plot for your native <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice and coarse-grained <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> vs <span class="math notranslate nohighlight">\(\beta\)</span>.  You must put on your plot a point for the <span class="math notranslate nohighlight">\(\beta=0\)</span> “testing” point for both these curves.</p>
 </div>
 </section>
-<section id="getting-r-j">
-<h3>Getting <span class="math notranslate nohighlight">\(R(J)\)</span><a class="headerlink" href="#getting-r-j" title="Permalink to this heading">#</a></h3>
-<p>You should have a coarse-grained and native <span class="math notranslate nohighlight">\(27 \times 27\)</span> curves.  Now you want to produce <span class="math notranslate nohighlight">\(R(J)\)</span>.  Here’s one approach:</p>
+<section id="getting-r-beta">
+<h3>Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span><a class="headerlink" href="#getting-r-beta" title="Permalink to this heading">#</a></h3>
+<p>You should have a coarse-grained and native <span class="math notranslate nohighlight">\(27 \times 27\)</span> curves.  Now you want to produce <span class="math notranslate nohighlight">\(R(\beta)\)</span>.  Here’s one approach:</p>
 <ul class="simple">
-<li><p>Graph the native curve as <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span>.  You want to interpolate this  using <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.interp1d</span></code> <strong>where the interpolation takes <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and gives back <span class="math notranslate nohighlight">\(\beta J\)</span>.  This is backwards from how you’ve graphed it naively</strong></p></li>
-<li><p>Go through the coarse grained curve and find the closest <span class="math notranslate nohighlight">\(\beta\)</span> on the native curve for each value of <span class="math notranslate nohighlight">\(\beta\)</span> on the coarse-grained curve.</p></li>
+<li><p>Graph the native curve as <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span>.  You want to interpolate this  using <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.interp1d</span></code> <strong>where the interpolation takes <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and gives back <span class="math notranslate nohighlight">\(\beta\)</span>.  This is backwards from how you’ve graphed it naively</strong></p></li>
+<li><p>Go through the coarse grained curve and find the <span class="math notranslate nohighlight">\(\beta\)</span> on the native curve for each value of <span class="math notranslate nohighlight">\(\beta\)</span> on the coarse-grained curve.  This can be done by calling your interpolation above.</p></li>
 </ul>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Put the plot for <span class="math notranslate nohighlight">\(R(J)\)</span> vs. <span class="math notranslate nohighlight">\(J\)</span> in the document for <span class="math notranslate nohighlight">\(0&lt;J&lt;1\)</span>. Also draw <span class="math notranslate nohighlight">\(y=x\)</span> on this plot.  Where are the fixed points of this curve (the values such that R(J)=J)? The fixed points are the places on your plot where the <span class="math notranslate nohighlight">\(R(J)\)</span> curve intersects the line <span class="math notranslate nohighlight">\(y=x\)</span> (<em>understand why this is</em>).  What is the critical transition temperature?</p>
+<p>Put the plot for <span class="math notranslate nohighlight">\(R(\beta)\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span> in the document for <span class="math notranslate nohighlight">\(0&lt;\beta&lt;1\)</span>. Also draw <span class="math notranslate nohighlight">\(y=x\)</span> on this plot.  Where are the fixed points of this curve (the values such that R(\beta)=\beta)? The fixed points are the places on your plot where the <span class="math notranslate nohighlight">\(R(\beta)\)</span> curve intersects the line <span class="math notranslate nohighlight">\(y=x\)</span> (<em>understand why this is</em>).  What is the critical transition temperature?</p>
 </div>
 <div class="hint dropdown admonition">
 <p class="admonition-title">Extra Credit</p>
 <p><strong>Each of these three things (1D phase transition, 3D phase transition and 2D with flow with magnetic field are individually 5 points extra credit)</strong></p>
-<p>You’ve now succesfully implemented the RG approach for the 2D Ising model. Congratulations!  It is an interesting exercise to try the same approach for the 1D Ising model (where you should find no phase transition) and the 3D Ising model (where you should also be able to compute the critical exponent <span class="math notranslate nohighlight">\(\nu\)</span> as described below.    Another fun activity is to work on the 2D Ising model but with more parameters (i.e. add in a magnetic field and determine the RG flow as a function of both <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(h\)</span>.</p>
+<p>You’ve now succesfully implemented the RG approach for the 2D Ising model. Congratulations!</p>
+<ul class="simple">
+<li><p>It is an interesting exercise to try the same approach for the 1D Ising model (where you should find no phase transition) and the</p></li>
+<li><p>3D Ising model (where you should also be able to compute the critical exponent <span class="math notranslate nohighlight">\(\nu\)</span> as described below.</p></li>
+<li><p>Another fun activity is to work on the 2D Ising model but with more parameters (i.e. add in a magnetic field and determine the RG flow as a function of both <span class="math notranslate nohighlight">\(J\)</span> and <span class="math notranslate nohighlight">\(h\)</span>.  (<em>Previously we were looking at the flow for <span class="math notranslate nohighlight">\(\beta\)</span> which is the same as the flow for <span class="math notranslate nohighlight">\(J\)</span> in our simulation because <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(J\)</span> showed up in all the equations as <span class="math notranslate nohighlight">\(\beta J\)</span>.  If you wanted to do two coupling constants you can’t do <span class="math notranslate nohighlight">\(\beta\)</span> any more but have to do <span class="math notranslate nohighlight">\(J\)</span> and <span class="math notranslate nohighlight">\(h\)</span></em>)</p></li>
+</ul>
 </div>
 <div class="tip dropdown admonition">
 <p class="admonition-title">Extra Credit</p>
@@ -456,14 +462,14 @@ document.write(`
 </section>
 <section id="critical-exponents-and-stability-of-fixed-points">
 <h3>Critical Exponents and Stability of Fixed Points<a class="headerlink" href="#critical-exponents-and-stability-of-fixed-points" title="Permalink to this heading">#</a></h3>
-<p>The whole point of the renormalization group is that you should be able to apply the renormalization procedure over and over again and flow to a fixed point which corresponds to a phase.  We’ve already seen this in pictures when you coarse grained twice.  Now, we are going to see if we can use your <span class="math notranslate nohighlight">\(R(J)\)</span> plot to see the same thing.  Suppose you start at <span class="math notranslate nohighlight">\(J=0.35\)</span>.  We can then ask what your new <span class="math notranslate nohighlight">\(J\)</span> is after the first coarse graining step - it’s <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  Now, suppose we were to do the renormalization procedure again.  Well instead of starting at <span class="math notranslate nohighlight">\(0.35\)</span> you would start at <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  A nice way to see this graphically is to draw an arrow from <span class="math notranslate nohighlight">\((0.35,R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span>.   You can do this using <code class="docutils literal notranslate"><span class="pre">pylab.pyplot.arrow(0.35,</span> <span class="pre">R(0.35),</span> <span class="pre">R(0.35)-0.35,0)</span></code>.  The arrow is now pointing at the new spot on the x-axis you would start.  And after you apply the RG step you’ll actually be at <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Draw the arrow from <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Now iterative the RG process a couple more times.  Do you see what’s happening?</p>
-<p>Do this over again starting at <span class="math notranslate nohighlight">\(J=0.5\)</span> and draw your arrows.</p>
+<p>The whole point of the renormalization group is that you should be able to apply the renormalization procedure over and over again and flow to a fixed point which corresponds to a phase.  We’ve already seen this in pictures when you coarse grained twice.  Now, we are going to see if we can use your <span class="math notranslate nohighlight">\(R(\beta)\)</span> plot to see the same thing.  Suppose you start at <span class="math notranslate nohighlight">\(\beta=0.35\)</span>.  We can then ask what your new <span class="math notranslate nohighlight">\(\beta\)</span> is after the first coarse graining step - it’s <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  Now, suppose we were to do the renormalization procedure again.  Well instead of starting at <span class="math notranslate nohighlight">\(0.35\)</span> you would start at <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  A nice way to see this graphically is to draw an arrow from <span class="math notranslate nohighlight">\((0.35,R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span>.   You can do this using <code class="docutils literal notranslate"><span class="pre">pylab.pyplot.arrow(0.35,</span> <span class="pre">R(0.35),</span> <span class="pre">R(0.35)-0.35,0)</span></code>.  The arrow is now pointing at the new spot on the x-axis you would start.  And after you apply the RG step you’ll actually be at <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Draw the arrow from <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Now iterative the RG process a couple more times.  Do you see what’s happening?</p>
+<p>Do this over again starting at <span class="math notranslate nohighlight">\(\beta=0.5\)</span> and draw your arrows.</p>
 <p>What you’ve done is show that there are two stable fixed points that correspond to the phases and one unstable fixed point (you only get back to it if you start exactly there) which corresponds to the critical point.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Add your <span class="math notranslate nohighlight">\(R(J)\)</span> curve with the arrows to your document.</p>
+<p>Add your <span class="math notranslate nohighlight">\(R(\beta)\)</span> curve with the arrows to your document.</p>
 </div>
-<p>You should find that <span class="math notranslate nohighlight">\(R(J)\)</span> is linear around the unstable fixed point. Do you? Unstable fixed-points are characterized by a set of universal critical exponents. Many other systems have the same universal critical exponents, even when they are fundamentally different from magnets! <!-- (One example is opalescence in critical liquid&ndash;gas phase transitions.)--> For example, the two-dimensional Lennard Jones fluid - has the same critical exponents.</p>
+<p>You should find that <span class="math notranslate nohighlight">\(R(\beta)\)</span> is linear around the unstable fixed point. Do you? Unstable fixed-points are characterized by a set of universal critical exponents. Many other systems have the same universal critical exponents, even when they are fundamentally different from magnets! <!-- (One example is opalescence in critical liquid&ndash;gas phase transitions.)--> For example, the two-dimensional Lennard Jones fluid - has the same critical exponents.</p>
 <p>One particular critical exponent, <span class="math notranslate nohighlight">\(\nu\)</span>, is defined as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -550,7 +556,7 @@ b^{1/\nu} = \textrm{slope}
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-renormalization-group-with-an-ising-model-simulator">Implement the renormalization group with an Ising model simulator</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-graining">Coarse graining</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-j">Getting <span class="math notranslate nohighlight">\(R(J)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-beta">Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-exponents-and-stability-of-fixed-points">Critical Exponents and Stability of Fixed Points</a></li>
 </ul>
 </li>
