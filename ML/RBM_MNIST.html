@@ -386,7 +386,7 @@ document.write(`
 </pre></div>
 </div>
 <p>should give you a picture of a written number.  We are regularly going to want to look at a whole grid of written numbers.</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Write a function <code class="docutils literal notranslate"><span class="pre">PlotMe(data)</span></code> which takes a <span class="math notranslate nohighlight">\(64 \times 784\)</span> array of numbers (i.e. <code class="docutils literal notranslate"><span class="pre">PlotMe(myData[0:64,:])</span></code> and makes an <span class="math notranslate nohighlight">\(8\times 8\)</span>  grid of numbers.   It should look something like</p>
 <p><img alt="NumberGrid" src="../_images/numberGrid.png" /></p>
@@ -413,12 +413,12 @@ document.write(`
 <h3>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this heading">#</a></h3>
 <p>The simplest test to see what your RBM is do a reconstruction of the data.  In other words, once you have a paramaterized RBM go ahead and set the visible spins to be some data - i.e.  <code class="docutils literal notranslate"><span class="pre">visible=np.copy(myData[0:64,:])</span></code>.  Then use the function <code class="docutils literal notranslate"><span class="pre">PlotMe(visible)</span></code> above to plot these spins.  They will definitely look good because you’re just looking at the data.  Now, go ahead and do a single <code class="docutils literal notranslate"><span class="pre">SampleHidden</span></code> and <code class="docutils literal notranslate"><span class="pre">SampleVisible</span></code>.  This will change the visible spins completely based on the hidden spins (that were generated from the visible spins). Because the Markov chain hasn’t had a long time to walk away, you should see roughly the same letters but with some non-trivial noise.</p>
 <p>We can remove some of this noise by returning the probability of the visible spins (given the hidden spins) instead of just one sample.  This is actually equivalent to sampling the visible spins many different times over the same hidden spins and then averaging them.  Write a function <code class="docutils literal notranslate"><span class="pre">SampleVisibleProb</span></code> which returns not a sample of the visible spins but their probability distribution.  Make a grid of this data using <code class="docutils literal notranslate"><span class="pre">PlotMe(visible)</span></code> as well.  It should look much better.</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Paste these three plots into your document.</p>
 </div>
 <p>A place where reconstruction is potentially useful is in recalling a memory similar to what was done in the Hopfield network.   Take your RBM and drop half your visible spins.  Then see if you sample the hidden and visible spins if you get back the original value.</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Report on what you get under this approach.</p>
 </div>
@@ -426,7 +426,7 @@ document.write(`
 <section id="resampling">
 <h3>Resampling<a class="headerlink" href="#resampling" title="Permalink to this heading">#</a></h3>
 <p>In practice, the RBM should not only be able to reconstruct the letters after one Gibbs sample but also a sample from the entire Markov chain should give you the same distribution of letters that you started with.   This requires a lot more training (and possible larger number of hidden spins).    You can test this by sampling back and forth a lot (~10000) of times.  An intermediate is to go back and forth about 100 times which lets you leave the current numbers further behind but still give you a sample of new numbers.  You again might want to average over all the hidden spins.  (<em>When I do this I get numbers but don’t get the distribution I started out with.  You should just report that you got some numbers but if you manage to pull off an optimization that gets the right distribution let me know how you did it</em>)</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Plot the resampled distribution that you get by running your Markov chain 1000 times.  You should report both the <code class="docutils literal notranslate"><span class="pre">SampleVisible</span></code> and <code class="docutils literal notranslate"><span class="pre">SampleVisibleProb</span></code> results for your very last sample (all others need to be <code class="docutils literal notranslate"><span class="pre">SampleVisible</span></code>).</p>
 </div>
@@ -434,7 +434,7 @@ document.write(`
 <section id="weights">
 <h3>Weights<a class="headerlink" href="#weights" title="Permalink to this heading">#</a></h3>
 <p>Visualize the weights and biases. Since the visible spins <span class="math notranslate nohighlight">\(v_i\)</span> form a 2D image, they can be relabeled as if they were on a 2D square grid <span class="math notranslate nohighlight">\(v_i \rightarrow v_{(x,y)}\)</span>, where <span class="math notranslate nohighlight">\((x,y)\)</span> is a coordinate in the grid. Therefore, for a given hidden spin <span class="math notranslate nohighlight">\(h_j\)</span>, the weights connecting to the visible spins <span class="math notranslate nohighlight">\(W_{ij}\)</span> can be reshaped into a matrix <span class="math notranslate nohighlight">\(W_{ij} \rightarrow W^{j}_{(x,y)}\)</span>. These matrices can be visualized, say with <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.matshow</span></code> in python. Visually, these weight matrices represent the correlations the hidden spins have with the visible spins. In a trained RBM, the weight matrices should look like “features” that contain elements of handwritten digits, such as straight and curved strokes. If your weights all look noisy or identical for all <span class="math notranslate nohighlight">\(j\)</span>, then probably the training is not working correctly.   My weights looked much better when I plotted them in grayscale <code class="docutils literal notranslate"><span class="pre">plt.imshow(M,cmap=plt.cm.binary)</span></code></p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Paste a visualization of your weights into your document.</p>
 </div>
@@ -442,7 +442,7 @@ document.write(`
 <section id="discrimination">
 <h3>Discrimination<a class="headerlink" href="#discrimination" title="Permalink to this heading">#</a></h3>
 <p>One thing an RBM is good at is distinguishing between the thing it was trained on (a written digit) versus something else (say random noise). You can ask your RBM for the relative probability of these things by computing the free energy of two different images and see what is more likely.</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Report your free energy for these two examples.</p>
 </div>

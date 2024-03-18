@@ -447,7 +447,6 @@ p(A,B) = p(A|B) p(B).
 \[
 p(A|B) p(B) = p(B|A) p(A),
 \]</div>
-<p>which holds whenever the joint distribution is symmetric, <span class="math notranslate nohighlight">\(p(A,B) = p(B,A)\)</span>.</p>
 <p><strong>Why are marginal and conditional probabilities important? Why did we not consider them in the Ising model unit?</strong></p>
 <p>The variables in an RBM are by design split into two groups, visible and hidden variables. When training an RBM, the visible variables are associated with data, such as the pixels in images, while the hidden variables are simply extra variables in the model, sometimes called auxiliary or latent variables. Because of the special interpretation of the visible variables, it is natural to consider the probability of just the visible spins, i.e., the marginal distribution <span class="math notranslate nohighlight">\(p(v)\)</span>. This marginal distribution is the probability distribution that we will want to match to a data set during training. This is why we care about marginal probabilities.</p>
 <p>An important technical detail about RBMs is that, because of the bipartite structure of the RBM, there is an efficient way to sample spin configurations using conditional probabilities <span class="math notranslate nohighlight">\(p(v|h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>. This efficient sampling allows us to perform efficient training. This is why we care about conditional probabilities.</p>
@@ -533,7 +532,7 @@ m_i \equiv \sum_{j} W_{ij} h_j + a_i.
 </div>
 <p><strong>Comment on implementation:</strong> When writing up your RBM, it is possible to perform all of the calculations using <code class="docutils literal notranslate"><span class="pre">for</span></code> loops. However, if you are willing, it is worth trying to perform the calculations with matrix-vector multiplications. This can greatly simplify your code, since nested for loops can be replaced with a few lines of matrix-vector manipulations, and can speed up your code significantly (especially in python), since matrix-vector libraries are highly optimized. While the <code class="docutils literal notranslate"><span class="pre">C++</span></code> standard library does not include matrix-vector functionality, there is a (relatively) easy-to-use library called <a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> that allows you to work with matrices in <code class="docutils literal notranslate"><span class="pre">C++</span></code>. A handy reference for Eigen commands, and their equivalent commands in Matlab, is available <a class="reference external" href="https://eigen.tuxfamily.org/dox/AsciiQuickReference.txt">here</a>.
 Note that you can represent <span class="math notranslate nohighlight">\(v_i\)</span> as a row vector and <span class="math notranslate nohighlight">\(h_j\)</span> as a column vector.</p>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Write Gibbs sampling code that samples the hidden and visible layers of your RBM.
 For a small <span class="math notranslate nohighlight">\(N_h=2\)</span>, <span class="math notranslate nohighlight">\(N_v=5\)</span> RBM, compute the probability distributions <span class="math notranslate nohighlight">\(p(v,h), p(v), p(h), p(v|h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>
@@ -691,7 +690,7 @@ distribution of three binary variables and train an RBM with <span class="math n
 <li><p>I performed 30 epochs of a distribution of size 100000.</p></li>
 <li><p>I used 3 visible and 5 hidden neurons.</p></li>
 </ul>
-<div class="admonition-grading admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Implement the RBM training algorithm. Using this algorithm, train your RBM and show that it can successfully learn a simple toy probability distribution.</p>
 </div>
@@ -711,7 +710,7 @@ distribution of three binary variables and train an RBM with <span class="math n
 <p>or (if you have spins that are 1 and 0)</p>
 <div class="math notranslate nohighlight">
 \[F(v) = -v \cdot a - \sum_j \left( \log (1+ \exp(b + W^T v) )  \right)_j\]</div>
-<div class="tip admonition">
+<div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Write two functions that compute the free energy in both these ways.  Do some tests to verify that they give the same result for some choice of <span class="math notranslate nohighlight">\(v\)</span>.</p>
 <p>Now, run your RBM for 10 epochs and measure the average change in the free energy as a function of epoch.  Make a graph of this and paste it into your document   (as a word of warning, this estimator is very noisy so it might not always look monotonic as it should be).</p>

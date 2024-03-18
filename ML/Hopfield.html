@@ -392,10 +392,10 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 <hr class="docutils" />
 <section id="building-a-hopfield-network">
 <h2>Building a Hopfield Network<a class="headerlink" href="#building-a-hopfield-network" title="Permalink to this heading">#</a></h2>
-<p>The first step of this assignment is to write code to build a Hopfield Network. My recommendation is to take an object-oriented approach, making a Hopfield network class that keeps the states <span class="math notranslate nohighlight">\(s_i\)</span> and biases <span class="math notranslate nohighlight">\(b_i\)</span> of the <span class="math notranslate nohighlight">\(n\)</span> neurons in two vectors and the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> in an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. You will need a function that updates the state (chooses a random neuron and updates it according to the above update rule). You will also need a procedure to determine if the network has converged. One way to go about this is to loop through all the neurons and check if any of them want to change (but don’t change them!). A function that computes the energy, as well as functions that set and return the state, are useful as well.</p>
+<p>The first step of this assignment is to write code to build a Hopfield Network. You will need to store the states <span class="math notranslate nohighlight">\(s_i\)</span> and biases <span class="math notranslate nohighlight">\(b_i\)</span> of the <span class="math notranslate nohighlight">\(n\)</span> neurons in two vectors and the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> in an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. You will need a function that updates the state (chooses a random neuron and updates it according to the above update rule). You will also need a procedure to determine if the network has converged. One way to go about this is to loop through all the neurons and check if any of them want to change (but don’t change them!). A function that computes the energy, as well as functions that set and return the state, are useful as well.</p>
 <p>To set up the bias, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(b_i\)</span>.</p>
-<p>To set up the weights, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Remember that the hopfield network is symmetric so make sure that <span class="math notranslate nohighlight">\(W_{ij}=W_{ji}\)</span> <!-- and make sure that $W_{ii}=0$.--></p>
-<p>Once you have a class for the Hopfield network, set random weights and biases, and a random state and update it until it converges. At the moment, because we haven’t learned how to train the network, it’s not clear whether or not the results are sensible.</p>
+<p>To set up the weights, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Remember that the hopfield network is symmetric so make sure that <span class="math notranslate nohighlight">\(W_{ij}=W_{ji}\)</span> and make sure that <span class="math notranslate nohighlight">\(W_{ii}=0\)</span>.</p>
+<p>Once you have this set up, set random weights and biases as well as random state and update it until it converges. At the moment, because we haven’t learned how to train the network, it’s not clear whether or not the results are sensible.</p>
 </section>
 <hr class="docutils" />
 <section id="seeing-that-the-energy-goes-down-during-a-run">
@@ -405,7 +405,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 <p class="admonition-title">Grading</p>
 <p>Produce a graph with 10 lines on it showing that the energy starting from 10 different intial conditions decays until convergence. It should look something like:</p>
 <p><img alt="energy2.jpg" src="../_images/energy2.jpg" /></p>
-<p>*Hint: * This was produced with 100 neurons. I ran 10 different initial conditions and ran each one until they converged. I printed out the energy every 100 update steps (i.e., equal to the number of neurons).</p>
+<p><em>Hint:</em> This was produced with 100 neurons. I ran 10 different initial conditions and ran each one until they converged. I printed out the energy every 100 update steps (i.e., equal to the number of neurons).</p>
 </div>
 </section>
 <hr class="docutils" />
@@ -417,7 +417,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 \[
 W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(v^{(k)}\)</span> is an <span class="math notranslate nohighlight">\(n \times 1\)</span> column vector representing the <span class="math notranslate nohighlight">\(k\)</span>-th memory.  In the example below, there will be 2 memories so <span class="math notranslate nohighlight">\(m=2\)</span> and so there will be a memory <span class="math notranslate nohighlight">\(v^{(0)}\)</span> and v^{(1)}$</p>
+<p>where <span class="math notranslate nohighlight">\(v^{(k)}\)</span> is an <span class="math notranslate nohighlight">\(n \times 1\)</span> column vector representing the <span class="math notranslate nohighlight">\(k\)</span>-th memory.  In the example below, there will be 2 memories so <span class="math notranslate nohighlight">\(m=2\)</span> and so there will be a memory <span class="math notranslate nohighlight">\(v^{(0)}\)</span> and <span class="math notranslate nohighlight">\(v^{(1)}\)</span></p>
 <p>Let’s have it learn some images (we will start with some small images and then work up to doing bigger images). Take the images generated in <a class="reference download internal" download="" href="../_downloads/b39008f4ba14faefed13c585b3f5eeaa/makeImage.py"><span class="xref download myst">makeImage.py</span></a>. These are just binary numbers that can be converted into the state of the neurons.</p>
 <p>Some example images to remember:
 <img alt="Face" src="../_images/face2.jpg" />
@@ -445,7 +445,7 @@ W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 <p class="admonition-title">Grading</p>
 <p>Produce a graph that shows how many memories you can remember.
 <img alt="hammingDistance" src="../_images/hammingDistance.jpg" /></p>
-<p>*Hint: *To produce this graph I used 100 neurons.  For each point on this graph (memories x corrupted bits) I stored 5 sets of memories and attempted to recover a random (perturbed) memory from that set 20 times.  I then computed the average Hamming distances between the memory I got and the memory I was trying to recover over these 100 attempts.</p>
+<p><em>Hint:</em> To produce this graph I used 100 neurons.  For each point on this graph (memories x corrupted bits) I stored 5 sets of memories and attempted to recover a random (perturbed) memory from that set 20 times.  I then computed the average Hamming distances between the memory I got and the memory I was trying to recover over these 100 attempts.</p>
 </div>
 </section>
 <hr class="docutils" />
@@ -455,7 +455,7 @@ W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 <div><p>To accomplish this part of the assignment you need to download <a class="reference external" href="https://www.graphviz.org/">Graphviz</a> or use the online version of graphviz (which is probably easier).</p>
 </div></blockquote>
 <p>In this step we will to look at the energy landscape of the Hopfield network more explicitly. A Hopfield network with <span class="math notranslate nohighlight">\(n\)</span> neurons has <span class="math notranslate nohighlight">\(2^n\)</span> possible {on,off} combinations of neuron states. Each of these combinations can flow down in energy to (at most) <span class="math notranslate nohighlight">\(n\)</span> different nodes after attempting to update one of the neurons. This generates a graph.</p>
-<p>Give your hopfield network 7 neurons and 2 memories.</p>
+<p>Give your hopfield network 6 neurons and 2 memories.</p>
 <p>Graphviz eats a description of a graph and generates a picture of it.
 The description looks like</p>
 <p>Generate this graph, where a directed arrow corresponds to one configuration pointing to another configuration. For your first attempt, just color the target memories.</p>
