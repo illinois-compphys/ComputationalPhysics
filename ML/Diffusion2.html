@@ -386,12 +386,12 @@ train_dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
 <span class="n">PlotImages</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This will show us a 16x16 arrow of our 128 images (which in this case are just letters).</p>
-<p>We can also go ahead and visualize just one of those letters (the third one) by doing <code class="docutils literal notranslate"><span class="pre">plt.matshow(x[3,0,:,:])</span></code></p>
+<p>This will show us a 16x16 arrow of our 128 images (which in this case are just numbers).</p>
+<p>We can also go ahead and visualize just one of those numbers (the third one) by doing <code class="docutils literal notranslate"><span class="pre">plt.matshow(x[3,0,:,:])</span></code></p>
 <section id="fast-diffusion">
 <h2>Fast Diffusion<a class="headerlink" href="#fast-diffusion" title="Permalink to this heading">#</a></h2>
-<p>Our first goal is to go ahead and generate a fast diffusion of these letters. Copy your <code class="docutils literal notranslate"><span class="pre">ForwardFastDiffusion</span></code> from page 1.  You can continue using the same set of <span class="math notranslate nohighlight">\(\beta_t\)</span> you were using previously - i.e.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta_max</span> <span class="o">=</span> <span class="mf">0.02</span>
+<p>Our first goal is to go ahead and generate a fast diffusion of these letters. Copy your <code class="docutils literal notranslate"><span class="pre">ForwardFastDiffusion</span></code> from page 1.  You can continue using a similar set of <span class="math notranslate nohighlight">\(\beta_t\)</span> you were using previously - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta_max</span> <span class="o">=</span> <span class="mf">0.05</span>
 <span class="n">timesteps</span> <span class="o">=</span> <span class="mi">200</span>
 <span class="n">T</span><span class="o">=</span><span class="n">timesteps</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">beta_max</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
@@ -408,7 +408,7 @@ train_dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
 <p>Then I was able to call ForwardFastDiffusion with these times.  While we aren’t using it here, it is important that the forward diffusion can take different times in the list - i.e. <code class="docutils literal notranslate"><span class="pre">Ts=[3,1,57,...]</span></code>. You should test this.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Call PlotImage for the batch of 128 images diffused at time steps <span class="math notranslate nohighlight">\(t\in [0,1,50,100,150,199]\)</span></p>
+<p>Call PlotImage for the batch of 128 images diffused at time steps <span class="math notranslate nohighlight">\(t\in [0,1,50,100,150,199]\)</span>  (in the case of t=50 then <code class="docutils literal notranslate"><span class="pre">Ts=[50,50,50,...,50]</span></code>)</p>
 </div>
 </section>
 <section id="undiffusing-images">
@@ -458,7 +458,7 @@ train_dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
 <p>This network was taken from this blog post explaining diffusion.</p>
 <p>The equivalent of calling <code class="docutils literal notranslate"><span class="pre">GuessZ(x_t,t)</span></code> in this case is to call <code class="docutils literal notranslate"><span class="pre">net(x_t,ts.squeeze()).sample</span></code>.</p>
 <p>This network is just initialized with random weights.  In a couple minutes you’re going to train your own weights.  But before then, we’d like to debug your sampling (and get it on the gpu).  Therefore, we are going to supply you with a network that we’ve already partially trained (in the same way you’re going to train your network).</p>
-<p>Copy network.pickle onto your google colab and run the following code to load it:</p>
+<p>Copy unet3.pickle (<code class="docutils literal notranslate"><span class="pre">!wget</span> <span class="pre">https://clark.physics.illinois.edu/unet3.pickle</span></code>) onto your google colab and run the following code to load it:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;network.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="c1"># The protocol version used is detected automatically, so we do not</span>
     <span class="c1"># have to specify it.</span>

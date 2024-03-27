@@ -415,8 +415,8 @@ document.write(`
 <p>What this probability distribution tells us is that we should first drift our particle from <span class="math notranslate nohighlight">\(x \rightarrow x+\frac{\delta}{2} F(x)\)</span> and then sample a gaussian with standard deviation <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span> from that point.  This, in fact, is the Langevin dynamics described above.</p>
 <p>Using Metropolis, let’s work out the acceptance probability <span class="math notranslate nohighlight">\(A(x \rightarrow x')\)</span> for this new choice.</p>
 <div class="math notranslate nohighlight">
-\[ \frac{T(x' \rightarrow x)}{T(x \rightarrow x')} = \exp\left[\delta (x-x')[F(x)+F(x')] +(\delta/2)^2 (F(x)^2 - F(x')^2)  \right]\]</div>
-<p>We will find that the acceptance ratio <span class="math notranslate nohighlight">\(A(x \rightarrow x')\)</span> approaches 1 if the potential is linear over a range of <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span>. One can see this analytically.   Instead let’s go ahead and test this by running a variational Monte Carlo using this improved move.    Notice, that this is guaranteed to sample the right distribution.  If the acceptance ratio is 1 (or essentially 1) then we are guaranteed that the dynamics above actually do sample the correct thing.</p>
+\[ \frac{T(x' \rightarrow x)}{T(x \rightarrow x')} = \exp\left[\delta (x-x')[F(x)+F(x')] +(\delta/2)^2 (F(x)^2 - F(x')^2)  \right]/(2\delta)\]</div>
+<p>We will find that the acceptance ratio <span class="math notranslate nohighlight">\(A(x \rightarrow x') = \pi(x')/\pi(x) T(x' \rightarrow x)/T(x \rightarrow x')\)</span> approaches 1 if the potential is linear over a range of <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span>. One can see this analytically.   Instead let’s go ahead and test this by running a variational Monte Carlo using this improved move.    Notice, that this is guaranteed to sample the right distribution.  If the acceptance ratio is 1 (or essentially 1) then we are guaranteed that the dynamics above actually do sample the correct thing.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Go ahead and show that the acceptance ratio is 1 by running this in a Monte Carlo and computing the acceptance ratio.</p>
@@ -444,7 +444,8 @@ document.write(`
 <section id="the-next-step-faster-diffusing">
 <h2>The Next Step: Faster Diffusing<a class="headerlink" href="#the-next-step-faster-diffusing" title="Permalink to this heading">#</a></h2>
 <p>So far, we’ve learned that the Langevin dynamics (in the limit of small-ish <span class="math notranslate nohighlight">\(\delta\)</span>) are a Markov chain which ends up in the probability distribution proportional to <span class="math notranslate nohighlight">\(p(x) \propto \exp[-E(x)]\)</span>.</p>
-<p>We are now going to focus explicitly on the energy functional for a harmonic oscillator <span class="math notranslate nohighlight">\(E(x) = x^2/2\)</span> and we are going to generalize our diffusion to allow different step sizes at each step (as well as do a somewhat unfortunate change of variables - this will ensure that we are consistent with both the Langevin literature (from above) and the diffusion literature (now below)).</p>
+<p>We are now going to focus explicitly on the energy functional for a harmonic oscillator <span class="math notranslate nohighlight">\(E(x) = x^2/2\)</span>.</p>
+<p>In addition, we are going to generalize our diffusion to allow different step sizes at each step (as well as do a somewhat unfortunate change of variables - this will ensure that we are consistent with both the Langevin literature (from above) and the diffusion literature (now below)).</p>
 <p>Using this energy function, we get</p>
 <div class="math notranslate nohighlight">
 \[x_t= x_{t-1} \left(1- \frac{\delta}{2}\right) + \sqrt{\delta} z\]</div>
@@ -453,22 +454,24 @@ document.write(`
 \[x_t= x_{t-1} \left(1- \frac{\delta_t}{2}\right) + \sqrt{\delta_t} z\]</div>
 <p>and then let <span class="math notranslate nohighlight">\(\beta_t = \delta_t\)</span> and <span class="math notranslate nohighlight">\(\sqrt{1-\beta_t} = \left(1- \frac{\delta_t}{2}\right)\)</span></p>
 <p>This last identification is true in the limit of small <span class="math notranslate nohighlight">\(\delta_t\)</span> (just Taylor expand the exponential) and is commonly what is done in the literature so we are going to do it here.  There is probably no deep fundamental reason to do so.</p>
-<p>This leaves us</p>
+<p>This leaves us with</p>
 <div class="math notranslate nohighlight">
 \[x_t= x_{t-1} \sqrt{1-\beta_t} + \sqrt{\beta_t} z\]</div>
-<p>We will now let <span class="math notranslate nohighlight">\(\beta_t = 0.0001 + (0.02-0.0001)/200 t\)</span><br />
+<p><span class="math notranslate nohighlight">\(\beta_t\)</span> is the step size (or standard deviation of the gaussian) that we are going to take at step <span class="math notranslate nohighlight">\(t\)</span> of our walk. In the early steps, we will take small steps and the later steps, we will take large steps. The reason for this is that we will eventually see that the first few steps of this Markov chain correspond to the last few steps of denoising an image and it will be easier to do this when those steps are small.  All the <span class="math notranslate nohighlight">\(\beta_t\)</span>, we use are going to be sufficiently small that every one of them will still be in the small step-size limit and so we will still converge to our stationary distribution as long as our maximum beta is large enough.</p>
+<p>Let us pick the beta at step <span class="math notranslate nohighlight">\(t\)</span> to be  <span class="math notranslate nohighlight">\(\beta_t = 0.0001 + (0.05-0.0001)/200 t\)</span><br />
 This can be generated in python by just doing
-<code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">=</span> <span class="pre">np.linspace(0.0001,</span> <span class="pre">0.02,</span> <span class="pre">timesteps,dtype=np.float32)</span></code></p>
-<p>Update your function
-<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">ForwardDiffusion(x_0,beta_t,timeSteps):</span></code></p>
-<p>to run forward diffusion over a certain number of time-steps using a time-dependent standard deviation <span class="math notranslate nohighlight">\(\beta_t\)</span>.</p>
+<code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">=</span> <span class="pre">np.linspace(0.0001,</span> <span class="pre">0.05,</span> <span class="pre">timesteps,dtype=np.float32)</span></code>  Notice with these choices of <span class="math notranslate nohighlight">\(\beta_t\)</span> after going over all the steps you will have done a walk of total distance <span class="math notranslate nohighlight">\(\beta \approx 5\)</span>.</p>
+<p>Modify your function <code class="docutils literal notranslate"><span class="pre">ForwardDiffusion(x_0,T,</span> <span class="pre">beta_t)</span></code> so that it takes an initial coordinate <span class="math notranslate nohighlight">\(x_0\)</span>, a number of steps to go to <span class="math notranslate nohighlight">\(T\)</span>, and a list <code class="docutils literal notranslate"><span class="pre">beta_t</span></code> of step sizes and then runs the corresponds forward diffusion.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Make a plot for five runs a graph of location at time <span class="math notranslate nohighlight">\(x(t)\)</span> vs <span class="math notranslate nohighlight">\(t\)</span>.</p>
-<p>This time it doesn’t make sense to collect the probability distribution over many steps because the probability distribution changes over time.<br />
-Instead, run your function 10000 times out to a time-step of T=199 and graph a histogram of the resulting distribution x(199).  Plot a theory curve on top of it showing that you get the correct probability distribution.</p>
+<ul class="simple">
+<li><p>Run your forward diffusion 5 times starting from <span class="math notranslate nohighlight">\(x_0=0.4\)</span> plotting a line for each run of <span class="math notranslate nohighlight">\(x(t)\)</span> vs. step <span class="math notranslate nohighlight">\(t\)</span>. It is also interesting to make the plot <span class="math notranslate nohighlight">\(x(t)\)</span> vs <code class="docutils literal notranslate"><span class="pre">np.cumsum(beta_t)</span></code></p></li>
+<li><p>This time it doesn’t make sense to collect the probability distribution over many steps because the probability distribution changes over time.<br />
+Instead, run your function 10000 times starting from <span class="math notranslate nohighlight">\(x_0=0.4\)</span> out to a time-step of T=199 and graph a histogram of the resulting distribution x(199).  Plot a theory curve on top of it showing that you get the correct probability distribution.</p></li>
+</ul>
 </div>
-<p>Now, we would like to produce a new function which produces the same probability distribution but does it quickly.  In other words, you want to produce the same probability distribution after some number of time steps but which doesn’t require taking each and every step to get there (i.e. you just want to be able to jump to step 150).  It turns out that this possible because the sum of a bunch of random gaussian steps is a random gaussian step.</p>
+<p>Now, we would like to produce a new function
+<code class="docutils literal notranslate"><span class="pre">ForwardDiffusionFast(x_0,T,</span> <span class="pre">alpha_bar)</span></code> which produces the same probability distribution but does it quickly.   Note this function again takes <span class="math notranslate nohighlight">\(x_0\)</span> and the step <span class="math notranslate nohighlight">\(T\)</span> to run to, as well as the list of <code class="docutils literal notranslate"><span class="pre">alpha_bar</span></code> (which comes from the <code class="docutils literal notranslate"><span class="pre">beta_t</span></code>)   In other words, you want to produce the same probability distribution after some number of time steps but which doesn’t require taking each and every step to get there (i.e. you just want to be able to jump to step 150).  It turns out that this possible because the sum of a bunch of random gaussian steps is a random gaussian step.</p>
 <p>If we let</p>
 <div class="math notranslate nohighlight">
 \[\alpha_t = 1-\beta_t\]</div>
@@ -481,8 +484,8 @@ Instead, run your function 10000 times out to a time-step of T=199 and graph a h
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Go ahead and write a
-<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">ForwardDiffusionFast(x_0,alpha_bar_t,timeSteps):</span></code>
-which quickly generates the same distribution as ForwardDiffusion.  Plot a histogram of ForwardDiffusionFast out to T=200 and check that you get the same probability distribution as ForwardDiffusion</p>
+<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">ForwardDiffusionFast(x_0,T,</span> <span class="pre">alpha_bar):</span></code>
+which quickly generates the same distribution as ForwardDiffusion.  Plot a histogram of ForwardDiffusionFast out to T=199 and check that you get the same probability distribution as ForwardDiffusion</p>
 </div>
 </section>
 <section id="undiffusing">
@@ -544,16 +547,16 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 <div class="math notranslate nohighlight">
 \[\tilde{\beta_t} = \frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_t} \beta_t\]</div>
 <p>Let’s go ahead and write some functions now to get this working:</p>
-<p>Write an <code class="docutils literal notranslate"><span class="pre">Undiffuse(xt)</span></code> function which takes <span class="math notranslate nohighlight">\(x_t\)</span> and (stochastically) returns <span class="math notranslate nohighlight">\(x_{t-1}\)</span>. In this function you are going to call <code class="docutils literal notranslate"><span class="pre">GuessZ(xt)</span></code> which you will also write.</p>
+<p>Write an <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">Undiffuse(x_t,t)</span></code> function which takes <span class="math notranslate nohighlight">\(x_t\)</span> and (stochastically) returns <span class="math notranslate nohighlight">\(x_{t-1}\)</span>. In this function you are going to call <code class="docutils literal notranslate"><span class="pre">GuessZ(xt,t)</span></code> which you will also write.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> function is generic.  We will also write a <code class="docutils literal notranslate"><span class="pre">SamplePInit()</span></code> function.  For our first example, we will make it always return 0.4.  In other words, our probability distribution is <span class="math notranslate nohighlight">\(p(0.4)=1\)</span> and <span class="math notranslate nohighlight">\(p(x\neq 0.4)=0\)</span>.</p>
-<p>Also go ahead and write <code class="docutils literal notranslate"><span class="pre">GuessZ</span></code>.   In this case, since you (secretly) know that <span class="math notranslate nohighlight">\(x_0\)</span> is always <span class="math notranslate nohighlight">\(0.4\)</span> you can probably do a really good job of having guessZ successfully guess the right random noise :)</p>
+<p>Whe you write <code class="docutils literal notranslate"><span class="pre">GuessZ</span></code>, since you (secretly) know that <span class="math notranslate nohighlight">\(x_0\)</span> is always <span class="math notranslate nohighlight">\(0.4\)</span> you can probably do a really good job of having guessZ successfully guess the right random noise :)</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Once these functions are written, let’s work on the undiffusion.</p>
 <ul class="simple">
 <li><p>Run your undiffusion 5 times starting all from a single diffused point.  Graph <span class="math notranslate nohighlight">\(x(t)\)</span> vs <span class="math notranslate nohighlight">\(t\)</span></p></li>
-<li><p>Run your undiffusion many times out to T=0.  Show that you get a delta function at 0.4</p></li>
-<li><p>Run your diffusion from T=0 to T=125 and your undiffusion from T=200 to T=125 and plot the histograms showing they are the same.</p></li>
+<li><p>Run your undiffusion many times out to T=0 and histogram it.  Show that you get a delta function at 0.4</p></li>
+<li><p>Run your fast forward diffusion from T=0 to T=125 and your undiffusion from T=200 to T=125 and plot the histograms showing they are the same.</p></li>
 </ul>
 </div>
 <p>We now want to make life a little harder.  We are going to have a new probability distribution.</p>
@@ -569,13 +572,13 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 \[\frac{0.8 z_a \exp(-z_a^2/2) + 0.2 z_b \exp(-z_b^2/2)}{0.8\exp(-z_a^2/2)+0.2\exp(-z_b^2/2)}\]</div>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
-<p>Do the undiffusion from this probabaility distribution.  Plot the same plots from the undiffusion from a single delta function.</p>
+<p>Do the undiffusion from this new probabability distribution.  Plot the same three plots  you did in the previous grading.</p>
 <p>In addition, notice that at each step in your diffusion you are making a guess for <span class="math notranslate nohighlight">\(z\)</span>.  This corresponds to a guess for <span class="math notranslate nohighlight">\(x_0\)</span>.  For ten runs, graph the guess as a function of <span class="math notranslate nohighlight">\(t\)</span>.</p>
 </div>
 </section>
 <section id="training">
 <h2>Training<a class="headerlink" href="#training" title="Permalink to this heading">#</a></h2>
-<p>So far we’ve managed to do undiffusion where we know what the right guess for the random number <span class="math notranslate nohighlight">\(z_g\)</span> is.  But in practice we don’t always know this.  Now, we’d like to work in a situation where we don’t know this.  Instead, we are going to train a neural network which learns the noise.</p>
+<p>So far we’ve managed to do undiffusion where we know what the right guess for the random number <span class="math notranslate nohighlight">\(z_g\)</span> is.  But in practice we don’t always know this.  Now, we’d like to work in a situation where we (pretend) we don’t know this.  Instead, we are going to train a neural network which learns the noise.</p>
 <p>To do this, we are going to use pytorch.  To generate a simple neural network using pytorch, we can have</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torchvision</span>
@@ -621,10 +624,20 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 <p class="admonition-title">Grading</p>
 <p>Train your network.  Plot the loss as a function of training step.  You may have to do a window averaging over approximately 100 steps to generate this plot.</p>
 </div>
-<p>Now in your undiffuse, you can make your <code class="docutils literal notranslate"><span class="pre">guess=net(torch.tensor([float(x_t),t]))</span></code> as opposed to calling model guess. Go ahead and make this replacement and then run your undiffusion generating both the standard 10 samples of undiffusion as well as the histogram as well as the best guess.</p>
+<p>Now in your undiffuse, you can make your <code class="docutils literal notranslate"><span class="pre">guess=net(torch.tensor([float(x_t),t]))</span></code> as opposed to calling guessZ. Go ahead and make this replacement and then run your undiffusion generating the plots you made before including the standard 10 samples of undiffusion as well as the histogram as well as the best guess at a given time step (for 10 samples).</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
 <p>Generate these plots.</p>
+</div>
+<p>You may find this code helpful to see what fraction of your states are to the left and right of zero</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">myHist</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">myData</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">mask</span><span class="o">=</span><span class="n">myHist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span>
+<span class="n">p_right</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">myHist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">mask</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">mask</span><span class="o">=</span><span class="n">myHist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span>
+<span class="n">p_left</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">myHist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">mask</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_right</span><span class="o">/</span><span class="p">(</span><span class="n">p_right</span><span class="o">+</span><span class="n">p_left</span><span class="p">))</span>
+</pre></div>
 </div>
 </section>
 <section id="prompts">
