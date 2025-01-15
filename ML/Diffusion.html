@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Generative Diffusion Models &#8212; Computing in Physics (Phy446)</title>
   
@@ -15,53 +14,52 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Diffusion';</script>
@@ -71,6 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Restricted Boltzmann Machines" href="RBM.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -78,32 +77,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -111,7 +94,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -119,16 +101,25 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -143,6 +134,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../Overview.html">
   
@@ -154,7 +147,14 @@ const thebe_selector_output = ".output, .cell_output"
     <p class="title logo__title">Computing in Physics (Phy446)</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
 <ul class="nav bd-sidenav">
@@ -177,32 +177,32 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
 
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
@@ -211,10 +211,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
@@ -238,14 +238,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -254,14 +259,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -289,27 +294,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -349,21 +346,21 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="generative-diffusion-models">
-<h1>Generative Diffusion Models<a class="headerlink" href="#generative-diffusion-models" title="Permalink to this heading">#</a></h1>
+<h1>Generative Diffusion Models<a class="headerlink" href="#generative-diffusion-models" title="Link to this heading">#</a></h1>
 <p>Our goal in this assignment is to understand generative models like stable diffusion.  In stable diffusion, you type a string and it generates a picture of that string.  For this assignment, we are going to get to 70% of that understanding.</p>
 <section id="diffusion">
-<h2>Diffusion<a class="headerlink" href="#diffusion" title="Permalink to this heading">#</a></h2>
+<h2>Diffusion<a class="headerlink" href="#diffusion" title="Link to this heading">#</a></h2>
 <p>We are going to start by thinking about diffusion. Consider a pollen particle which is being buffeted by air.  If we weren’t paying attention to the air, but instead just the pollen particle, what we would expect to see is that the pollen particle would ocassionally jump in random directions as the air is hitting it.  We might model this by saying that at time <span class="math notranslate nohighlight">\(t\)</span> the particle is at <span class="math notranslate nohighlight">\(x_t = x_{t-1} +\sqrt{\delta} z\)</span> where <span class="math notranslate nohighlight">\(z \sim N(0,1)\)</span> is a random guassian number with unit standard deviation.   Now if the pollen was also in some sort of potential <span class="math notranslate nohighlight">\(E(x)\)</span> (say a gravitational field or a harmonic oscillator) we would expect it to also drift with the force induced by this potential.  This motivates the Langevin equation</p>
 <div class="math notranslate nohighlight">
 \[x_t = x_{t-1} + \frac{\delta}{2} F(x_{t-1})+ \sqrt{\delta} z \]</div>
@@ -376,9 +373,9 @@ document.write(`
 <li><p>Demonstrate that the Langevin equation has the right dynamics</p></li>
 </ul>
 <section id="approach-1">
-<h3>Approach 1<a class="headerlink" href="#approach-1" title="Permalink to this heading">#</a></h3>
+<h3>Approach 1<a class="headerlink" href="#approach-1" title="Link to this heading">#</a></h3>
 <p>We will start with the first approach.  Write a function</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ForwardDiffusion</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ForwardDiffusion</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
   <span class="c1"># do stuff</span>
   <span class="k">return</span> <span class="n">locations</span>
 </pre></div>
@@ -392,7 +389,7 @@ document.write(`
 </div>
 </section>
 <section id="approach-2">
-<h3>Approach 2<a class="headerlink" href="#approach-2" title="Permalink to this heading">#</a></h3>
+<h3>Approach 2<a class="headerlink" href="#approach-2" title="Link to this heading">#</a></h3>
 <p>We can alternatively start with a Markov chain that we know the stationary distribution to - i.e. the Metropolis Markov chain.</p>
 <p>In this section we are trying to reason about why the forward diffusion equation generated a probability distribution <span class="math notranslate nohighlight">\(P(x) \propto \exp[-E(x)]\)</span>.  The algorithm that we described is clearly a Markov chain - i.e. the probabilistic locations of the next step only depend on the current locations.  Therefore there needs to be some stationary distribution.  Our goal is just to figure out which one.  Unfortunately, we don’t know how to easily reason about the stationary distributions.  Let’s see if instead we can start with a Markov chain that we do understand and which generates the right distribution and massage it into the equation above.</p>
 <p>One Markov chain we do understand is the Metropolis method.  In the Metropolis method, we know that we should choose a move from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(x'\)</span> with probability <span class="math notranslate nohighlight">\(T(x \rightarrow x')\)</span> and then we should accept that move with probability</p>
@@ -424,7 +421,7 @@ document.write(`
 </div>
 </section>
 <section id="approach-3">
-<h3>Approach 3<a class="headerlink" href="#approach-3" title="Permalink to this heading">#</a></h3>
+<h3>Approach 3<a class="headerlink" href="#approach-3" title="Link to this heading">#</a></h3>
 <p>The two previous approaches were essentially showing that the Langevin equation gives us the stationary distribution we want numerically.  We can also show this analytically.</p>
 <p>Starting from a generalized version of the Langevin eqution, <span class="math notranslate nohighlight">\(x(t + \Delta t) = x(t) + l(t) + F\gamma\Delta t\)</span>, where <span class="math notranslate nohighlight">\(l(t)\)</span> is essentially any reasonable symmetric random perturbation.</p>
 <p>You can show that this satisfies the diffusion equation,</p>
@@ -442,7 +439,7 @@ document.write(`
 </section>
 </section>
 <section id="the-next-step-faster-diffusing">
-<h2>The Next Step: Faster Diffusing<a class="headerlink" href="#the-next-step-faster-diffusing" title="Permalink to this heading">#</a></h2>
+<h2>The Next Step: Faster Diffusing<a class="headerlink" href="#the-next-step-faster-diffusing" title="Link to this heading">#</a></h2>
 <p>So far, we’ve learned that the Langevin dynamics (in the limit of small-ish <span class="math notranslate nohighlight">\(\delta\)</span>) are a Markov chain which ends up in the probability distribution proportional to <span class="math notranslate nohighlight">\(p(x) \propto \exp[-E(x)]\)</span>.</p>
 <p>We are now going to focus explicitly on the energy functional for a harmonic oscillator <span class="math notranslate nohighlight">\(E(x) = x^2/2\)</span>.</p>
 <p>In addition, we are going to generalize our diffusion to allow different step sizes at each step (as well as do a somewhat unfortunate change of variables - this will ensure that we are consistent with both the Langevin literature (from above) and the diffusion literature (now below)).</p>
@@ -489,7 +486,7 @@ which quickly generates the same distribution as ForwardDiffusion.  Plot a histo
 </div>
 </section>
 <section id="undiffusing">
-<h2>Undiffusing<a class="headerlink" href="#undiffusing" title="Permalink to this heading">#</a></h2>
+<h2>Undiffusing<a class="headerlink" href="#undiffusing" title="Link to this heading">#</a></h2>
 <p>Our next step is to figure out how to undiffuse.</p>
 <p>In our forward diffusion process we have samples <span class="math notranslate nohighlight">\(x_0\)</span> from an initial distriution <span class="math notranslate nohighlight">\(p_{init}(x_0)\)</span> which we forward diffuse</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">SamplePInit</span><span class="p">()</span>
@@ -577,12 +574,12 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 </div>
 </section>
 <section id="training">
-<h2>Training<a class="headerlink" href="#training" title="Permalink to this heading">#</a></h2>
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h2>
 <p>So far we’ve managed to do undiffusion where we know what the right guess for the random number <span class="math notranslate nohighlight">\(z_g\)</span> is.  But in practice we don’t always know this.  Now, we’d like to work in a situation where we (pretend) we don’t know this.  Instead, we are going to train a neural network which learns the noise.</p>
 <p>To do this, we are going to use pytorch.  To generate a simple neural network using pytorch, we can have</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torchvision</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
 
 <span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_out</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">1</span>
 <span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">),</span>
@@ -641,7 +638,7 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 </div>
 </section>
 <section id="prompts">
-<h2>Prompts<a class="headerlink" href="#prompts" title="Permalink to this heading">#</a></h2>
+<h2>Prompts<a class="headerlink" href="#prompts" title="Link to this heading">#</a></h2>
 <p>Finally in programs such as stable diffusion, you give the program a prompt and ask it to produce that image - i.e. astronaut on a horse.  In our simple example here, we are going to also give our simulation a prompt:  we will work with a simple version of this telling it either “left” or “right” to ask it to either find the point below zero or above zero.</p>
 <p>To accomplish this, during the training we need to give our network not only the diffused location <span class="math notranslate nohighlight">\(x_t\)</span> and the time <span class="math notranslate nohighlight">\(t\)</span> but also the prompt-information.  It needs to give it this information both during training and undiffusing.  That way, during training it will learn to be biased toward the right location conditioned on the prompt.  We will embed as “left” equals -1 and “right” equals 1 - i.e. <code class="docutils literal notranslate"><span class="pre">embedPrompt</span> <span class="pre">=</span> <span class="pre">-1</span> <span class="pre">if</span> <span class="pre">prompt==&quot;left&quot;</span> <span class="pre">else</span> <span class="pre">1</span></code></p>
 <p>Modify your network to take an extra input:</p>
@@ -668,7 +665,7 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
 </ul>
 <p>One set should be when the prompt is “left” and one set should be when the prompt is “right.”</p>
 </div>
-<p>Please continue onto <a class="reference internal" href="Diffusion2.html"><span class="doc std std-doc">3.2 Diffusion Models - page 2</span></a></p>
+<p>Please continue onto <a class="reference internal" href="Diffusion2.html"><span class="std std-doc">3.2 Diffusion Models - page 2</span></a></p>
 </section>
 </section>
 
@@ -699,7 +696,7 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -727,7 +724,9 @@ where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess f
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -793,8 +792,8 @@ By Bryan Clark
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

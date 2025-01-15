@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Training your RBM on MNIST &#8212; Computing in Physics (Phy446)</title>
   
@@ -15,53 +14,52 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ML/RBM_MNIST';</script>
@@ -69,6 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -76,32 +75,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -109,7 +92,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -117,16 +99,27 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,6 +134,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../Overview.html">
   
@@ -152,7 +147,14 @@ const thebe_selector_output = ".output, .cell_output"
     <p class="title logo__title">Computing in Physics (Phy446)</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
 <ul class="nav bd-sidenav">
@@ -175,32 +177,32 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
 
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
@@ -209,10 +211,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
@@ -236,14 +238,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -252,14 +259,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -287,27 +294,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -346,18 +345,18 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="training-your-rbm-on-mnist">
-<h1>Training your RBM on MNIST<a class="headerlink" href="#training-your-rbm-on-mnist" title="Permalink to this heading">#</a></h1>
+<h1>Training your RBM on MNIST<a class="headerlink" href="#training-your-rbm-on-mnist" title="Link to this heading">#</a></h1>
 <p>In this section we will use our RBM code to tackle a more realistic and difficult engineering task: learning hand-written digits. This is a very standard test in the machine learning community. A good reference for RBM training can be found <a class="reference external" href="https://www.cs.toronto.edu/~hinton/absps/guideTR.pdf">here</a>.</p>
 <p>After training, your RBM will have learned some general features of hand-written digits and be able to generate its own convincing drawings of numbers. In addition to being used as a generative model, a trained RBM can also be useful for anomaly detection, for example, checking if a particular image is likely to be from the data distribution or from another distribution. In our case, that means that <span class="math notranslate nohighlight">\(p(v_{digit}) \gg p(v_{letter})\)</span> for our RBM if <span class="math notranslate nohighlight">\(v_{digit}\)</span> is an image of a hand-written digit and <span class="math notranslate nohighlight">\(v_{letter}\)</span> is an image of a hand-written letter. RBMs can also be used as “feature-detectors” that supplement supervised learning methods in machine learning.</p>
 <section id="mnist-dataset">
-<h2>MNIST Dataset<a class="headerlink" href="#mnist-dataset" title="Permalink to this heading">#</a></h2>
+<h2>MNIST Dataset<a class="headerlink" href="#mnist-dataset" title="Link to this heading">#</a></h2>
 <p>The training data set that we will use to train our RBM is the MNIST database. The MNIST hand-written digit <a class="reference external" href="http://yann.lecun.com/exdb/mnist/">database</a> is a dataset of images and labels. Each image is a picture of a hand-written number between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(9\)</span>. The label indicates which of these numbers the image corresponds to. Since we are doing <em>unsupervised learning</em>, we will ignore the labels and only use the images of the digits themselves as our training data set for the RBM.</p>
 <p>The easiest way to get the data is to do the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.utils.data</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils.data</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
 <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span>
@@ -395,7 +394,7 @@ document.write(`
 <p><strong>Your RBM for this part of the assignment needs to be using 1 and 0 as its spin values not 1 and -1. I have spent many hours tracking down the bug in my assignment where I was using 1 and -1</strong></p>
 </section>
 <section id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h2>
+<h2>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>eta=0.1</p></li>
 <li><p>M=64</p></li>
@@ -407,10 +406,10 @@ document.write(`
 </section>
 <hr class="docutils" />
 <section id="analyze-your-results">
-<h2>Analyze your results<a class="headerlink" href="#analyze-your-results" title="Permalink to this heading">#</a></h2>
+<h2>Analyze your results<a class="headerlink" href="#analyze-your-results" title="Link to this heading">#</a></h2>
 <p>We will now analyze our results.</p>
 <section id="reconstruction">
-<h3>Reconstruction<a class="headerlink" href="#reconstruction" title="Permalink to this heading">#</a></h3>
+<h3>Reconstruction<a class="headerlink" href="#reconstruction" title="Link to this heading">#</a></h3>
 <p>The simplest test to see what your RBM is do a reconstruction of the data.  In other words, once you have a paramaterized RBM go ahead and set the visible spins to be some data - i.e.  <code class="docutils literal notranslate"><span class="pre">visible=np.copy(myData[0:64,:])</span></code>.  Then use the function <code class="docutils literal notranslate"><span class="pre">PlotMe(visible)</span></code> above to plot these spins.  They will definitely look good because you’re just looking at the data.  Now, go ahead and do a single <code class="docutils literal notranslate"><span class="pre">SampleHidden</span></code> and <code class="docutils literal notranslate"><span class="pre">SampleVisible</span></code>.  This will change the visible spins completely based on the hidden spins (that were generated from the visible spins). Because the Markov chain hasn’t had a long time to walk away, you should see roughly the same letters but with some non-trivial noise.</p>
 <p>We can remove some of this noise by returning the probability of the visible spins (given the hidden spins) instead of just one sample.  This is actually equivalent to sampling the visible spins many different times over the same hidden spins and then averaging them.  Write a function <code class="docutils literal notranslate"><span class="pre">SampleVisibleProb</span></code> which returns not a sample of the visible spins but their probability distribution.  Make a grid of this data using <code class="docutils literal notranslate"><span class="pre">PlotMe(visible)</span></code> as well.  It should look much better.</p>
 <div class="caution admonition">
@@ -424,7 +423,7 @@ document.write(`
 </div>
 </section>
 <section id="resampling">
-<h3>Resampling<a class="headerlink" href="#resampling" title="Permalink to this heading">#</a></h3>
+<h3>Resampling<a class="headerlink" href="#resampling" title="Link to this heading">#</a></h3>
 <p>In practice, the RBM should not only be able to reconstruct the letters after one Gibbs sample but also a sample from the entire Markov chain should give you the same distribution of letters that you started with.   This requires a lot more training (and possible larger number of hidden spins).    You can test this by sampling back and forth a lot (~10000) of times.  An intermediate is to go back and forth about 100 times which lets you leave the current numbers further behind but still give you a sample of new numbers.  You again might want to average over all the hidden spins.  (<em>When I do this I get numbers but don’t get the distribution I started out with.  You should just report that you got some numbers but if you manage to pull off an optimization that gets the right distribution let me know how you did it</em>)</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -432,7 +431,7 @@ document.write(`
 </div>
 </section>
 <section id="weights">
-<h3>Weights<a class="headerlink" href="#weights" title="Permalink to this heading">#</a></h3>
+<h3>Weights<a class="headerlink" href="#weights" title="Link to this heading">#</a></h3>
 <p>Visualize the weights and biases. Since the visible spins <span class="math notranslate nohighlight">\(v_i\)</span> form a 2D image, they can be relabeled as if they were on a 2D square grid <span class="math notranslate nohighlight">\(v_i \rightarrow v_{(x,y)}\)</span>, where <span class="math notranslate nohighlight">\((x,y)\)</span> is a coordinate in the grid. Therefore, for a given hidden spin <span class="math notranslate nohighlight">\(h_j\)</span>, the weights connecting to the visible spins <span class="math notranslate nohighlight">\(W_{ij}\)</span> can be reshaped into a matrix <span class="math notranslate nohighlight">\(W_{ij} \rightarrow W^{j}_{(x,y)}\)</span>. These matrices can be visualized, say with <code class="docutils literal notranslate"><span class="pre">matplotlib.pyplot.matshow</span></code> in python. Visually, these weight matrices represent the correlations the hidden spins have with the visible spins. In a trained RBM, the weight matrices should look like “features” that contain elements of handwritten digits, such as straight and curved strokes. If your weights all look noisy or identical for all <span class="math notranslate nohighlight">\(j\)</span>, then probably the training is not working correctly.   My weights looked much better when I plotted them in grayscale <code class="docutils literal notranslate"><span class="pre">plt.imshow(M,cmap=plt.cm.binary)</span></code></p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -440,7 +439,7 @@ document.write(`
 </div>
 </section>
 <section id="discrimination">
-<h3>Discrimination<a class="headerlink" href="#discrimination" title="Permalink to this heading">#</a></h3>
+<h3>Discrimination<a class="headerlink" href="#discrimination" title="Link to this heading">#</a></h3>
 <p>One thing an RBM is good at is distinguishing between the thing it was trained on (a written digit) versus something else (say random noise). You can ask your RBM for the relative probability of these things by computing the free energy of two different images and see what is more likely.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -478,7 +477,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -488,7 +487,9 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -553,8 +554,8 @@ By Bryan Clark
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

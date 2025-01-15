@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Hopfield Networks &#8212; Computing in Physics (Phy446)</title>
   
@@ -15,53 +14,52 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Hopfield';</script>
@@ -71,6 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Overview" href="Overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -78,32 +77,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -111,7 +94,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -119,16 +101,25 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -143,6 +134,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="../Overview.html">
   
@@ -154,7 +147,14 @@ const thebe_selector_output = ".output, .cell_output"
     <p class="title logo__title">Computing in Physics (Phy446)</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
 <ul class="nav bd-sidenav">
@@ -177,32 +177,32 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
 
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
@@ -211,10 +211,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
@@ -238,14 +238,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -254,14 +259,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -289,27 +294,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -346,10 +343,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="hopfield-networks">
-<h1>Hopfield Networks<a class="headerlink" href="#hopfield-networks" title="Permalink to this heading">#</a></h1>
+<h1>Hopfield Networks<a class="headerlink" href="#hopfield-networks" title="Link to this heading">#</a></h1>
 <p>The first aspect of the brain that we will try to understand is memory. How does memory work? Roughly speaking, neurons somehow store sensational signals entering the brain as memories, then “remember” those memories by retrieving them when similar signals appear in the future.</p>
 <p>The Hopfield network, invented by the physicist John Hopfield, is a model of how neurons store and process memories. We will learn how to implement this model, teach it to memorize images, and recover images from its memory.</p>
 <p>The Hopfield network is a particular artificial neural network. In general, a neural network is a graph with neurons at the vertices of the graph and edges connecting the neurons to one another. The edges of this graph can be directed or undirected. The Hopfield network in particular has undirected edges. The Hopfield network has a set of variables that define the model. Each neuron <span class="math notranslate nohighlight">\(i\)</span> has a <em>state</em> <span class="math notranslate nohighlight">\(s_i\)</span> that represents the level of activation of the neuron. Additionally, each neuron has a bias (or threshold) <span class="math notranslate nohighlight">\(b_i\)</span> to activate and each edge has a weight <span class="math notranslate nohighlight">\(W_{ij}\)</span> associated with it that indicates how likely neurons <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are to activate together.</p>
@@ -363,7 +360,7 @@ document.write(`
 <p><img alt="" src="../_images/diagram.jpg" /></p>
 <hr class="docutils" />
 <section id="hopfield-networks-as-an-ising-model">
-<h2>Hopfield networks as an Ising Model<a class="headerlink" href="#hopfield-networks-as-an-ising-model" title="Permalink to this heading">#</a></h2>
+<h2>Hopfield networks as an Ising Model<a class="headerlink" href="#hopfield-networks-as-an-ising-model" title="Link to this heading">#</a></h2>
 <p>The Hopfield network is really just an Ising model at zero temperature with a site-dependent magnetic field and long-ranged interactions. The analogous concepts are:</p>
 <p>Hopfield Network <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> Ising Model</p>
 <ul class="simple">
@@ -391,7 +388,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 </section>
 <hr class="docutils" />
 <section id="building-a-hopfield-network">
-<h2>Building a Hopfield Network<a class="headerlink" href="#building-a-hopfield-network" title="Permalink to this heading">#</a></h2>
+<h2>Building a Hopfield Network<a class="headerlink" href="#building-a-hopfield-network" title="Link to this heading">#</a></h2>
 <p>The first step of this assignment is to write code to build a Hopfield Network. You will need to store the states <span class="math notranslate nohighlight">\(s_i\)</span> and biases <span class="math notranslate nohighlight">\(b_i\)</span> of the <span class="math notranslate nohighlight">\(n\)</span> neurons in two vectors and the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> in an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. You will need a function that updates the state (chooses a random neuron and updates it according to the above update rule). You will also need a procedure to determine if the network has converged. One way to go about this is to loop through all the neurons and check if any of them want to change (but don’t change them!). A function that computes the energy, as well as functions that set and return the state, are useful as well.</p>
 <p>To set up the bias, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(b_i\)</span>.</p>
 <p>To set up the weights, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Remember that the hopfield network is symmetric so make sure that <span class="math notranslate nohighlight">\(W_{ij}=W_{ji}\)</span> and make sure that <span class="math notranslate nohighlight">\(W_{ii}=0\)</span>.</p>
@@ -399,7 +396,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 </section>
 <hr class="docutils" />
 <section id="seeing-that-the-energy-goes-down-during-a-run">
-<h2>Seeing that the “energy” goes down during a run<a class="headerlink" href="#seeing-that-the-energy-goes-down-during-a-run" title="Permalink to this heading">#</a></h2>
+<h2>Seeing that the “energy” goes down during a run<a class="headerlink" href="#seeing-that-the-energy-goes-down-during-a-run" title="Link to this heading">#</a></h2>
 <p>As the next step, we’d like to explicitly verify the statement that the energy never increases during a Hopfield network’s dynamics. Run your network through the update rule for a series of random initial states. Measure the energy of the initial states and their subsequent updates. Produce a graph, with lines for each run, plotting the energy versus update step. Show that the plots are monotonically non-increasing. This demonstrates that Hopfield networks converge to some “memory” for different initial conditions.</p>
 <div class="caution admonition">
 <p class="admonition-title">Grading</p>
@@ -410,7 +407,7 @@ E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
 </section>
 <hr class="docutils" />
 <section id="training-some-inputs">
-<h2>Training some inputs<a class="headerlink" href="#training-some-inputs" title="Permalink to this heading">#</a></h2>
+<h2>Training some inputs<a class="headerlink" href="#training-some-inputs" title="Link to this heading">#</a></h2>
 <p>Now that you have a Hopfield network running, the next step is to learn how to train it to memorize some data. Hopfield networks can remember arbitrary bit-strings. In our case, these bit-strings will represent binary images, where <span class="math notranslate nohighlight">\(\pm 1\)</span> represent different color pixels in the image.</p>
 <p>To memorize a set of <span class="math notranslate nohighlight">\(m\)</span> memories, we need to set our weights to</p>
 <div class="math notranslate nohighlight">
@@ -437,7 +434,7 @@ W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 </section>
 <hr class="docutils" />
 <section id="how-many-memories-can-you-remember">
-<h2>How many memories can you remember?<a class="headerlink" href="#how-many-memories-can-you-remember" title="Permalink to this heading">#</a></h2>
+<h2>How many memories can you remember?<a class="headerlink" href="#how-many-memories-can-you-remember" title="Link to this heading">#</a></h2>
 <p>In this section, we will determine how many memories a Hopfield network can remember. To do this, write code that generates <span class="math notranslate nohighlight">\(p\)</span> memories and encodes their weights into a network. Then pick one of those target memories and corrupt it with <span class="math notranslate nohighlight">\(k\)</span> random bit flips. (When corrupting the bits of this memory, pick <span class="math notranslate nohighlight">\(k\)</span> distinct random neurons and flip their states. You can do this with <code class="docutils literal notranslate"><span class="pre">numpy.random.shuffle()</span></code>. Do not try to randomly pick neurons one at a time since you might “corrupt” a neuron multiple times this way.) Do this enough times for each <span class="math notranslate nohighlight">\((p,k)\)</span> to compute a reasonable average and produce a matrix of the <a class="reference external" href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> between the target and the converged result. This will be a <span class="math notranslate nohighlight">\(p \times k\)</span> matrix which can be displayed in python using <code class="docutils literal notranslate"><span class="pre">pylab.matshow</span></code>.</p>
 <p>Use 100 neurons. You probably want to use the version of your code which stores weights as a matrix.</p>
 <p>You should be able to cleanly see how many memories the network can remember and how robust it is at remembering a memory given a partial version of that memory.</p>
@@ -450,7 +447,7 @@ W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
 </section>
 <hr class="docutils" />
 <section id="looking-at-the-energy-landscape">
-<h2>Looking at the energy landscape<a class="headerlink" href="#looking-at-the-energy-landscape" title="Permalink to this heading">#</a></h2>
+<h2>Looking at the energy landscape<a class="headerlink" href="#looking-at-the-energy-landscape" title="Link to this heading">#</a></h2>
 <blockquote>
 <div><p>To accomplish this part of the assignment you need to download <a class="reference external" href="https://www.graphviz.org/">Graphviz</a> or use the online version of graphviz (which is probably easier).</p>
 </div></blockquote>
@@ -474,7 +471,7 @@ The description looks like</p>
 </section>
 <hr class="docutils" />
 <section id="video">
-<h2>Video<a class="headerlink" href="#video" title="Permalink to this heading">#</a></h2>
+<h2>Video<a class="headerlink" href="#video" title="Link to this heading">#</a></h2>
 <iframe id="kmsembed-1_ltjyxil9" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_ltjyxil9/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Physics 446 Hopfield Network"></iframe></section>
 </section>
 
@@ -505,7 +502,7 @@ The description looks like</p>
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -533,7 +530,9 @@ The description looks like</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -596,8 +595,8 @@ By Bryan Clark
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

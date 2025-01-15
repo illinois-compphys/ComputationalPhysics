@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Getting Setup &#8212; Computing in Physics (Phy446)</title>
   
@@ -15,53 +14,52 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'GettingStarted';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -69,6 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Computing in Physics" href="Overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -76,32 +75,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -109,7 +92,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -117,16 +99,25 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -141,6 +132,8 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="sidebar-primary-item">
 
   
+    
+  
 
 <a class="navbar-brand logo" href="Overview.html">
   
@@ -152,7 +145,14 @@ const thebe_selector_output = ".output, .cell_output"
     <p class="title logo__title">Computing in Physics (Phy446)</p>
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
 <ul class="current nav bd-sidenav">
@@ -175,32 +175,32 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="QC/Overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="QC/0-DiracNotation.html">Dirac Notation</a></li>
 
-<li class="toctree-l1 has-children"><a class="reference internal" href="QC/1a-QuantumComputingSimulator.html">QC Simulators</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="QC/SimulatorS.html">Simulator S</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/Measuring.html">Measuring and Input</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="QC/NonAtomicGates.html">Non-atomic gates</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="QC/PhaseEstimation.html">Phase estimation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="QC/QFT.html">Quantum Fourier Transform</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Shor-Overview.html">Shor’s Algorithm</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/Shor-Quantum.html">Quantum Matrix</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/ModularMultiplication.html">Modular Multiplication</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Gates.html">Gates</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="QC/ClassicalGates.html">Classical Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/ControlledGates.html">Controlled Gates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QC/Universal.html">Gates for any Unitary</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
@@ -209,10 +209,10 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Ising/IsingModel.html">Simulating an Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Ising/Measure.html">Measuring the Ising Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Ising/RG.html">The Renormalization Group</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Ising/ProteinFolding.html">Protein Folding</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
@@ -236,14 +236,19 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -252,14 +257,14 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -287,27 +292,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -370,13 +367,13 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="getting-setup">
-<h1>Getting Setup<a class="headerlink" href="#getting-setup" title="Permalink to this heading">#</a></h1>
+<h1>Getting Setup<a class="headerlink" href="#getting-setup" title="Link to this heading">#</a></h1>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="getting-started-with-python-and-c">
-<h1>Getting started with python and C++<a class="headerlink" href="#getting-started-with-python-and-c" title="Permalink to this heading">#</a></h1>
+<h1>Getting started with python and C++<a class="headerlink" href="#getting-started-with-python-and-c" title="Link to this heading">#</a></h1>
 <p>In this course, you’re going to be doing a series of four major computational projects (and one warmup).
 These computational projects can be done in various languages.   Historically the languages we have required
 have been</p>
@@ -437,7 +434,7 @@ In this course you will be writing your own code to solve many interesting physi
 </section>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h1>
 <p>For this course, you will (at minimum) need to be prepared to run python.   This can either be done by installing it
 on your machine or using it somewhere in the cloud.</p>
 <p>There are really two approaches to using python.  One of them is through a jupyter notebook.  The other is to use an editor
@@ -446,27 +443,27 @@ run your code in the cloud and want to use jupyter notebooks, you can use google
 run it through the cloud, one option is <a class="reference external" href="http://repl.it">repl.it</a> (which has a free tier).  The environment there is nice but I’m not
 sure it’s going to be fast enough to run the simulations we need to run.</p>
 <section id="python-on-your-machine-through-anaconda">
-<h2>Python (on your machine through Anaconda)<a class="headerlink" href="#python-on-your-machine-through-anaconda" title="Permalink to this heading">#</a></h2>
+<h2>Python (on your machine through Anaconda)<a class="headerlink" href="#python-on-your-machine-through-anaconda" title="Link to this heading">#</a></h2>
 <p>A convenient package of python libraries, which includes important modules like numpy, scipy, and matplotlib, is Anaconda. We recommend you install Anaconda on your machine, so that you have all these necessary packages. Make sure that you get the right version for your machine. Check if your machine is 32-bit or 64-bit and use the corresponding installer. <strong>Please use python 3.xx</strong> <!-- Also, make sure the version of Anaconda you get has python 2.7, which is the most commonly used version and should be the default. The newest version of python is python 3.6, but we do not recommend you use it.--> Python has two version (2.7 and 3.6).  For what we are doing it probably doesn’t matter much which version you use but, all other things being equal, you should probably use the newer version (3.6) as this will be most useful to learn.</p>
 <section id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">#</a></h3>
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading">#</a></h3>
 <p>To install Anaconda for Linux, follow the instructions listed <a class="reference external" href="https://docs.continuum.io/anaconda/install/linux">here</a>.</p>
 </section>
 <section id="mac">
-<h3>Mac<a class="headerlink" href="#mac" title="Permalink to this heading">#</a></h3>
+<h3>Mac<a class="headerlink" href="#mac" title="Link to this heading">#</a></h3>
 <p>To install Anaconda for Mac, follow the instructions listed <a class="reference external" href="https://docs.continuum.io/anaconda/install/mac-os">here</a>.</p>
 </section>
 <section id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">#</a></h3>
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h3>
 <p>To install Anaconda for Windows, follow the instructions listed <a class="reference external" href="https://docs.continuum.io/anaconda/install/windows">here</a>.</p>
 <!-- You should probably read the C++ section of these notes before installing python to your local machine. You might prefer to simply ssh into an engineering workstation, which already has python installed, rather than installing python.-->
 </section>
 </section>
 <section id="c">
-<h2>C++<a class="headerlink" href="#c" title="Permalink to this heading">#</a></h2>
+<h2>C++<a class="headerlink" href="#c" title="Link to this heading">#</a></h2>
 <p>To turn your C++ code into an executable program, you need a C++ compiler.</p>
 <section id="id1">
-<h3>Linux<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<h3>Linux<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <p>All Linux distributions should have the standard C++ compiler, the GNU C++ compiler called <code class="docutils literal notranslate"><span class="pre">gcc</span></code> or <code class="docutils literal notranslate"><span class="pre">g++</span></code>, already installed. So no extra work for you! To check if it really is installed, type into your terminal</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">++</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
@@ -474,7 +471,7 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 <p>which should show you if you have c++ and what version it is. You probably want to be around version 6.0</p>
 </section>
 <section id="id2">
-<h3>Mac<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<h3>Mac<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>You essentially have two options.  One option is to use the compiler already on your machine.  Again type</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">++</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
@@ -482,7 +479,7 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 <p>and make sure it’s there.   Another option is to install macports (where you can install more recent compilers, etc.)  See <a class="reference external" href="https://www.macports.org/">here</a> if you want to do that (this is typically what I do on my macs). (The command to run once you have macports installed is <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">port</span> <span class="pre">install</span> <span class="pre">gcc8</span></code>.</p>
 </section>
 <section id="id3">
-<h3>Windows<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<h3>Windows<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <p>There are various options. One possibility (if you have the right version of windows) is to install ubuntu on windows <a class="reference external" href="https://msdn.microsoft.com/en-us/commandline/wsl/about">(see here)</a> and then use</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="p">[</span><span class="n">compiler</span> <span class="n">name</span><span class="p">]</span>
 </pre></div>
@@ -490,7 +487,7 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 <p>to install the compilers and git, etc. Another possibility is to use the free version of <a class="reference external" href="https://www.visualstudio.com/downloads/">visual studio</a>.</p>
 </section>
 <section id="ssh-into-the-engineering-workstations">
-<h3>SSH into the engineering workstations.<a class="headerlink" href="#ssh-into-the-engineering-workstations" title="Permalink to this heading">#</a></h3>
+<h3>SSH into the engineering workstations.<a class="headerlink" href="#ssh-into-the-engineering-workstations" title="Link to this heading">#</a></h3>
 <p>If you don’t want to (or have trouble) installing things locally, one option is to “SSH” (secure shell) into the University-provided Linux engineering workstations. These are Linux machines that come with <code class="docutils literal notranslate"><span class="pre">gcc</span></code>, as well as <code class="docutils literal notranslate"><span class="pre">python</span></code>, already installed. To access these resources, you need to be able to ssh into <code class="docutils literal notranslate"><span class="pre">netid&#64;linux.ews.illinois.edu</span></code>, where you replace <code class="docutils literal notranslate"><span class="pre">netid</span></code> with your specific University net ID.</p>
 <p>One approach is to connect through your web browser using fastx (see <a class="reference external" href="https://it.engineering.illinois.edu/user-guides/connecting-ews-linux-fastx">here</a>)</p>
 <p>Another standard SSH program (for Windows) is PuTTY. You can download it <a class="reference external" href="http://www.putty.org/">here</a>. It is pretty straightforward to use, but just in case some installation and usage instructions can be found <a class="reference external" href="https://www.ssh.com/ssh/putty/windows/install">here</a>. When you login to <code class="docutils literal notranslate"><span class="pre">netid&#64;linux.ews.illinois.edu</span></code>, you will be prompted to accept an SSH key and then you will need to enter a password. That password is your current password associated with your Illinois net ID.</p>
@@ -499,7 +496,7 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 </section>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="editors">
-<h1>Editors<a class="headerlink" href="#editors" title="Permalink to this heading">#</a></h1>
+<h1>Editors<a class="headerlink" href="#editors" title="Link to this heading">#</a></h1>
 <p>There are various editors that you can use.  These include (but are not limited to)</p>
 <ul class="simple">
 <li><p>Visual Studio Code (free and <a class="reference external" href="https://code.visualstudio.com/">here</a> )  (recommended)</p></li>
@@ -511,9 +508,9 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 </section>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="running-your-code">
-<h1>Running your code<a class="headerlink" href="#running-your-code" title="Permalink to this heading">#</a></h1>
+<h1>Running your code<a class="headerlink" href="#running-your-code" title="Link to this heading">#</a></h1>
 <section id="python">
-<h2>Python<a class="headerlink" href="#python" title="Permalink to this heading">#</a></h2>
+<h2>Python<a class="headerlink" href="#python" title="Link to this heading">#</a></h2>
 <p>Working in python often consists of writing simple “scripts”, such as <code class="docutils literal notranslate"><span class="pre">script.py</span></code>. To execute this script, you simply type in</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">script</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
@@ -521,7 +518,7 @@ sure it’s going to be fast enough to run the simulations we need to run.</p>
 <p>and python does its magic.</p>
 </section>
 <section id="id4">
-<h2>C++<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<h2>C++<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>Working in C++ is typically more involved and requires writing a collection of “header” (“.h”) and “source” (“.cpp” or “.cc”) files. Say you wrote the files <code class="docutils literal notranslate"><span class="pre">main.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">helper.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">importantheader.h</span></code>, <code class="docutils literal notranslate"><span class="pre">otherheader.h</span></code> as part of your assignment. The source files reference the header files by the <code class="docutils literal notranslate"><span class="pre">#include</span></code> syntax. To compile your code, type</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">++</span> <span class="o">-</span><span class="n">O3</span> <span class="o">-</span><span class="n">std</span><span class="o">=</span><span class="n">c</span><span class="o">++</span><span class="mi">11</span> <span class="n">main</span><span class="o">.</span><span class="n">cpp</span> <span class="n">helper</span><span class="o">.</span><span class="n">cpp</span> <span class="o">-</span><span class="n">o</span> <span class="n">myExecutable</span>
 </pre></div>
@@ -540,8 +537,8 @@ g++ main.o helper.o -o myExecutable
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="example-code">
-<h1>Example code<a class="headerlink" href="#example-code" title="Permalink to this heading">#</a></h1>
-<p>At these two links, <span class="xref myst">C++ example</span> and <span class="xref myst">python example</span>, there are two examples of a simple code that computes the Fibonacci numbers and prints them to the command line. There is a version written in C++ called <code class="docutils literal notranslate"><span class="pre">printFibonacci.cc</span></code> and a python version called <code class="docutils literal notranslate"><span class="pre">printFibonacci.py</span></code>. To compile the C++ version, you need to execute</p>
+<h1>Example code<a class="headerlink" href="#example-code" title="Link to this heading">#</a></h1>
+<p>At these two links, <a class="reference internal" href="#printFibonacci.cc"><span class="xref myst">C++ example</span></a> and <a class="reference internal" href="#printFibonacci.py"><span class="xref myst">python example</span></a>, there are two examples of a simple code that computes the Fibonacci numbers and prints them to the command line. There is a version written in C++ called <code class="docutils literal notranslate"><span class="pre">printFibonacci.cc</span></code> and a python version called <code class="docutils literal notranslate"><span class="pre">printFibonacci.py</span></code>. To compile the C++ version, you need to execute</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">g</span><span class="o">++</span> <span class="o">-</span><span class="n">O3</span> <span class="o">-</span><span class="n">std</span><span class="o">=</span><span class="n">c</span><span class="o">++</span><span class="mi">11</span> <span class="n">printFibonacci</span><span class="o">.</span><span class="n">cc</span> <span class="o">-</span><span class="n">o</span> <span class="n">printFibonacci</span>
 </pre></div>
 </div>
@@ -558,10 +555,10 @@ g++ main.o helper.o -o myExecutable
 </section>
 <hr class="docutils" />
 <section class="tex2jax_ignore mathjax_ignore" id="code-references">
-<h1>Code references<a class="headerlink" href="#code-references" title="Permalink to this heading">#</a></h1>
+<h1>Code references<a class="headerlink" href="#code-references" title="Link to this heading">#</a></h1>
 <p>The above information was intentionally very minimal on details. We will not spend much time on introducing you to the syntax of python, C++, or any other language you might want to use. We hope that you will look it up as you need to accomplish the projects. To help with that, we provide here a few python and C++ “cheat sheets” and tutorials that you might find useful. Such documents are often very handy and can help you remember specific commands that might be useful for the task at hand.</p>
 <section id="id5">
-<h2>Python<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<h2>Python<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>A good tutorial from google on python: <a class="reference external" href="https://developers.google.com/edu/python">tutorial</a></p></li>
 <li><p>A scientific python <a class="reference external" href="https://ipgp.github.io/scientific_python_cheat_sheet/">cheat sheet</a> on basic python, ipython, numpy, scipy, and matplotlib.</p></li>
@@ -571,7 +568,7 @@ g++ main.o helper.o -o myExecutable
 </ul>
 </section>
 <section id="id6">
-<h2>C++<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<h2>C++<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>A C++ <a class="reference external" href="http://www.pa.msu.edu/~duxbury/courses/phy480/Cpp_refcard.pdf">cheat sheet</a>.</p></li>
 <li><p>A comprehensive C++ <a class="reference external" href="http://www.cplusplus.com/doc/tutorial/">tutorial</a>. The first few sections are very much worth going over if you are not familiar with the language.</p></li>
@@ -579,14 +576,14 @@ g++ main.o helper.o -o myExecutable
 </ul>
 </section>
 <section id="general">
-<h2>General<a class="headerlink" href="#general" title="Permalink to this heading">#</a></h2>
+<h2>General<a class="headerlink" href="#general" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.google.com/">Google</a> is your friend. Don’t be shy to search for specific coding questions.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
 <section id="good-software-practice">
-<h2>Good software practice<a class="headerlink" href="#good-software-practice" title="Permalink to this heading">#</a></h2>
+<h2>Good software practice<a class="headerlink" href="#good-software-practice" title="Link to this heading">#</a></h2>
 <p>Throughout this course you will learn various techniques for good software practice and software techniques. One useful ting to use is how to do good version control. If you mess up something on your code, you want to be able to go back and see what you’ve done.  To do that you need to keep regular snapshots.  The best way to go about this is using <a class="reference external" href="https://git-scm.com/">git</a>.  You can get it on your computer and go through the <a class="reference external" href="https://try.github.io/levels/1/challenges/1">15 min. tutorial</a>.  You may want to use it regularly.</p>
 <p>One time Commands:</p>
 <ul class="simple">
@@ -631,7 +628,7 @@ g++ main.o helper.o -o myExecutable
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -659,7 +656,9 @@ g++ main.o helper.o -o myExecutable
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -748,8 +747,8 @@ By Bryan Clark
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
