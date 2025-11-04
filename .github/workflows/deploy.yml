@@ -1,7 +1,7 @@
 name: deploy
 
 on:
-  # Trigger the workflow on push to master branch
+  # Trigger the workflow on push to main branch
   push:
     branches:
       - master
@@ -10,14 +10,10 @@ on:
 jobs:
   build-and-deploy-book:
     runs-on: ${{ matrix.os }}
-    # FIX 1: Add permissions to allow the GITHUB_TOKEN to write to the gh-pages branch
-    permissions:
-      contents: write
-      pages: write
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3]
+        python-version: [3.8]
     steps:
     - uses: actions/checkout@v2
 
@@ -40,7 +36,4 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        # FIX 2: Correct path to the built HTML directory
         publish_dir: ComputationalPhysics/_build/html
-        # FIX 3: Keeps force_orphan to handle branch creation/update
-        force_orphan: true
