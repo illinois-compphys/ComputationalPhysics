@@ -1,0 +1,935 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Restricted Boltzmann Machines &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/RBM';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Generative Diffusion Models" href="Diffusion.html" />
+    <link rel="prev" title="Hopfield Networks" href="Hopfield.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Restricted Boltzmann Machines</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rbm-as-an-ising-model">RBM as an Ising Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-probability-distributions">Understanding Probability Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-and-sampling-an-rbm">Building and Sampling an RBM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-learning-and-training-an-rbm">Unsupervised Learning and Training an RBM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-gradients">Computing Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#putting-it-together-and-mini-batches">Putting it together (and mini-batches)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy">Free Energy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-of-rbm">Applications of RBM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-s">Video(s)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="restricted-boltzmann-machines">
+<h1>Restricted Boltzmann Machines<a class="headerlink" href="#restricted-boltzmann-machines" title="Link to this heading">#</a></h1>
+<p>In this section, we will learn how to build and train a restricted Boltzmann machine (RBM) to solve a simple engineering task.</p>
+<p>The restricted Boltzmann machine is an example of a physics-inspired method that is useful for engineering problems. At a high-level, RBMs are probability distributions for binary data with many tunable parameters. When “training” an RBM, we tune its parameters to make the RBM’s probability distribution match the distribution of a training data set. Our goal in this unit is to make and train an RBM whose probability distribution matches the distribution of images in the MNIST handwritten digit data set.</p>
+<p>Like a Hopfield network, a restricted Boltzmann machine is a particular type of Ising model. We saw that a Hopfield network can be thought of as a zero-temperature Ising model which equilibrates to a local energy minimum. Similarly, a restricted Boltzmann machine can be thought of as a finite-temperature Ising model with a particular connection structure between its spins. Because of their relation to statistical physics, RBMs are more interpretable than some other machine learning approaches. And because of their particular structure, they can be efficiently trained.</p>
+<p>A restricted Boltzmann machine is a probability distribution over binary variables, which, like in the Hopfield network, can be interpreted as spins or neurons. In an RBM, the binary variables are separated into two types, “visible” <span class="math notranslate nohighlight">\(v_i\)</span> or “hidden” <span class="math notranslate nohighlight">\(h_j\)</span> variables. The visible and hidden variables do not interact with variables of the same type, but only interact with variables of the other type. This special “restricted” structure allows us to separate the binary variables into two <strong>layers</strong>. Described using the language of statistical physics, an RBM is simply a Boltzmann distribution of an Ising model for the spins <span class="math notranslate nohighlight">\(v_i,h_j = \pm 1\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(v,h) = \frac{1}{Z}\exp(-E(v,h))
+\end{align*}
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+E(v,h)=-\sum_{ij} v_i W_{ij} h_j - \sum_i a_i v_i - \sum_j b_j h_j
+\]</div>
+<p>is the energy of the visible and hidden spins, <span class="math notranslate nohighlight">\(Z\)</span> is a normalization constant, and the temperature is set to <span class="math notranslate nohighlight">\(T=1\)</span>. Each entry of the weight matrix <span class="math notranslate nohighlight">\(W_{ij}\)</span> describes an interaction between a visible spin <span class="math notranslate nohighlight">\(v_i\)</span> and a hidden spin <span class="math notranslate nohighlight">\(h_j\)</span>. The visible bias <span class="math notranslate nohighlight">\(a_i\)</span> (hidden bias <span class="math notranslate nohighlight">\(b_j\)</span>) is a magnetic field that encourages the visible spin <span class="math notranslate nohighlight">\(v_i\)</span> (hidden spin <span class="math notranslate nohighlight">\(h_j\)</span>) to turn on. Note that the energy <span class="math notranslate nohighlight">\(E(v,h)\)</span>, and therefore the probability <span class="math notranslate nohighlight">\(p(v,h)\)</span>, depends on the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> and biases <span class="math notranslate nohighlight">\(a_i, b_j\)</span>. These parameters define the RBM and are what we will tune during training.</p>
+<p>Our goal is to write an RBM code and make it “learn” a probability distribution from a training data set. Once trained on this data, the machine will be able to produce new samples from the data’s distribution (or its best estimate).</p>
+<hr class="docutils" />
+<section id="rbm-as-an-ising-model">
+<h2>RBM as an Ising Model<a class="headerlink" href="#rbm-as-an-ising-model" title="Link to this heading">#</a></h2>
+<p>To summarize, an RBM is really just an Ising model.</p>
+<p>Restricted Boltzmann Machine <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> Ising Model</p>
+<ul class="simple">
+<li><p>Neuron <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> Ising Spin</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(+1\)</span> = Spin Up</p></li>
+<li><p><span class="math notranslate nohighlight">\(-1\)</span> = Spin Down</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(W_{ij} \longleftrightarrow J_{ij}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(a_i,b_j \longleftrightarrow h_i\)</span></p></li>
+</ul>
+<p>The energy of the corresponding Ising model is</p>
+<div class="math notranslate nohighlight">
+\[E(v,h)=-\sum_{i,j} v_i W_{ij} h_j   - \sum_{i} v_i a_{i} - \sum_{j} h_j b_{j}.\]</div>
+<p>When we sample an RBM, we obtain the spin configuration <span class="math notranslate nohighlight">\((v,h)\)</span> with the <span class="math notranslate nohighlight">\(T=1\)</span> Boltzmann probability</p>
+<div class="math notranslate nohighlight">
+\[
+p(v,h) = \frac{1}{Z}\exp(-E(v,h)).
+\]</div>
+<p>There are <span class="math notranslate nohighlight">\(N_v\)</span> visible spins <span class="math notranslate nohighlight">\(v_1,\ldots,v_{N_v}\)</span> and <span class="math notranslate nohighlight">\(N_h\)</span> hidden spins <span class="math notranslate nohighlight">\(h_1,\ldots,h_{N_h}\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="understanding-probability-distributions">
+<h2>Understanding Probability Distributions<a class="headerlink" href="#understanding-probability-distributions" title="Link to this heading">#</a></h2>
+<p>There are a number of probability distributions that we need to be familiar with to understand RBMs. These probabilities characterize the frequency with which we observe configurations of visible and hidden spins when sampling an RBM.</p>
+<p>The first and most important is the <strong>joint probability</strong> <span class="math notranslate nohighlight">\(p(v,h)\)</span>. This is a probability distribution over multiple random variables that gives the probability of observing these variables simultaneously. In other words, it tells us probability that the visible spins are in configuration <span class="math notranslate nohighlight">\(v\)</span> <em>and</em> the hidden spins are in configuration <span class="math notranslate nohighlight">\(h\)</span>. By definition, for an RBM, this is given by the Boltzmann distribution</p>
+<div class="math notranslate nohighlight">
+\[
+p(v,h)=\frac{\exp[-E(v,h)]}{\sum_{v,h} \exp[-E(v,h)]} \equiv \frac{\exp[-E(v,h)]}{Z}.
+\]</div>
+<p>This probability distribution contains all of the information about how variables <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(h\)</span> are correlated with one another. The remaining probability distributions that we discuss are derived from the joint distribution.</p>
+<p>Next are the <strong>marginal probabilities</strong> <span class="math notranslate nohighlight">\(p(v)\)</span> and <span class="math notranslate nohighlight">\(p(h)\)</span>. These are probability distributions for subsystems of the entire system. Consider <span class="math notranslate nohighlight">\(p(v)\)</span>. Intuitively, <span class="math notranslate nohighlight">\(p(v)\)</span> is the probability of observing the visible spin configuration <span class="math notranslate nohighlight">\(v\)</span>, averaged over all possible hidden spin configurations <span class="math notranslate nohighlight">\(h\)</span>. This quantity can be computed from the joint distribution <span class="math notranslate nohighlight">\(p(v) \propto \sum_h p(v,h)\)</span>, where the sum over <span class="math notranslate nohighlight">\(h\)</span> is a sum over all <span class="math notranslate nohighlight">\(2^{N_h}\)</span> spin confiurations of the hidden spins. So that this is a normalized probability distribution, with <span class="math notranslate nohighlight">\(\sum_v p(v) = 1\)</span>, the marginal distribution for the visible spins is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(v) = \frac{\sum_h p(v,h)}{\sum_{v,h} p(v,h)} = \frac{\sum_h \exp[-E(v,h)]}{\sum_{v,h} \exp[-E(v,h)]}.
+\end{align*}
+\]</div>
+<p>Likewise, the marginal distribution for the hidden spins is</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(h) = \frac{\sum_v p(v,h)}{\sum_{v,h} p(v,h)} = \frac{\sum_v \exp[-E(v,h)]}{\sum_{v,h} \exp[-E(v,h)]}.
+\end{align*}
+\]</div>
+<p>Finally, we discuss the <strong>conditional probabilities</strong> <span class="math notranslate nohighlight">\(p(v|h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>, which are read as “probability of <span class="math notranslate nohighlight">\(v\)</span> given <span class="math notranslate nohighlight">\(h\)</span>” and “probability of <span class="math notranslate nohighlight">\(h\)</span> given <span class="math notranslate nohighlight">\(v\)</span>”. These are a bit subtle, so take some time to think about them and how they relate to the other distributions. A conditional probability is a probability distribution of a subsystem conditioned on the complementary subsystem taking a specific value. Consider <span class="math notranslate nohighlight">\(p(v|h=\hat{h})\)</span>. This is the probability that <span class="math notranslate nohighlight">\(v\)</span> occurs given that <span class="math notranslate nohighlight">\(h\)</span> is fixed to the value <span class="math notranslate nohighlight">\(\hat{h}\)</span>. Like the marginal distribution, this probability can be computed from the joint distribution <span class="math notranslate nohighlight">\(p(v|h=\hat{h}) \propto p(v,h=\hat{h})\)</span>. Notice that <span class="math notranslate nohighlight">\(p(v|h=\hat{h})\)</span> depends on two variables <span class="math notranslate nohighlight">\(v\)</span> and <span class="math notranslate nohighlight">\(\hat{h}\)</span>, but is only a probability distribution over the variable <span class="math notranslate nohighlight">\(v\)</span>. This means that it is only normalized over <span class="math notranslate nohighlight">\(v\)</span> so that <span class="math notranslate nohighlight">\(\sum_v p(v|h=\hat{h})=1\)</span> is true for any <span class="math notranslate nohighlight">\(\hat{h}\)</span>. This leads us to the normalized definition of <span class="math notranslate nohighlight">\(p(v|h)\)</span> (where we drop the <span class="math notranslate nohighlight">\(h=\hat{h}\)</span> notation) and its explicit form for an RBM</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(v|h) = \frac{p(v,h)}{\sum_{v} p(v,h)} = \frac{\exp[-E(v,h)]}{\sum_{v} \exp[-E(v,h)]}.
+\end{align*}
+\]</div>
+<p>Likewise, <span class="math notranslate nohighlight">\(p(h|v)\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(h|v) = \frac{p(v,h)}{\sum_{h} p(v,h)} = \frac{\exp[-E(v,h)]}{\sum_{h} \exp[-E(v,h)]}.
+\end{align*}
+\]</div>
+<p>Notice how closely related all of these probability distributions are. For example, the marginal and conditional probabilities are all directly related to the joint distribution <span class="math notranslate nohighlight">\(p(v,h)\)</span>, but have different normalizations, which dramatically affect their interpretations.</p>
+<p>In general, joint, marginal, and conditional probability distributions are related by a simple formula. Suppose that we have a system split into subsystem <span class="math notranslate nohighlight">\(A\)</span> and its complement <span class="math notranslate nohighlight">\(B\)</span>. The probability of <span class="math notranslate nohighlight">\(A\)</span> <em>conditioned on</em> <span class="math notranslate nohighlight">\(B\)</span>, denoted by <span class="math notranslate nohighlight">\(p(A|B)\)</span>, relates to the marginal distribution of <span class="math notranslate nohighlight">\(B\)</span> and the joint distribution of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span> via</p>
+<div class="math notranslate nohighlight">
+\[
+p(A,B) = p(A|B) p(B).
+\]</div>
+<p>You should check why this formula is true from the definitions of conditional and marginal probabilities.</p>
+<p>This relation forms the basis of Bayes’ theorem,</p>
+<div class="math notranslate nohighlight">
+\[
+p(A|B) p(B) = p(B|A) p(A),
+\]</div>
+<p><strong>Why are marginal and conditional probabilities important? Why did we not consider them in the Ising model unit?</strong></p>
+<p>The variables in an RBM are by design split into two groups, visible and hidden variables. When training an RBM, the visible variables are associated with data, such as the pixels in images, while the hidden variables are simply extra variables in the model, sometimes called auxiliary or latent variables. Because of the special interpretation of the visible variables, it is natural to consider the probability of just the visible spins, i.e., the marginal distribution <span class="math notranslate nohighlight">\(p(v)\)</span>. This marginal distribution is the probability distribution that we will want to match to a data set during training. This is why we care about marginal probabilities.</p>
+<p>An important technical detail about RBMs is that, because of the bipartite structure of the RBM, there is an efficient way to sample spin configurations using conditional probabilities <span class="math notranslate nohighlight">\(p(v|h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>. This efficient sampling allows us to perform efficient training. This is why we care about conditional probabilities.</p>
+<p>In the Ising model unit, there was only one type of spin and there was no reason to split the spins into different subsystems. So we never needed to consider probability distributions that related different subsystems.</p>
+</section>
+<hr class="docutils" />
+<section id="building-and-sampling-an-rbm">
+<h2>Building and Sampling an RBM<a class="headerlink" href="#building-and-sampling-an-rbm" title="Link to this heading">#</a></h2>
+<p>Your first goal is to set up the basic code structure for your RBM. You will want to store the states of your visible and hidden variables, as well as the values of your parameters, the weight matrix and the biases. Note that the weight matrix is generally rectangular, as there may be different numbers of visible <span class="math notranslate nohighlight">\(N_v\)</span> and hidden neurons <span class="math notranslate nohighlight">\(N_h\)</span>. You should also set up a function that computes the energy, which will be useful for debugging.</p>
+<p>Next, we want to learn how to sample configurations from our RBM, given the weights and biases, which we will need later in our training. Our goal is to produce spin configurations <span class="math notranslate nohighlight">\((v,h)\)</span> with probability <span class="math notranslate nohighlight">\(p(v,h)\)</span>. Since the RBM is just an Ising model, one way we could perform this sampling is by using Metropolis Markov Chain Monte Carlo as we did in the Ising model unit, where we performed single spin flips randomly by using the energy function. It turns out there is a more efficient sampling method for RBMs, because of their special restricted structure, that allows us to “flip” many spins at once instead of one-at-a-time.</p>
+<p>The efficient Monte Carlo method that we will use to sample the joint distribution <span class="math notranslate nohighlight">\(p(v,h)\)</span> is known as <strong>Gibbs sampling</strong>. Gibbs sampling involves the following steps:</p>
+<ol class="arabic simple">
+<li><p>Given the current visible layer <span class="math notranslate nohighlight">\(v\)</span>, probabilistically choose a configuration for the hidden layer <span class="math notranslate nohighlight">\(h\)</span>.</p></li>
+<li><p>Given the chosen <span class="math notranslate nohighlight">\(h\)</span>, probabilistically choose a configuration for <span class="math notranslate nohighlight">\(v\)</span>.</p></li>
+<li><p>Repeat steps 1 and 2 <span class="math notranslate nohighlight">\(k\)</span>-times.</p></li>
+</ol>
+<p>This process is a Markov chain, and therefore has a stationary distribution. To produce the desired distribution, we must probabilistically choose new configurations of the hidden or visible layers in such a way that the stationary distribution is proportional to <span class="math notranslate nohighlight">\(p(v,h) \propto \exp[-E(v,h)]\)</span>. This can be done by using conditional probabilities in each step of the sampling process. Specifically, the first two steps are:</p>
+<ol class="arabic simple">
+<li><p>Given <span class="math notranslate nohighlight">\(v\)</span>, choose a new <span class="math notranslate nohighlight">\(h\)</span> with probability <span class="math notranslate nohighlight">\(p(h|v)\)</span>.</p></li>
+<li><p>Given <span class="math notranslate nohighlight">\(h\)</span>, choose a new <span class="math notranslate nohighlight">\(v\)</span> with probability <span class="math notranslate nohighlight">\(p(v|h)\)</span>.</p></li>
+</ol>
+<p><strong>Step 1.</strong> Because of the bipartite structure of the RBM, the conditional probability has a particularly nice, factorable form. For the hidden spins conditioned on the visible spins, it is</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(h|v) = \prod_{j=1}^{N_h} p(h_j|v) \equiv \prod_{j=1}^{N_h} \frac{\exp[m_j h_j]}{\exp[m_j h_j] + \exp[-m_j h_j]}
+\end{align*}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_j\)</span> is an “effective magnetic field” felt by hidden spin <span class="math notranslate nohighlight">\(h_j\)</span>, defined as</p>
+<div class="math notranslate nohighlight">
+\[
+m_j \equiv \sum_{i} v_i W_{ij} + b_j.
+\]</div>
+<p>It is helpful to check this yourself, by using the definition of <span class="math notranslate nohighlight">\(p(v,h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>.</p>
+<p>Because <span class="math notranslate nohighlight">\(p(h|v)\)</span> factors into a product of <span class="math notranslate nohighlight">\(p(h_j|v)\)</span>, the <span class="math notranslate nohighlight">\(h_j\)</span> variables are distributed independently (for a given <span class="math notranslate nohighlight">\(v\)</span>) and we can sample them independently and at the same time. This is what makes Gibbs sampling efficient for RBMs. In practice, to sample <span class="math notranslate nohighlight">\(p(h|v)\)</span>, we go through each hidden neuron <span class="math notranslate nohighlight">\(h_j\)</span> and choose to set it to <span class="math notranslate nohighlight">\(+1\)</span> with probability <span class="math notranslate nohighlight">\(p(h_j=+1|v)=\exp(m_j)/(\exp(m_j) + \exp(-m_j))\)</span> and set it to <span class="math notranslate nohighlight">\(-1\)</span> otherwise.</p>
+<p><strong>Step 2.</strong> The exact same logic applies. The conditional probability <span class="math notranslate nohighlight">\(p(v|h)\)</span> factors into</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align*}
+p(v|h) = \prod_{i=1}^{N_v} p(v_i|h) \equiv \prod_{i=1}^{N_v} \frac{\exp[m_i v_i]}{\exp[m_i v_i] + \exp[-m_i v_i]}
+\end{align*}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(m_i\)</span> is an “effective magnetic field” felt by visible spin <span class="math notranslate nohighlight">\(v_i\)</span>, defined as</p>
+<div class="math notranslate nohighlight">
+\[
+m_i \equiv \sum_{j} W_{ij} h_j + a_i.
+\]</div>
+<p>To sample <span class="math notranslate nohighlight">\(p(v|h)\)</span>, go through each visible spin <span class="math notranslate nohighlight">\(v_i\)</span> and set it to <span class="math notranslate nohighlight">\(+1\)</span> with probability <span class="math notranslate nohighlight">\(p(v_i=+1|h)=\exp(m_i)/(\exp(m_i) + \exp(-m_i))\)</span> and set it to <span class="math notranslate nohighlight">\(-1\)</span> otherwise.</p>
+<p>One iteration of step 1 generates samples from <span class="math notranslate nohighlight">\(p(h|v)\)</span>. One iteration of step 2 generates samples from <span class="math notranslate nohighlight">\(p(v|h)\)</span>. However, <span class="math notranslate nohighlight">\(k\)</span> iterations of alternating steps 1 and 2, produces samples <span class="math notranslate nohighlight">\((v,h)\)</span> that are actually <em>approximately</em> distributed according to the joint distribution <span class="math notranslate nohighlight">\(p(v,h)\)</span>. This approximation becomes better as <span class="math notranslate nohighlight">\(k\)</span> is increased, but works well even for modest <span class="math notranslate nohighlight">\(k\)</span>. Making <span class="math notranslate nohighlight">\(k\)</span> larger leads to more accurate, but less efficient sampling. You can use <span class="math notranslate nohighlight">\(k=10\)</span>.</p>
+<p>Your goal is to implement Gibbs sampling. Since it is essential for the training algorithm, you need to make sure that it is working correctly by testing your generated samples against analytic results. We can do this check for a small RBM.</p>
+<div class="tip admonition">
+<p class="admonition-title">Testing</p>
+<p>To check your Gibbs sampling, follow the steps below.</p>
+<ul class="simple">
+<li><p>Setup an RBM with <span class="math notranslate nohighlight">\(N_h=2\)</span> hidden neurons and <span class="math notranslate nohighlight">\(N_v=5\)</span> visible neurons. Choose random initial states for the visible and hidden neurons. Choose random weights and biases.</p></li>
+<li><p>For the given <span class="math notranslate nohighlight">\(v\)</span>, sample the hidden layer spins 100,000 times and store a histogram of the resulting spin configurations. To do this I did something like (in C++):</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="nb">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span><span class="n">double</span><span class="o">&gt;</span> <span class="n">probs</span><span class="p">;</span>
+    <span class="o">//</span><span class="n">loop</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span> <span class="n">times</span>
+    <span class="n">string</span> <span class="n">myString</span><span class="o">=</span><span class="n">rbm</span><span class="o">.</span><span class="n">toString</span><span class="p">(</span><span class="n">rbm</span><span class="o">.</span><span class="n">hidden</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">myString</span><span class="p">)</span><span class="o">==</span><span class="n">probs</span><span class="o">.</span><span class="n">end</span><span class="p">())</span>
+        <span class="n">probs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">make_pair</span><span class="p">(</span><span class="n">myString</span><span class="p">,</span><span class="mi">0</span><span class="p">));</span>
+      <span class="n">probs</span><span class="p">[</span><span class="n">myString</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+      <span class="n">norm</span><span class="o">+=</span><span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Compare this histogram with the analytical result for <span class="math notranslate nohighlight">\(p(h|v)\)</span> obtained by brute-force calculation. My largest error was about 0.003.</p></li>
+<li><p>For a given <span class="math notranslate nohighlight">\(h\)</span>, sample the visible layer spins 100,000 times and store a histogram of the results.</p>
+<ul>
+<li><p>Compare this with the analytical result for <span class="math notranslate nohighlight">\(p(v|h)\)</span>.</p></li>
+</ul>
+</li>
+<li><p>Starting from a random initial spin configuration <span class="math notranslate nohighlight">\((v_0,h_0)\)</span>, perform <span class="math notranslate nohighlight">\(k=10\)</span> iterations of Gibbs sampling and obtain the final spin configuration <span class="math notranslate nohighlight">\((v_f, h_f)\)</span>. Repeat this 100,000 times and store the <span class="math notranslate nohighlight">\((v_f,h_f)\)</span> configurations into a histogram. Also make separate histograms of <span class="math notranslate nohighlight">\(v_f\)</span> and <span class="math notranslate nohighlight">\(h_f\)</span>.</p>
+<ul>
+<li><p>Compare the <span class="math notranslate nohighlight">\((v_f,h_f)\)</span>-histogram with the analytical result for <span class="math notranslate nohighlight">\(p(v,h)\)</span>.</p></li>
+<li><p>Compare the <span class="math notranslate nohighlight">\(v_f\)</span> histogram with the analytic result for <span class="math notranslate nohighlight">\(p(v)\)</span>.</p></li>
+<li><p>Compare the <span class="math notranslate nohighlight">\(h_f\)</span> histogram with the analytic result for <span class="math notranslate nohighlight">\(p(h)\)</span></p></li>
+</ul>
+</li>
+<li><p>Run this a couple different times to make sure everything agrees.</p></li>
+</ul>
+</div>
+<p><strong>Comment on implementation:</strong> When writing up your RBM, it is possible to perform all of the calculations using <code class="docutils literal notranslate"><span class="pre">for</span></code> loops. However, if you are willing, it is worth trying to perform the calculations with matrix-vector multiplications. This can greatly simplify your code, since nested for loops can be replaced with a few lines of matrix-vector manipulations, and can speed up your code significantly (especially in python), since matrix-vector libraries are highly optimized. While the <code class="docutils literal notranslate"><span class="pre">C++</span></code> standard library does not include matrix-vector functionality, there is a (relatively) easy-to-use library called <a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> that allows you to work with matrices in <code class="docutils literal notranslate"><span class="pre">C++</span></code>. A handy reference for Eigen commands, and their equivalent commands in Matlab, is available <a class="reference external" href="https://eigen.tuxfamily.org/dox/AsciiQuickReference.txt">here</a>.
+Note that you can represent <span class="math notranslate nohighlight">\(v_i\)</span> as a row vector and <span class="math notranslate nohighlight">\(h_j\)</span> as a column vector.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Write Gibbs sampling code that samples the hidden and visible layers of your RBM.
+For a small <span class="math notranslate nohighlight">\(N_h=2\)</span>, <span class="math notranslate nohighlight">\(N_v=5\)</span> RBM, compute the probability distributions <span class="math notranslate nohighlight">\(p(v,h), p(v), p(h), p(v|h)\)</span> and <span class="math notranslate nohighlight">\(p(h|v)\)</span>
+using Gibbs sampling <strong>and</strong> by brute-force calculation using the explicit formulas for these probabilities that we gave above.
+Make sure that the approximate RBM probabilities and the exact brute-force probabilities agree within 0.01.</p>
+</div>
+</section>
+<section id="unsupervised-learning-and-training-an-rbm">
+<h2>Unsupervised Learning and Training an RBM<a class="headerlink" href="#unsupervised-learning-and-training-an-rbm" title="Link to this heading">#</a></h2>
+<p>The task that restricted Boltzmann machines are typically used for is <strong>unsupervised learning</strong>. The goal of unsupervised learning is to train a machine to learn the probability distribution underlying a data set. To accomplish this goal, the machine is trained on <em>unlabeled</em> data, such as raw images without any captions or identifying information. By training on a large enough data set of high quality samples, the machine will hopefully be able to learn the correlations in the data set. Ultimately, we would like the machine to be able to generalize from the data it has seen. A well-trained unsupervised learning model should be able to generate new data samples that have the same features as the original training data. For this reason, such models are often called <em>generative models</em>.</p>
+<p>Your next big step is to train your RBM to learn a probability distribution, called the <strong>data distribution</strong>, from a data set of samples of the distribution, called the <strong>training data</strong>. During training, the RBM’s parameters, the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> and biases <span class="math notranslate nohighlight">\(a_i,b_j\)</span>, are tuned so that the marginal distribution of the visible spins <span class="math notranslate nohighlight">\(p(v)\)</span> matches the data distribution represented by the training data set. After successful training, sampling the visible layer of your RBM should (ideally) produces new samples that are also from the same underlying distribution of the training data.</p>
+<p>In general it might be hard to exactly reproduce the data distribution, so instead we aim to get a probability distribution that is “close.” Let us define a measure of the “close-ness” of two distributions <span class="math notranslate nohighlight">\(p(v)\)</span> and <span class="math notranslate nohighlight">\(q(v)\)</span> as</p>
+<div class="math notranslate nohighlight">
+\[
+O = \sum_v q(v) \log \left( \frac{q(v)}{p(v)} \right).
+\]</div>
+<p>In the information theory literature, <span class="math notranslate nohighlight">\(O\)</span> is called the <strong>Kullback–Leibler divergence</strong>, or the <strong>relative entropy</strong> of the distributions. In our case, <span class="math notranslate nohighlight">\(p(v)\)</span> is the marginal distribution of the RBM and <span class="math notranslate nohighlight">\(q(v)\)</span> is the data distribution. The function <span class="math notranslate nohighlight">\(O\)</span>, which is a function of the RBM parameters since it depends on <span class="math notranslate nohighlight">\(p(v)\)</span>, is the objective function that we seek to optimize to learn the data distribution.</p>
+<p>We will minimize <span class="math notranslate nohighlight">\(O\)</span> locally via the method of <strong>gradient descent</strong>. Gradient descent finds local minima of an objective function using the function’s derivatives. Specifically, it starts at a particular point in the objective function’s parameter space, computes the objective function’s derivatives with respect to its parameters at that point, and then “steps” to a new point in the parameter space using the derivatives’ values. Because the derivatives decrease in magnitude as a minimum is approached, local minima are found by iterating the stepping procedure.</p>
+<p>Gradient descent is performed by repeatedly updating the parameters as follows:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+W_{ij} &amp;\rightarrow W_{ij} - \eta \frac{\partial O}{\partial W_{ij}} \\
+a_{i} &amp;\rightarrow a_{i} - \eta \frac{\partial O}{\partial a_{i}} \\
+b_{j} &amp;\rightarrow b_{j} - \eta \frac{\partial O}{\partial b_{j}}
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is an arbitrary parameter called the <strong>learning rate</strong>, or step size. The learning rate parameter affects the convergence of gradient descent and is generally chosen through trial and error.</p>
+<section id="computing-gradients">
+<h3>Computing Gradients<a class="headerlink" href="#computing-gradients" title="Link to this heading">#</a></h3>
+<p>To perform gradient descent, we need to evaluate the gradients of the objective function <span class="math notranslate nohighlight">\(O\)</span> with respect to the parameters. For our particular objective function, the relative entropy between the data distribution and the RBM marginal <span class="math notranslate nohighlight">\(p(v)\)</span> distribution, the gradients turn out to have the following form</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+\frac{\partial O}{\partial W_{ij}} &amp;=  \langle v_i h_j\rangle_{\textrm{RBM}} - \langle v_i h_j\rangle_{\textrm{RBM}|\textrm{data}} \\
+\frac{\partial O}{\partial a_{i}} &amp;= \langle v_i\rangle_{\textrm{RBM}} - \langle v_i\rangle_{\textrm{RBM}|\textrm{data}}  \\
+\frac{\partial O}{\partial b_{j}} &amp;= \langle h_j\rangle_{\textrm{RBM}} - \langle h_j\rangle_{\textrm{RBM}|\textrm{data}} \\
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\langle f(v,h) \rangle_{\textrm{RBM}|\textrm{data}} = \sum_{v,h} f(v,h) p(h|v) q(v)\)</span> represents an average of the function <span class="math notranslate nohighlight">\(f\)</span> over the RBM, given that the visible variables are distributed according to the training data distribution <span class="math notranslate nohighlight">\(q(v)\)</span>; and <span class="math notranslate nohighlight">\(\langle f(v,h) \rangle_{\textrm{RBM}} = \sum_{v,h} f(v,h) p(v,h)\)</span> represents an average over the RBM’s joint distribution <span class="math notranslate nohighlight">\(p(v,h)\)</span> without any conditioning on the visible variables.  See <a class="reference download internal" download="" href="../_downloads/3be0cdfbf651e5e4144598baacda35e2/RBMTraining.pdf"><span class="xref download myst">here</span></a> for notes deriving these derivatives.</p>
+<div class="tip dropdown admonition">
+<p class="admonition-title">More accurate derivatives</p>
+<p>You can improve this derivative slightly by instead of evaluating terms like
+<span class="math notranslate nohighlight">\(\langle v_i h_j\rangle\)</span>
+by averaging over many samples of <span class="math notranslate nohighlight">\(h\)</span> (for the same value of <span class="math notranslate nohighlight">\(v\)</span>).  In fact, this average can be taken analytically by just replacing <span class="math notranslate nohighlight">\(h\)</span> with <span class="math notranslate nohighlight">\(p(h|v)\)</span>.</p>
+<p>(We could have alternatively come to this conclusion by thinking of the derivatives as being made up of terms like <span class="math notranslate nohighlight">\(q(v) \frac{\partial F(v)}{\partial W_{ij}}\)</span> where <span class="math notranslate nohighlight">\(F(v)\)</span> is the free-energy.)</p>
+<p>You are free to make this change in your code (or not).  You can do this by adding a <code class="docutils literal notranslate"><span class="pre">SampleHiddenProb</span></code> which returns the probabilities of the hidden spins and not a sample from them.  Just be careful to only use this for the final sample of the hidden spins and not all of them!</p>
+</div>
+</section>
+<section id="putting-it-together-and-mini-batches">
+<h3>Putting it together (and mini-batches)<a class="headerlink" href="#putting-it-together-and-mini-batches" title="Link to this heading">#</a></h3>
+<p>Training the RBM with gradient descent amounts to approximately computing these expectation values by performing Gibbs sampling and updating the RBM parameters using the approximate gradients.</p>
+<p>A pseudocode of the gradient descent calculation is as follows:</p>
+<ul class="simple">
+<li><p>Repeat many times:</p>
+<ul>
+<li><p>Initialize the gradient variables: <code class="docutils literal notranslate"><span class="pre">dW=0;</span> <span class="pre">da=0;</span> <span class="pre">db=0</span></code>.</p></li>
+<li><p>Sample <span class="math notranslate nohighlight">\(M\)</span> configurations <span class="math notranslate nohighlight">\(v^1, ...., v^M\)</span> (called a mini-batch)</p></li>
+<li><p>For each configuration:</p>
+<ul>
+<li><p>Sample <span class="math notranslate nohighlight">\(h\)</span> from <span class="math notranslate nohighlight">\(p(h|v)\)</span>  Update the gradient variables.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dW</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">-=</span> <span class="pre">outerProduct(v,h)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">da</span> <span class="pre">-=</span> <span class="pre">v</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">db</span>&#160; <span class="pre">-=</span> <span class="pre">h</span></code></p></li>
+</ul>
+</li>
+<li><p>Perform <span class="math notranslate nohighlight">\(k\)</span> iterations of Gibbs sampling: sample the visible and hidden variables back and forth <span class="math notranslate nohighlight">\(v_0 \rightarrow h_1 \rightarrow v_1 \rightarrow h_2 \rightarrow \cdots \rightarrow h_k \rightarrow v_k\)</span>. Using the final spin configuration <span class="math notranslate nohighlight">\((v_k, h_k)\)</span>, update the gradient variables:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">dW</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">+=</span> <span class="pre">outerProduct(v,h)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">da</span> <span class="pre">+=</span> <span class="pre">v</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">db</span>&#160; <span class="pre">+=</span> <span class="pre">h</span></code></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Change the parameters by <span class="math notranslate nohighlight">\(\eta\)</span> dW/M; <span class="math notranslate nohighlight">\(\eta\)</span> da/M; <span class="math notranslate nohighlight">\(\eta\)</span> db/M</p></li>
+</ul>
+</li>
+</ul>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Beyond contrastive-divergence</p>
+<p>Currently we are sampling back and forth in the Gibbs sampling <span class="math notranslate nohighlight">\(k\)</span>-times.  This is called <span class="math notranslate nohighlight">\(CD_k\)</span>.  It is only in the large-k limit that we get the correct derivative (but in practice lower <span class="math notranslate nohighlight">\(k\)</span> often works better because of cancellation of errors).    There is an alternative.  Instead of Gibbs-sampling back and forth <span class="math notranslate nohighlight">\(k\)</span> times from the visible spins generated by data, for the second term in the derivative (step 4), we can sample back and forth from some other visible spins (<code class="docutils literal notranslate"><span class="pre">visible_step4</span></code>) that has nothing to do with the actual data.  We simply leave <code class="docutils literal notranslate"><span class="pre">visible_step4</span></code> wherever it was in the previous step.  This is somewhat more principled and is supposed to give better results but takes a lot longer to train (and you have to turn down the learning-rate).  This approach goes under the name persistent chains.  I don’t recommend using this, but if you want to explore it, I’d like to know where you found it helped and what you had to do to make it work.</p>
+</div>
+<p><strong>Comments about mini-batches:</strong></p>
+<ul class="simple">
+<li><p>Part of the description requires us to choose <span class="math notranslate nohighlight">\(M\)</span> configurations from the visible data.  Usually what people do if they have a dataset is to shuffle the dataset and then choose <code class="docutils literal notranslate"><span class="pre">data[0:M]</span></code> on the first mini-batch; choose <code class="docutils literal notranslate"><span class="pre">data[M:2M]</span></code> on the second mini-batch; etc. After they have looped over all the data they then reshuffle.</p></li>
+<li><p>The pseudo-code above essentially suggests a for-loop over the <span class="math notranslate nohighlight">\(M\)</span> configurations of the mini-batch.  In practice, it is more efficient (especially in python) if you can compute the entire mini-batch with matrices (and no for-loops). <em>This will be very important (in python) if you’re going to go on and do a MNIST or protein example below.</em></p></li>
+</ul>
+<!-- Suppose that our training data set is made up of $N$ samples $x_1,\ldots,x_N$. In practice, doing the averages over all $N$ samples gives us a really accurate estimate of the gradients, but is costly. In practice, we do not need such an accurate derivative. Therefore, we can average over smaller chunks, or "mini-batches", of the data. This is a tradeoff that results in lower accuracy but greater efficiency. In practice, what many people do is chose an arbitrary "mini-batch size" $M$, something like 100 that includes a statistically useful number of samples. The easiest way to make mini-batches is to first shuffle the entire data set and then separate the data into $N/M$ mini-batches so that $ x_1 $ through $x_M$ are in mini-batch 1, $x_{M+1}$ through $x_{2M}$ are in mini-batch 2, etc.  While you can write the loop over all the samples in the mini-batch, it is more efficient (especially in python) if you can compute the entire mini-batch with matrices (and no for-loops). *This will be very important (in python) if you're going to go on and do a MNIST or protein example below.* -->
+<!-- ### The Training Algorithm
+
+To summarize, the entire training algorithm is as follows:
+
+- Initialize the weights $W_{ij}$ and biases $a_i,b_j$ randomly.
+- For each step (or epoch), loop over all of the $N$ data points in the training data set:
+    + For each mini-batch, loop over $M$ data points in the data set:
+        + For the data points in the mini-batch, compute the average of the gradients $\partial O/\partial W_{ij},\partial O/\partial a_{i},\partial O/\partial b_{j}$ using Gibbs sampling.
+    + Update the weights and biases using the average gradients.
+
+$$
+\begin{align*}
+W_{ij} &\rightarrow W_{ij} - \eta \partial O/\partial W_{ij} \\
+a_{i} &\rightarrow a_{i} - \eta \partial O/\partial a_{i} \\
+b_{j} &\rightarrow b_{j} - \eta \partial O/\partial b_{j}
+\end{align*}
+$$
+ -->
+</section>
+<section id="testing">
+<h3>Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h3>
+<div class="tip admonition">
+<p class="admonition-title">Testing</p>
+<p>To convince yourself that you have a working RBM code, you need to perform some tests.
+A good way to test a complicated method such as the RBM training algorithm is to run the algorithm on a small
+example that you can check by hand or with another method. For example, you can define an arbitrary probability
+distribution of three binary variables and train an RBM with <span class="math notranslate nohighlight">\(N_v=3\)</span> visible spins to match the distribution.</p>
+</div>
+<p>Here’s one way to go about producing an arbitrary probability distribution (in C++):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">std</span><span class="p">::</span><span class="n">random_device</span> <span class="n">rd</span><span class="p">;</span>
+ <span class="n">std</span><span class="p">::</span><span class="n">mt19937</span> <span class="n">mt</span><span class="p">;</span>
+ <span class="n">vector</span><span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span> <span class="n">ranInts</span><span class="p">;</span>
+ <span class="n">std</span><span class="p">::</span><span class="n">uniform_int_distribution</span><span class="o">&lt;&gt;</span> <span class="n">ran_int</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">);</span>
+ <span class="k">for</span> <span class="p">(</span><span class="o">//</span><span class="n">loop</span> <span class="n">over</span> <span class="n">binary</span> <span class="n">numbers</span> <span class="ow">in</span> <span class="n">visible</span> <span class="n">layers</span><span class="p">)</span>
+      <span class="n">ranInts</span><span class="o">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">ran_int</span><span class="p">(</span><span class="n">mt</span><span class="p">));</span>
+    <span class="p">}</span>
+  <span class="o">//</span> <span class="n">At</span> <span class="n">this</span> <span class="n">point</span> <span class="n">ranInts</span> <span class="n">of</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="n">means</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="mi">2</span><span class="o">/</span><span class="mi">8</span> <span class="n">chance</span> <span class="n">of</span> <span class="mi">00</span><span class="p">,</span> <span class="n">a</span> <span class="mi">1</span><span class="o">/</span><span class="mi">8</span> <span class="n">chance</span> <span class="n">of</span> <span class="mi">01</span><span class="p">,</span> <span class="n">a</span> <span class="mi">4</span><span class="o">/</span><span class="mi">8</span> <span class="n">chance</span> <span class="n">of</span> <span class="mi">10</span><span class="p">,</span> <span class="ow">and</span> <span class="n">a</span> <span class="mi">2</span><span class="o">/</span><span class="mi">8</span> <span class="n">chance</span> <span class="n">of</span> <span class="mi">11</span>
+  <span class="n">std</span><span class="p">::</span><span class="n">discrete_distribution</span><span class="o">&lt;&gt;</span> <span class="n">d</span><span class="p">(</span><span class="n">ranInts</span><span class="o">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">ranInts</span><span class="o">.</span><span class="n">end</span><span class="p">());</span>
+  <span class="n">myVisibleLayer</span><span class="o">=</span><span class="n">binary_nums</span><span class="p">[</span><span class="n">d</span><span class="p">(</span><span class="n">mt</span><span class="p">)];</span> <span class="o">//</span><span class="n">assuming</span> <span class="n">binary_nums</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">vector</span> <span class="k">with</span> <span class="n">binary</span> <span class="n">numbers</span> <span class="ow">in</span> <span class="n">it</span>
+ <span class="o">//</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">probability</span> <span class="n">distribution</span> <span class="n">you</span> <span class="n">are</span> <span class="n">training</span> <span class="n">over</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>and in python</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prob_dist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">ranf</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">prob_dist</span><span class="o">=</span><span class="n">prob_dist</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">prob_dist</span><span class="p">)</span>
+<span class="n">samples</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">32</span><span class="p">),</span><span class="n">p</span><span class="o">=</span><span class="n">prob_dist</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">100000</span><span class="p">)</span>
+
+<span class="c1">### Below just for plotting the distribution you got</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">prob_dist</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You should be able to analytically compute the probability distribution and sample it and check that it matches the RBM <span class="math notranslate nohighlight">\(p(v)\)</span> distribution after the RBM is trained.</p>
+<p>Some things you can check to debug your code:</p>
+<ul class="simple">
+<li><p>Compute the value of the objective function at each iteration of the gradient descent. You should expect the objective function to decrease with each iteration.</p></li>
+<li><p>Compute the gradients using the finite difference approximation <span class="math notranslate nohighlight">\(\partial O/ W_{ij} \approx (O(W_{ij} + \delta) - O(W_{ij}))/\delta\)</span> for small <span class="math notranslate nohighlight">\(\delta\)</span> and check that the finite difference gradients approximately match the estimated gradients obtained from Gibbs sampling when using a lot of samples.</p></li>
+</ul>
+<p>For comparison, I used the following parameters for my RBM training:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k=1\)</span> (this is a typical but non-trivial approximation)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\eta=0.1\)</span> (note: this is the step for the average gradient over your mini-batch not the sum.  If you’re summing, you need to divide by M)</p></li>
+<li><p><span class="math notranslate nohighlight">\(M=64\)</span></p></li>
+<li><p>I performed 30 epochs of a distribution of size 100000.</p></li>
+<li><p>I used 5 visible and 3 hidden neurons.</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Implement the RBM training algorithm. Using this algorithm, train your RBM and show that it can successfully learn a simple toy probability distribution.</p>
+</div>
+</section>
+<section id="free-energy">
+<h3>Free Energy<a class="headerlink" href="#free-energy" title="Link to this heading">#</a></h3>
+<p>Recall that we are trying to optimize the KL-divergence: <span class="math notranslate nohighlight">\( q \ln q - q \ln p\)</span>.  The term <span class="math notranslate nohighlight">\(q \ln q\)</span> doesn’t change.  Therefore, we want to optimize that second term.   We can estimate how well we are doing by measuring the difference in free energy between the visible spins before sampling and after sampling.</p>
+<p>Recall that the free energy is defined as</p>
+<div class="math notranslate nohighlight">
+\[\exp[-F(v)] = \sum_{h} \exp[-E(v,h)]\]</div>
+<p>So that,</p>
+<div class="math notranslate nohighlight">
+\[F(v) = -\ln \left( \sum_{h} \exp[-E(v,h)]\right) \]</div>
+<p>We can actually do this sum explicitly giving us (if you have spins that are -1 and 1)</p>
+<div class="math notranslate nohighlight">
+\[F(v) = -v \cdot a - \sum_j \left( \log \left[\exp(-b - W^T v) + \exp(b + W^T v)\right]  \right)_j\]</div>
+<p>or (if you have spins that are 1 and 0)</p>
+<div class="math notranslate nohighlight">
+\[F(v) = -v \cdot a - \sum_j \left( \log (1+ \exp(b + W^T v) )  \right)_j\]</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Write two functions that compute the free energy in both these ways.  Do some tests to verify that they give the same result for some choice of <span class="math notranslate nohighlight">\(v\)</span>.</p>
+<p>Now, run your RBM for 10 epochs and measure the average change in the free energy as a function of epoch.  Make a graph of this and paste it into your document   (as a word of warning, this estimator is very noisy so it might not always look monotonic as it should be).</p>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="applications-of-rbm">
+<h2>Applications of RBM<a class="headerlink" href="#applications-of-rbm" title="Link to this heading">#</a></h2>
+<p>In the next part of this assignment, you will choose an application to apply your RBM too.  In most cases, this will involve making modifications to help improve the efficiency of your RBM. Choosing one of these applications will get you the extra 10 points you need for the assignment (90 up to here + 10 for the application).   You can do additional applications for an extra 5 points per application.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="RBM_MNIST.html"><span class="std std-doc">MNIST</span></a> 10 points</p></li>
+<li><p><a class="reference internal" href="RBM_protein.html"><span class="std std-doc">Protein Sequences</span></a>  (<strong>10 points extra credit</strong>)</p></li>
+</ul>
+<p>Other interesting examples to do (but no instructions) include:</p>
+<ul class="simple">
+<li><p>Ising models (This is sortof a meta-example.  An RBM is an Ising model learning an ising model).</p></li>
+<li><p>Quantum Circuits and Variational Wave-functions:  We do some like this actively in my group.  If you are interested, I’m happy to chat about it.</p></li>
+</ul>
+<!-- 
+## Training your RBM on a quantum circuit
+
+Generate a random quantum circuit, measure its probability distribution and get your RBM to match it!
+
++-----------+------------------------------------------------------------------------------------+
+|![](g.png) | **Grading**                                                                        |
++===========+:===================================================================================+
+|           | Show that this works.
+ -->
+<!--
+## Training your RBM on MNI
+
+
+
+Finally, we will use our RBM code to tackle a more realistic and difficult engineering task: learning hand-written digits. After training, your RBM will have learned some general features of hand-written digits and be able to generate its own convincing drawings of numbers. In addition to being used as a generative model, a trained RBM can also be useful for anomaly detection, for example, checking if a particular image is likely to be from the data distribution or from another distribution. In our case, that means that $p(v_{digit}) \gg p(v_{letter})$ for our RBM if $v_{digit}$ is an image of a hand-written digit and $v_{letter}$ is an image of a hand-written letter. RBMs can also be used as "feature-detectors" that supplement supervised learning methods in machine learning.
+
+The training data set that we will use to train our RBM is the MNIST database. The MNIST hand-written digit [database](http://yann.lecun.com/exdb/mnist/) is a dataset of images and labels. Each image is a black-and-white picture of a hand-written number between $0$ and $9$. The label indicates which of these numbers the image corresponds to. Since we are doing *unsupervised learning*, we will ignore the labels and only use the images of the digits themselves as our training data set for the RBM.
+
+You can download the dataset and read it into your C++ code using code on this [page](https://stackoverflow.com/questions/8286668/how-to-read-mnist-data-in-c/10409376#10409376). When you read in the MNIST data, divide everything by 256 to get things scaled between 0 and 1. Then apply a threshold of $0.5$ to all of the pixel values to convert them into binary numbers.
+
+Your goal is to train your RBM on the MNIST data set. This will require some careful tuning of the algorithm parameters. Here are some suggested RBM parameters that you can use:
+* Initialize the weights $W_{ij}$ and the visible biases $a_i$ with random numbers from a uniform distribution between $-0.01$ and $0.01$. **Initialize the hidden biases $b_j$ to zero.** (It seems that the training can get stuck in a bad local minimum if you initialize the hidden biases to be too large.)
+* $N_v=28\times 28=784$ visible spins, $N_h=50$ hidden spins.
+* Mini-batch size: $M=200$.
+* Epochs of training (number of times iterating over the entire dataset): 100.
+* Learning rate: $\eta=0.02$.
+
+Here are some things you can do to debug your RBM training:
+* Compute the average of the RBM parameters and how much the weights and biases change at each step (or epoch) of training. If the training has converged, then the weights and biases will be not too large and will change very little at each step. If the training is failing, for example if the learning rate is too large, then the weights and biases might blow up and change dramatically at each step.
+* Train on a small piece of the entire dataset. For example, I used 5,000 samples from the MNIST dataset while testing. Then when you think things are working and you found good training parameters, rerun your calculations on the entire dataset.
+* Visualize the weights and biases. Since the visible spins $v_i$ form a 2D image, they can be relabeled as if they were on a 2D square grid $v_i \rightarrow v_{(x,y)}$, where $(x,y)$ is a coordinate in the grid. Therefore, for a given hidden spin $h_j$, the weights connecting to the visible spins $W_{ij}$ can be reshaped into a matrix $W_{ij} \rightarrow W^{j}_{(x,y)}$. These matrices can be visualized, say with `matplotlib.pyplot.matshow` in python. Visually, these weight matrices represent the correlations the hidden spins have with the visible spins. In a trained RBM, the weight matrices should look like "features" that contain elements of handwritten digits, such as straight and curved strokes. If your weights all look noisy or identical for all $j$, then probably the training is not working correctly.
+* Compute the objective function over part of the training data set and see that it decreases during training. Do this infrequently, say once every training step (epoch), since this is an expensive calculation.
+
+If you are really stuck, a handy, put pretty technical, reference for RBM training can be found [here](https://www.cs.toronto.edu/~hinton/absps/guideTR.pdf).
+
++-----------+------------------------------------------------------------------------------------+
+|![](g.png) | **Grading**                                                                        |
++===========+:===================================================================================+
+|           | Traian RBM on the MNIST handwritten digits data set. Show that your trained RBM is a generative model that can generate new images of digits that it has not seen before. Do this by initializing the visible spins $v$ to a random state and performing alternating Gibbs sampling $k=10000$ times. The resulting $v$ sampled from the RBM should look like a random hand-written digit. Repeat this 20 times to convince yourself that the RBM learned how to draw digits. (Don't worry if your resulting digits look noisy. That's normal. If you want to generate nicer looking images, you could plot $p(v|h)$ at the end of your Gibbs sampling. That should look like a smooth grayscale image.)
+
+----
+
+## Optional: Training your RBM on an Ising Model
+
+If you are interested, you can also train your RBM on Ising spin configurations.
+
+We saw that RBMs, because of their special two-layer visible-hidden structure, are able to be efficiently trained. We also saw that they can learn complicated probability distributions, such as MNIST. This then leads us to the possibility of using RBMs to efficiently represent complicated probability distributions encountered in physics problems.
+
+A recent idea, explored in this [paper](https://journals.aps.org/prb/abstract/10.1103/PhysRevB.94.165134), is to learn the statistical mechanical properties of Ising models using RBMs. Since you have already worked with RBMs and Ising models, you have all the available tools ready to reproduce the results of this paper.
+
+Another idea is to interpret how RBMs learn during training. [Some argue](https://arxiv.org/abs/1410.3831) that RBM learning is similar to the renormalization group (RG), which we discussed earlier. To examine this connection, you could do the following:
+1. Using your Ising model code, sample spin configurations on a $27\times 27$ lattice and save them to a file. This will be your training data set.
+2. Train an RBM with $N_v=27\times 27$ visible spins and $N_h=9 \times 9$ hidden spins on your training data set. Think of your hidden layer as a $9 \times 9$ Ising model with 81 hidden neurons. When you train your RBM, don't allow all the connections. Instead only allow non-zero weights between the $3 \times 3$ blocks that you used when coarse-graining your Ising model in the RG unit.
+3. Once you've trained your Ising model, go ahead and look at the probability distribution of the hidden layer. What does it look like?
+--></section>
+<section id="video-s">
+<h2>Video(s)<a class="headerlink" href="#video-s" title="Link to this heading">#</a></h2>
+<iframe id="kmsembed-1_usqbhvr6" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_usqbhvr6/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Physics 446 RBM 1"></iframe></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Hopfield.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Hopfield Networks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Diffusion.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Generative Diffusion Models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rbm-as-an-ising-model">RBM as an Ising Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-probability-distributions">Understanding Probability Distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-and-sampling-an-rbm">Building and Sampling an RBM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unsupervised-learning-and-training-an-rbm">Unsupervised Learning and Training an RBM</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-gradients">Computing Gradients</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#putting-it-together-and-mini-batches">Putting it together (and mini-batches)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#free-energy">Free Energy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applications-of-rbm">Applications of RBM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-s">Video(s)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

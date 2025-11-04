@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Phase estimation &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'QC/PhaseEstimation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Quantum Fourier Transform" href="QFT.html" />
+    <link rel="prev" title="Non-atomic gates" href="NonAtomicGates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Phase estimation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenstates-in-the-bottom-wires">Eigenstates in the bottom wires</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speed">Speed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-different-unitary-circuit">A different unitary circuit.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-s">Video(s)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="phase-estimation">
+<h1>Phase estimation<a class="headerlink" href="#phase-estimation" title="Link to this heading">#</a></h1>
+<p>The quantum piece of Shor’s algorithm is period finding.</p>
+<p>The key to doing period finding is doing phase estimation.</p>
+<p>In phase estimation we have a unitary matrix <span class="math notranslate nohighlight">\(U\)</span> represented as a set of gates.</p>
+<ul class="simple">
+<li><p>Unitary matrices have eigenvalues and eigenvectors.</p></li>
+<li><p>The eigenvalues are always of the form <span class="math notranslate nohighlight">\(e^{2\pi i\theta}\)</span>.</p></li>
+</ul>
+<p>Our goal in phase estimation will be to take an eigenvector <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> of <span class="math notranslate nohighlight">\(U\)</span> such that <span class="math notranslate nohighlight">\(U|\Psi_j\rangle = e^{2\pi i\theta_j}\)</span> and get our quantum circuit to tell us <span class="math notranslate nohighlight">\(\theta_j\)</span>
+<span class="math notranslate nohighlight">\(0\leq \theta &lt; 1\)</span>.<br />
+This means that if the binary string we get is “011” that this is <span class="math notranslate nohighlight">\((0 \times 1/2) + (1 \times 1/4) + (1 \times 1/8)=3/8\)</span>.  Another way we can think of <span class="math notranslate nohighlight">\(\theta_j\)</span> is the binary number (i.e. 011 or 3) divided by the size of the Hilbert space, <span class="math notranslate nohighlight">\(2^\textrm{number of top wires}\)</span> (i.e <span class="math notranslate nohighlight">\(2^3=8\)</span>).  In our above example this also gives us 3/8.</p>
+<p>We will assume in this process that we have access to the gates which make up <span class="math notranslate nohighlight">\(U\)</span> as well as a way to start in an eigenvector.</p>
+<p>We will split up our wires into two parts:  the top (blue below) and bottom (red).</p>
+<p>At the top we are going to put it <span class="math notranslate nohighlight">\(|0\rangle\)</span> and at the bottom we are going to put in <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> so the total state is <span class="math notranslate nohighlight">\(|0\rangle|\Psi_j\rangle\)</span></p>
+<p>At the end of the circuit we want the top to be <span class="math notranslate nohighlight">\(|\theta_j\rangle\)</span> and the bottom to still be <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span> so the total state is <span class="math notranslate nohighlight">\(|\theta_j \rangle |\Psi_j \rangle\)</span>.</p>
+<p><img alt="PhaseEstimation" src="../_images/PhaseEstimation.png" /></p>
+<p>Let’s just consider the case where the unitary circuit <span class="math notranslate nohighlight">\(U\)</span> is just a single phase gate <span class="math notranslate nohighlight">\(P(\phi)\)</span>.  First, notice that the eigenvalue of <span class="math notranslate nohighlight">\(P\)</span> are <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span> with eigenvalues <span class="math notranslate nohighlight">\(e^{i 0}\)</span> and <span class="math notranslate nohighlight">\(e^{2\pi i (\phi/2\pi)}\)</span>.  So <span class="math notranslate nohighlight">\(\theta_0 = 0\)</span> and <span class="math notranslate nohighlight">\(\theta_1 = \phi/(2\pi)\)</span>.</p>
+<p>The number of bottom wires then is going to be 1 (since our unitary <span class="math notranslate nohighlight">\(U\)</span> only has one wire).  The number of top wires is going to depend how accurate we want to be.</p>
+<p>If we only have one wire on the top then all we can say is that the phase <span class="math notranslate nohighlight">\(\theta_j =\phi/2\pi\)</span> is close to 0 or close to 1/2.</p>
+<p>If we have two wires on the top then we could get the binary numbers: <span class="math notranslate nohighlight">\(|00 \rangle \rightarrow 0\)</span>, <span class="math notranslate nohighlight">\(|01\rangle \rightarrow 1/4\)</span> , <span class="math notranslate nohighlight">\(|10\rangle \rightarrow 1/2\)</span> , <span class="math notranslate nohighlight">\(|11\rangle \rightarrow 3/4\)</span>.  So the best we could hope for is whether <span class="math notranslate nohighlight">\(\theta_j\)</span> is  close to <span class="math notranslate nohighlight">\(0,1/4,1/2\)</span>, or <span class="math notranslate nohighlight">\(3/4\)</span>.</p>
+<p>Let’s start with one wire where we can largely work things out by hand. Implement the following circuit into your simulator and check that you get the right result.
+<img alt="PhaseEstimation" src="../_images/a1.png" /></p>
+<p>To initialize your simulator in the configuration shown in the picture you want to start your initial basis as <span class="math notranslate nohighlight">\(|1\rangle\)</span> (<em>Do you understand why this is?</em>)</p>
+<p>Let’s now consider what you get on the top wire after measurement.
+With probabibility <span class="math notranslate nohighlight">\(|(1/2) \times (1+\exp[i\phi])|^2\)</span> you get a zero and with probability <span class="math notranslate nohighlight">\(|(1/2) \times (1-\exp[i\phi])|^2\)</span> you get a one.</p>
+<ul class="simple">
+<li><p>if <span class="math notranslate nohighlight">\(\theta_j=0; 2\pi\theta_j=\phi_j=0\)</span> then we should always see 0 on the top wire with 100% probability.</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(\theta_j=1/2; 2\pi\theta_j=\phi_j=\pi\)</span> then we should always see 1 on the top wire with 100% probability.</p></li>
+<li><p>Consider what we get in the other cases.</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Run your simulator for 100 evenly chosen values of <span class="math notranslate nohighlight">\(\phi\)</span> between <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(2\pi\)</span> and make the following graph:  On the x-axis put <span class="math notranslate nohighlight">\(\phi/(2\pi)\)</span> and on the y-axis put the <span class="math notranslate nohighlight">\(\theta_j\)</span> maximally predicted by your circuit.  <em>Understand why it is the best you can expect.</em></p>
+<p>As a separate graph, let  <span class="math notranslate nohighlight">\(\phi/(2\pi)=0.1432394487827058\)</span>  and graph a histogram  of the probability your circuit gives back the result <span class="math notranslate nohighlight">\(\theta_j\)</span> (as a function of <span class="math notranslate nohighlight">\(\theta_j\)</span>).  Mark on your histogram <span class="math notranslate nohighlight">\(0.1432\)</span>. Post them in your document.</p>
+</div>
+<p>Let’s try to improve upon our accuracy (let <span class="math notranslate nohighlight">\(N\)</span> be the number of top wires which sets our accuracy):
+<img alt="PhaseEstimation" src="../_images/a3.png" />
+The reverse gate, as you might expect, reverses the order of its input wires. For two wires this is the same as a swap gate.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Implement this circuit and produce the same graphs as above.  Post them in your document.</p>
+</div>
+<p>Again, this seems to be doing the best we can do with only two wires on top.  Let’s see how to do this in general.</p>
+<p>Now we want to understand how to do this in general. <em>What is the general pattern?</em>
+(*Notice: * If you look through the math there was nothing special about the phase gate.  In the picture below we will use <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(|\Psi_j\rangle\)</span>.  You can mentally replace these with <span class="math notranslate nohighlight">\(U=P(\phi)\)</span> and <span class="math notranslate nohighlight">\(|\Psi_j\rangle=|1\rangle\)</span> and <span class="math notranslate nohighlight">\(|\theta_j\rangle = |\phi/2\pi\rangle\)</span>)</p>
+<div class="math notranslate nohighlight">
+\[|000\rangle |\Psi_j\rangle \rightarrow \sum_k |k\rangle |\Psi_j\rangle \rightarrow  \sum_k |k\rangle e^{2\pi i k\theta_j }|\Psi_j \rangle  \rightarrow |\theta_j \rangle |\Psi_j \rangle\]</div>
+<p>(Notice that <span class="math notranslate nohighlight">\(\sum_k |k\rangle e^{2\pi i k\theta_j }|\Psi_j \rangle\)</span> is the same as <span class="math notranslate nohighlight">\(\left( \sum_k e^{2\pi i\theta_j k } |k\rangle \right)\otimes |\Psi_j \rangle\)</span>)</p>
+<p>To get the second arrow correct, we can think of the number <span class="math notranslate nohighlight">\(k\)</span> in binary as <span class="math notranslate nohighlight">\(k_2 k_1 k_0\)</span>.  Then we could write what we want to do as</p>
+<p><span class="math notranslate nohighlight">\(\sum_k |k_2 k_1 k_0\rangle U^{k_0} (U^2)^{k_1} (U^4)^{k_2}\)</span>.</p>
+<p>This can be done by having a control wire from each of the wires for <span class="math notranslate nohighlight">\(|k\rangle\)</span> down to <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(U^2\)</span> and <span class="math notranslate nohighlight">\(U^4\)</span> respectively.</p>
+<p>Accomplishing the last arrow is done by the inverse of the quantum fourier transform.  Pause this page and go <a class="reference internal" href="QFT.html"><span class="doc">here</span></a> to build it.</p>
+<p>Now that you’ve figured out how to build a general quantum fourier transform, you need to figure out how to invert it.  The easiest way to do this is to write a python script <code class="docutils literal notranslate"><span class="pre">invert.py</span></code> which takes a circuit description and inverts it.</p>
+<p>Now that we have a working inverse quantum fourier transform, we can produce a general circuit that gets us whatever accuracy we want for our phase gate <span class="math notranslate nohighlight">\(P(\phi)\)</span>.
+Go ahead and write a python script which generates a circuit which takes as input the number of wires on the top to build and builds a circuit where <span class="math notranslate nohighlight">\(U=P(\phi)\)</span> below</p>
+<p><img alt="PhaseEstimation" src="../_images/PE4.png" /></p>
+<p><em>Q:</em> How should we build a circuit for <span class="math notranslate nohighlight">\(U^4\)</span>?  We could just write <span class="math notranslate nohighlight">\(U U U U\)</span> (and because of the fast-fowarding theorem, generically this is the best we can do - sometimes we will find something more efficient like in Shor’s algorithm).</p>
+<p><img alt="PhaseEstimation" src="../_images/PE5.png" /></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Run  your code to generate a circuit description with 6 wires on top and then run your simulator making the same two graphs as above.</p>
+</div>
+<p><strong>Congrats! You are successfully doing phase estimation.</strong></p>
+<hr class="docutils" />
+<section id="eigenstates-in-the-bottom-wires">
+<h2>Eigenstates in the bottom wires<a class="headerlink" href="#eigenstates-in-the-bottom-wires" title="Link to this heading">#</a></h2>
+<p>So far, we’ve only been putting in the eigenstate <span class="math notranslate nohighlight">\(|\Psi_1\rangle = |1\rangle\)</span>.
+<em>Q: What happens when you put it the other eigenstate <span class="math notranslate nohighlight">\(|\Psi_0\rangle = |0\rangle\)</span>?</em></p>
+<p><em>Q:  What happens if you put in a linear superposition of eigenstates?</em></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Using  <span class="math notranslate nohighlight">\(\phi=0.5\)</span> put into your simulator as the initial state <span class="math notranslate nohighlight">\(\sqrt{0.3} |\Psi_0\rangle + \sqrt{0.7}|\Psi_1\rangle\)</span>.  Make a graph which histograms how often you get all <span class="math notranslate nohighlight">\(2^6\)</span> outputs.</p>
+</div>
+<p><em>Notice that if you put in a linear superposition of eigenstates <span class="math notranslate nohighlight">\(\sum_j \alpha_j |\Psi_j\rangle\)</span> you get out a phase <span class="math notranslate nohighlight">\(\theta_j\)</span> with probability <span class="math notranslate nohighlight">\(|\alpha_j|^2\)</span></em></p>
+<hr class="docutils" />
+</section>
+<section id="speed">
+<h2>Speed<a class="headerlink" href="#speed" title="Link to this heading">#</a></h2>
+<p><strong>How fast is your algorithm?</strong></p>
+<p>The QFT takes a number of gates which is quadratic in the number of wires.
+Outside of the QFT, the number of phase gates you have to use, though, is <em>exponential</em> in the number of wires.  This is bad!
+Generically you can’t do better then that (this is called the no fast forwarding theorem!) but, in special cases, there are tricks to speed things up.</p>
+<p>For a phase gate (and Shor’s algorithm) there are tricks.  Figure out what the trick is here to replace many phase gates with a single gate.</p>
+<p>Run <span class="math notranslate nohighlight">\(\phi=0.5\)</span> with six wires again using that trick.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Paste that circuit description (up through the controlled-phase gates).</p>
+</div>
+</section>
+<section id="a-different-unitary-circuit">
+<h2>A different unitary circuit.<a class="headerlink" href="#a-different-unitary-circuit" title="Link to this heading">#</a></h2>
+<p>The next step is to try a different circuit on the bottom wire.  Generalize your code to take an arbitrary circuit description of NOT and P gates at the bottom (it would be nice to do a general circuit on the bottom but you’d have to learn how to do control-H and control-control-NOT) and do phase estimation on that circuit.</p>
+<p>For example, we could replace the bottom wire (which was a <em>single phase gate</em>) with the following two wires</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span>
+<span class="n">NOT</span> <span class="mi">0</span>
+<span class="n">P</span> <span class="mi">0</span> <span class="mf">0.3</span>
+<span class="n">NOT</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Determine how to compute the phase of the unitary which represents this circuit of two wires, just as we did with the phase gate.</p>
+<!-- Run it on this circuit description at the bottom with an accuracy of six wires on top with an input of $|1\rangle$ on the bottom wires.
+ **Provide circuit description**. -->
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Generate a histogram of the probability of a given set of wires on the top.</p>
+</div>
+</section>
+<section id="video-s">
+<h2>Video(s)<a class="headerlink" href="#video-s" title="Link to this heading">#</a></h2>
+<iframe id="kmsembed-1_6kwo38h1" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_6kwo38h1/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Phys 446 PhaseEstimation A "></iframe><iframe id="kmsembed-1_prfisxrt" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_prfisxrt/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Phys 446 PhaseEstimation B"></iframe><iframe id="kmsembed-1_ai8ixmzm" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_ai8ixmzm/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Phys 446 Phase Estimation C"></iframe></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./QC"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="NonAtomicGates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Non-atomic gates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="QFT.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Quantum Fourier Transform</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#eigenstates-in-the-bottom-wires">Eigenstates in the bottom wires</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speed">Speed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-different-unitary-circuit">A different unitary circuit.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video-s">Video(s)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Extra Credit: Simulated Annealing &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/SimulatedAnnealing';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Protein Folding" href="ProteinFolding.html" />
+    <link rel="prev" title="The Renormalization Group" href="RG.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Extra Credit: Simulated Annealing</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Extra Credit: Simulated Annealing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-optimization">Local Optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-annealing">Simulated Annealing</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="extra-credit-simulated-annealing">
+<h1>Extra Credit: Simulated Annealing<a class="headerlink" href="#extra-credit-simulated-annealing" title="Link to this heading">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Extra Credit</p>
+<p>This page is <strong>10 points extra credit</strong></p>
+<p>The simulated annealing (linked from bottom) is an extra <strong>10 points extra credit</strong></p>
+</div>
+<p>The Ising model is useful for lots of things, one of which is helping us learn about optimization.</p>
+<p>The goal of optimization is to <strong>extremize</strong> (maximize or minimize) a particular function O, called an objective function, which depends on a bunch of parameters <span class="math notranslate nohighlight">\((p_1,p_2,...,p_n\)</span>). One way to go about this is to compute the objective function’s derivatives with respect to the parameters, <span class="math notranslate nohighlight">\(\partial O/\partial i\)</span>. When fed a particular vector of parameters <span class="math notranslate nohighlight">\(p\)</span>, the derivatives identify the direction in which O changes most significantly. Iteratively “walking” in this direction — a procedure called <strong>gradient descent</strong> (for minimization) — leads to an extremum of <span class="math notranslate nohighlight">\(O\)</span>. Unfortunately this procedure only finds local extrema; it can get you up the nearest hill or down the nearest valley, but there might be a mountain or gorge someplace further away that you’ve missed. Avoiding this situation requires an algorithm that finds global extrema.  In addition, this only works when the optimization problem you are solving is continuous</p>
+<p>In general it is impossible to find global extrema quickly (although the algorithm we will explore in this section can go about it slowly).</p>
+<p>There are a number of heurestic algorithms that allow us to find global extrema, many of which are inspired by physics or nature. The most famous of these is simulated annealing. In <strong>simulated annealing</strong> you essentially run a simulation at very high temperature and then slowly cool things down. The intuition behind this is that at high temperatures you will be able to sample the entire landscape of the objective function, and then as you cool down you end up falling into the lowest minima.</p>
+<p>In our case, our objective function will be to find the configuration of spins in an Ising model (<em>our parameters</em>) which minimizes the energy (<em>our objective function</em>). In the model that we’ve studied thus far, where all the coefficients <span class="math notranslate nohighlight">\(J\)</span> are the same, this isn’t very interesting (you can probably find the ground state without a computer). On the other hand, if we choose random signs on each of the coefficients, finding the ground state will be hard.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Modify your Ising model to work with arbitrary signs on each bond.</p>
+</div>
+<p><strong>Choosing the random coupling constants</strong></p>
+<p>For this section, we are going to work with a set of coupling constants that have fixed but randomly selected signs. We will work on a <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice.</p>
+<p>Go ahead and choose these coupling constants.  For my code I selected them by choosing</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Jh</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],(</span><span class="mi">27</span><span class="p">,</span><span class="mi">27</span><span class="p">))</span>
+<span class="n">Jv</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">],(</span><span class="mi">27</span><span class="p">,</span><span class="mi">27</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>and the compute the energy of these spins doing</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Energy</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+    <span class="n">rightSpins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">downSpins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">spins</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Jh</span><span class="o">*</span><span class="n">spins</span><span class="o">*</span><span class="n">rightSpins</span><span class="o">*-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Jv</span><span class="o">*</span><span class="n">spins</span><span class="o">*</span><span class="n">downSpins</span><span class="o">*-</span><span class="mi">1</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p>As a sanity check, you can also compute the energy the slow way as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Energy_slow</span><span class="p">(</span><span class="n">spins</span><span class="p">):</span>
+  <span class="n">e</span><span class="o">=</span><span class="mi">0</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">27</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">27</span><span class="p">):</span>
+      <span class="n">e</span><span class="o">=</span><span class="n">e</span><span class="o">+</span><span class="n">spins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">spins</span><span class="p">[(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">27</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">Jh</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*-</span><span class="mi">1</span>
+      <span class="n">e</span><span class="o">=</span><span class="n">e</span><span class="o">+</span><span class="n">spins</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">spins</span><span class="p">[</span><span class="n">i</span><span class="p">,(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">27</span><span class="p">]</span><span class="o">*</span><span class="n">Jv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">*-</span><span class="mi">1</span>
+  <span class="k">return</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>and should get the same thing.</p>
+<p>In addition to working with your own coupling constants, you can use the set we’ve randomly generated here.</p>
+<ul class="simple">
+<li><p>File(s) of our coupling constants:</p>
+<ul>
+<li><p><a class="reference internal" href="#ParallelTemperingJh.dat"><span class="xref myst">Jh</span></a></p></li>
+<li><p><a class="reference internal" href="#ParallelTemperingJv.dat"><span class="xref myst">Jv</span></a></p></li>
+</ul>
+</li>
+<li><p>A file of our initial configuration of spins (this is only for testing):</p>
+<ul>
+<li><p><a class="reference internal" href="#ParallelTemperingSpins.dat"><span class="xref myst">spins</span></a></p></li>
+</ul>
+</li>
+</ul>
+<p>You can load these in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">spins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;ParallelTemperingSpins.dat&quot;</span><span class="p">)</span>
+<span class="n">Jh</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;ParallelTemperingJh.dat&quot;</span><span class="p">)</span>
+<span class="n">Jv</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;ParallelTemperingJv.dat&quot;</span><span class="p">)</span>
+<span class="c1">#plt.matshow(spins)</span>
+<span class="c1">#plt.show()</span>
+<span class="c1">#plt.matshow(Jv)</span>
+<span class="c1">#plt.show()</span>
+<span class="c1">#plt.matshow(Jh)</span>
+<span class="c1">#plt.show()</span>
+</pre></div>
+</div>
+<p>For these coupling constants with that initial spin configuration, we get an energy of 16 (after you check the energy you should reset the spin configuration).</p>
+<section id="local-optimization">
+<h2>Local Optimization<a class="headerlink" href="#local-optimization" title="Link to this heading">#</a></h2>
+<p>Let’s start with a poor approach to optimization. Start in the configuration where all spins are up. Loop through the spins over and over again, flipping one anytime its opposite orientation reduces the energy (i.e. running at large beta). Stop after visiting N sequential spins without having performed any flips. This is a local minimum.</p>
+<p>Then go ahead and start with various random configurations. Do you get to the same local minima each time? If not, this means that typically you’re not finding global minima.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Run your local optimization with 100 different random initial conditions.</p>
+<p>you need to set up a set of random coupling constants and tried to find minima using local optimization. To do this, you should start with 100 different initial conditions and run your Ising model at a high temperature (say T=1/1000).   You can run until you can’t decrease the energy any longer (say 1000 sweeps are constant).  With our coupling constants we find this takes ~3000 sweeps to converge.</p>
+<p>Histogram the hundred different local minima that you get.<br />
+You will potentially get different results but we get local minima between -1020 and -980 using our coupling constants.</p>
+</div>
+</section>
+<section id="simulated-annealing">
+<h2>Simulated Annealing<a class="headerlink" href="#simulated-annealing" title="Link to this heading">#</a></h2>
+<p>Simulated annealing modifies the above algorithm in a very natural way.  Instead of running at zero temperature (which always goes downhill), in simulated annealing we start by running at a high temperature.  Over time, we slowly decrease the temperature until we get to zero temperature.  The intuition here is that we end up in a deep minima.  In fact, you can show that (in some unrealistic cases where you cool very slowly) you are guaranteed to get a global minima.</p>
+<p>The algorithm concretely is:</p>
+<ul class="simple">
+<li><p>Run Monte Carlo at high temperature <span class="math notranslate nohighlight">\(T\)</span> for a while</p></li>
+<li><p>Every so often decrease the temperature</p></li>
+<li><p>When you get to  <span class="math notranslate nohighlight">\(T=0\)</span> which is equivalent to our local optimization) stop after your optimization doesn’t go down any more.</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Now using the same random coupling constants as the <span class="math notranslate nohighlight">\(T=0\)</span> case, try to find a minima using simulated annealing.  Start with running 1000 sweps at each beta and use a linear temperature schedule in beta - i.e <code class="docutils literal notranslate"><span class="pre">betas=np.arange(0,4.0,0.01)</span></code></p>
+<p>Do a <code class="docutils literal notranslate"><span class="pre">plt.matshow</span></code> of your final spins.</p>
+<p>Using simulated annealing under this temperature schedule we find that we get an energy of -1024 for our coupling constants.</p>
+</div>
+<p>Simulated annealing is relatively sensitive to the temperature schedule that you are using.  Here is a list of some temperature schedules you can use.  In each case take <span class="math notranslate nohighlight">\(T_0=1000\)</span>.  Here we have that <span class="math notranslate nohighlight">\(k\)</span> is round <span class="math notranslate nohighlight">\(k\)</span> (starting at <span class="math notranslate nohighlight">\(k=0\)</span>) where each round is 1000 sweeps.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(T_k = T_0 \alpha^k\)</span> where <span class="math notranslate nohighlight">\(\alpha =0.85\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(T_k=T_0/(1+\alpha \log(1+k))\)</span>. Try <span class="math notranslate nohighlight">\(\alpha=1\)</span> (provably will converge to the global minima if you take enough steps (but it takes too long to take enough steps)) and <span class="math notranslate nohighlight">\(\alpha=1.5\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(T_k = T_0 /(1+\alpha k)\)</span> for <span class="math notranslate nohighlight">\(\alpha=0.5\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(T_k = T_0/(1+ \alpha k^2)\)</span> for <span class="math notranslate nohighlight">\(\alpha=0.5\)</span></p></li>
+</ul>
+<p>To have a fair test, use the same coupling constants.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Use these five different temperature schedules each once.  Graph (up to 100 temperatures each) the energy as a function of temperature.</p>
+</div>
+<p>Simulated annealing is used for a wide variety of tasks. Here you can use it to solve a cartoon model of <a class="reference internal" href="ProteinFolding.html"><span class="doc std std-doc">protein folding</span></a> for <strong>10 more extra credit points</strong></p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Ising"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="RG.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The Renormalization Group</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ProteinFolding.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Protein Folding</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-optimization">Local Optimization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulated-annealing">Simulated Annealing</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

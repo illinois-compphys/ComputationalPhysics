@@ -1,0 +1,715 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Computing in Physics &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Overview';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Setup" href="GettingStarted.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Computing in Physics</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-learning-objectives">Overall Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#broad-themes">Broad Themes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projects">Projects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cellular-automata-project-0">Cellular Automata (project 0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-computing">Quantum Computing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-mechanics-universality-and-renormalization">Statistical Mechanics, Universality, and Renormalization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-modeling">Generative Modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-up-week">Make Up Week</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condensed-matter">Condensed Matter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-and-submission-policies">Grading and Submission Policies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-rubric">Grading Rubric</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#course-staff-and-office-hours">Course Staff and Office Hours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attendance">Attendance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequently-asked-questions">Frequently asked questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaboration-and-resource-use-policy">Collaboration and resource-use policy</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="computing-in-physics">
+<h1>Computing in Physics<a class="headerlink" href="#computing-in-physics" title="Link to this heading">#</a></h1>
+<p>Welcome to Computing in Physics.  This is the online text designed for an immersive advanced computational physics course,  Physics-446, offered by the Physics Department at the University of Illinois. I’ve developed this course to teach you some of the coolest physics I know. This text should be thought of not as a textbook but more as a workbook which guides you through four (plus one) computational projects.   This is inverted from the typical approach to learning where lectures or textbooks are designed to teach and problem sets are designed for testing.  Here the problem sets are where you learn.  This approach comes from the philosphy that learning happens by doing!  That said, these projects are not designed to be do-able on your own:  ask questions and get help!    You can download the course syllabus <a class="reference external" href="https://courses.physics.illinois.edu/phys446/sp2024/secure/446SyllabusSpring2024.pdf">here</a>.</p>
+<hr class="docutils" />
+<section id="overall-learning-objectives">
+<h2>Overall Learning Objectives<a class="headerlink" href="#overall-learning-objectives" title="Link to this heading">#</a></h2>
+<p>The general learning objectives for this course are</p>
+<ul class="simple">
+<li><p>How to be <em>a computational physicist</em> taught through an immersive hands-on approach.  We will learn everything from good software engineering, to how to go from a model to working simulation code, to how to collect and analyze computational data.</p></li>
+<li><p>A computational perspective on physics. There are various ways to learn physics, but one of the best is to understand it sufficiently well that you can teach a computer how to do it. You will understand the physics of quantum mechanics by teaching your laptop to simulate a quantum computer; you will understand renormalization group by teaching your computer how to do block-spin decimation.</p></li>
+<li><p><em>Computational Thinking.</em> In your standard physics curriculum, you have learned how to approach problems analytically (and often experimentally).  Thinking about the world computationally is a different skill which give an alternative tool to approach and understanding problems in the world including scientific ones.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="broad-themes">
+<h2>Broad Themes<a class="headerlink" href="#broad-themes" title="Link to this heading">#</a></h2>
+<p>There are three broad themes that we will see throughout these projects. They are:</p>
+<p><strong>From simple rules, comes complicated phenomena:</strong> One quantum mechanical equation gives us all of chemistry, superconductivity, topological insulators, etc.; from firing neurons arises thinking; from evolution arises complicated life. Computation is the best way I know how to shed insight on all of these topics. Computers allow you to simulate the emergence of complex phenomena from simple laws, and I know no better way to understand physics than by teaching your computer how to do physics.</p>
+<p><strong>You can understand the universe from simple models:</strong> By this time in your physics career you’re probably used to this truism, but think about it for a minute; why don’t you need string theory to understand the pressure in a balloon? There is a deep reason for this which goes by the names <em>universality</em> and <em>the renormalization group.</em> The statistical mechanics section of this course is designed to provide a first pass at universality by having you write simulations that compute universal critical exponents and numerically implement a renormalization group calculation on the Ising model.</p>
+<p><strong>Quantum computers are more powerful than classical computers:</strong> Or in other words, quantum mechanics is hard to simulate. For many years, the idea that all computing machines in the universe computed equally well (the modified Church–Turing thesis) was one of the core tenets of computer science. This means that anything that is computatable in the universe is computable at (about) the same speed on your macbook. Quantum computing broke this paradigm, for reasons which you will come to deeply understand both by writing a quantum computing simulator as well as trying to simulate quantum mechanics!</p>
+<hr class="docutils" />
+</section>
+<hr class="docutils" />
+<section id="projects">
+<h2>Projects<a class="headerlink" href="#projects" title="Link to this heading">#</a></h2>
+<p>Your goals are to program, simulate, and understand the physics in the four (plus one) projects described below. This work will span much of class-time and all your homework. Reading/working carefully through this text, coming to class and office-hours, and asking questionsare the most effective ways to accomplish this.  My goal is to help you accomplish these projects through this text, lectures (usually <span class="math notranslate nohighlight">\(\ll 30\)</span> minutes per class), and one-on-one interaction throughout class.  The physics that you will work with is broad, and so we will cover a very narrow (albeit important) path through it.   This follows a just-in-time approach to teaching: you’ll learn information that you need as you need it.</p>
+<p>Neither the text nor the lectures will cover all the information you need to complete these projects. Depending on the strength of your physics and computation background, you may need to fill in those information gaps (with our guidance, of course). As you advance in your career in either academia or industry, this will become more common. Learning how to correct an information deficit is an important skill. Use the books and links we mention liberally.</p>
+<p>You will write programs and run simulations. Programming can be done in essentially any langauge with a strong preference for python (with C++ and Julia as reasonable alternatives).  To get yourself up and running logistically with programming, see <a class="reference internal" href="#secure/0-CellularAutomata/html/0-GettingStarted.html"><span class="xref myst">Getting Started</span></a>.</p>
+<p>As a rule of thumb, don’t spend more than 30 minutes trying to decipher a problem on your own; come get clarification.  <strong>Approach I recommend:</strong> Start making progress, get stuck, learn what you need to know to overcome your problem, continue.</p>
+<hr class="docutils" />
+<section id="cellular-automata-project-0">
+<h3>Cellular Automata (project 0)<a class="headerlink" href="#cellular-automata-project-0" title="Link to this heading">#</a></h3>
+<p><strong>Due:  September 2</strong> (<em>5% of grade</em>)</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="CellularAutomata/CellularAutomata.html"><span class="doc std std-doc">Cellular Automata</span></a></p></li>
+<li><p><a class="reference internal" href="CellularAutomata/Sand.html"><span class="doc std std-doc">Sand</span></a>  (<em>Extra Credit</em>)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="quantum-computing">
+<h3>Quantum Computing<a class="headerlink" href="#quantum-computing" title="Link to this heading">#</a></h3>
+<p><em>Quantum mechanics allows you to compute some things exponentially faster than classical physics.</em></p>
+<p><strong>Due:  September 23</strong>   (<em>23.75% of the grade</em>)</p>
+<p>Build a quantum computer simulator and simulate Shor’s algorithm to factor 21.</p>
+<p>Quantum computing is probably the most important revolution in computing in the last fifty years….</p>
+<p>If you’ve seen quantum mechanics, great!  If not, in my (slightly biased) viewpoint, this is the amongst the best ways to learn quantum mechanics.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="QC/Overview.html"><span class="doc std std-doc">Quantum Computing Project Overview</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="statistical-mechanics-universality-and-renormalization">
+<h3>Statistical Mechanics, Universality, and Renormalization<a class="headerlink" href="#statistical-mechanics-universality-and-renormalization" title="Link to this heading">#</a></h3>
+<p><em>The world is comprehensible even if we don’t know the basic rules.</em></p>
+<p><strong>Due: October  7</strong>   (<em>23.75% of the grade</em>)</p>
+<p>Simulate the Ising model using Monte Carlo and the Renormalization group</p>
+<p>Statistical Mechanics is the study of how you go from microscopic to macroscopic phenomena. Renormalization group is the deepest idea in physics</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Ising/Overview.html"><span class="doc std std-doc">Stat Mech Project Overview</span></a></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="generative-modeling">
+<h3>Generative Modeling<a class="headerlink" href="#generative-modeling" title="Link to this heading">#</a></h3>
+<p><em>Emergent Models of Thinking</em>
+<em>Many of the most interesting machine learning models are essentially simulations of physical systems.</em></p>
+<p><strong>Due: November 4</strong>  (<em>23.75% of the grade</em>)</p>
+<p>Physics …</p>
+<p>Neural networks: Build a minimal model of memory; learn about machine learning.</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="ML/Overview.html"><span class="doc std std-doc">Overview</span></a></p>
+<ul>
+<li><p><a class="reference internal" href="ML/Hopfield.html"><span class="doc std std-doc">Hopfield Network</span></a></p></li>
+<li><p><a class="reference internal" href="ML/RBM.html"><span class="doc std std-doc">Restricted Boltzmann Machines</span></a></p></li>
+<li><p><a class="reference internal" href="ML/Diffusion.html"><span class="doc std std-doc">Generative Diffusion Models</span></a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="make-up-week">
+<h3>Make Up Week<a class="headerlink" href="#make-up-week" title="Link to this heading">#</a></h3>
+<p>Week of November 4</p>
+</section>
+<hr class="docutils" />
+<section id="condensed-matter">
+<h3>Condensed Matter<a class="headerlink" href="#condensed-matter" title="Link to this heading">#</a></h3>
+<p><em>From simple laws, come exotic materials</em></p>
+<p><strong>Due:</strong> (<em>Day of Final</em>)  (<em>23.75% of the grade</em>)</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="TI/Overview.html"><span class="doc std std-doc">Condensed Matter Project Overview</span></a></p></li>
+</ul>
+<hr class="docutils" />
+<p>(<em>All projects are due at 11:59 PM of the date listed.</em>)
+(<em>Project narratives are considered drafts until we actually assign the project</em>)</p>
+<hr class="docutils" />
+</section>
+</section>
+<hr class="docutils" />
+<section id="grading-and-submission-policies">
+<h2>Grading and Submission Policies<a class="headerlink" href="#grading-and-submission-policies" title="Link to this heading">#</a></h2>
+<p>The grading in this course is somewhat atypical.  It is designed for a mastery-based approach where you get credit for what you’ve accomplished and learned.  These projects are difficult and so this course is designed with a low floor and a high ceiling.  The grading scheme helps facilitate this.</p>
+<p>There are 4+1 projects, each about three weeks long.</p>
+<p>You will get points for the parts of the project that you complete successfully, but there will be no partial credit for incorrect results. To compensate for this we are going to spend a lot of class-time + office hours trying to help you get through these projects.</p>
+<p>Grading will be done in person.  You will need to show one of the course staff your work in person and convince them it’s right.  It is an important skill that you learn to determine whether your code produces the correct result. Projects will be graded during a grading office-hour.</p>
+<p>Two additional points:</p>
+<ul class="simple">
+<li><p>It is required that you put together a document (we have a template) that shows the summary of your results.  It will mainly consist of pasted plots and output.   This is primarily to expedite and facilitate grading.  When you show us your assignment for grading, we will look through your document as well as ask you other questions/look at aspects of your code/etc.</p></li>
+<li><p>It is required that you submit your code and document by the time of the project’s deadline.  Each of you will have a separate box folder set up for you where you will place these files.</p></li>
+</ul>
+<p>The grading is not linear. Getting through <span class="math notranslate nohighlight">\(40\%\)</span> of the points for a project does not mean you’ve made it through 40% of the material for the project. Grading is designed to give you more points early on in the project.</p>
+<p>There is no late submission.</p>
+<p>We will not post solutions.</p>
+<p>Extra credit will be added to the relevant project and so is weighted the same as the given project.</p>
+<hr class="docutils" />
+<section id="grading-rubric">
+<h3>Grading Rubric<a class="headerlink" href="#grading-rubric" title="Link to this heading">#</a></h3>
+<p>Grades on the border are rounded up - i.e. 90% is an A.</p>
+<ul class="simple">
+<li><p>100+:  A+</p></li>
+<li><p>90-100: A</p></li>
+<li><p>80-90: A-</p></li>
+<li><p>70-80: B+</p></li>
+<li><p>60-70: B</p></li>
+<li><p>50-60: B-</p></li>
+<li><p>40-50: C+</p></li>
+<li><p>35-40: C</p></li>
+<li><p>30-35: C-</p></li>
+<li><p>25-30: D+</p></li>
+<li><p>20-25: D</p></li>
+<li><p>10-20: D-</p></li>
+<li><p>0-10: F</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+</section>
+<hr class="docutils" />
+<section id="course-staff-and-office-hours">
+<h2>Course Staff and Office Hours<a class="headerlink" href="#course-staff-and-office-hours" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Lectures:</strong> TR 3:00-4:20, 1304 Siebel Center</p></li>
+<li><p><strong>Professor:</strong> Bryan Clark</p>
+<ul>
+<li><p>email: <a class="reference external" href="mailto:bkclark&#37;&#52;&#48;illinois&#46;edu">bkclark<span>&#64;</span>illinois<span>&#46;</span>edu</a></p></li>
+<li><p>Office: ESB 2111</p></li>
+<li><p>Office Hours: W 9:30-10:30AM - outside ESB 2111</p></li>
+</ul>
+</li>
+<li><p><strong>TA:</strong> Gaurav Tenkila</p>
+<ul>
+<li><p>email: <a class="reference external" href="mailto:tenkila2&#37;&#52;&#48;illinois&#46;edu">tenkila2<span>&#64;</span>illinois<span>&#46;</span>edu</a></p></li>
+<li><p>Office: ESB 4121</p></li>
+<li><p>Office Hours: Tue 1:30-3:00PM</p></li>
+</ul>
+</li>
+<li><p><strong>TA:</strong> Songyuan Liu</p>
+<ul>
+<li><p>email: <a class="reference external" href="mailto:sliu141&#37;&#52;&#48;illinois&#46;edu">sliu141<span>&#64;</span>illinois<span>&#46;</span>edu</a></p></li>
+<li><p>Office: Loomis 258</p></li>
+<li><p>Office Hours: Mon 1:30-2:30</p></li>
+</ul>
+</li>
+</ul>
+<hr class="docutils" />
+</section>
+<hr class="docutils" />
+<section id="attendance">
+<h2>Attendance<a class="headerlink" href="#attendance" title="Link to this heading">#</a></h2>
+<p>There is no attendance required for class (although we believe that coming to class will be helpful!) That said, <strong>please do not attend class if you are sick</strong>. In such a case, we will work with you to make sure you get caught up. No notes for sickness, etc are required.</p>
+</section>
+<hr class="docutils" />
+<section id="frequently-asked-questions">
+<h2>Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading">#</a></h2>
+<p><em>What is the difficulty level of this course:</em> This course is designed to be tractable but challenging. Place it in your mind on the same level of difficulty as other upper-level physics courses like quantum and statistical mechanics. You will spend a lot of time out of class working on assignments.</p>
+<p><em>What preparation do I need for this course?</em> The primary requirements are a willingness to work hard and some programming experience (you will get much better at it throughout the course). Most of the physics you need to know will be introduced as needed. If you don’t know a lot of quantum mechanics, there is no better way to learn than emulating a quantum computer. If you don’t know statistical mechanics, you’ll learn from simulating the Ising model.</p>
+<p><em>Who is this course for?</em> Those who are interested in learning some of the coolest physics I know through a computational lens; those who want to improve their computational skills; those who are interested in mastering the art of computational physics. I think it is a good course both for those interested in going to graduate school and for those going into industry.</p>
+<p><em>What this course is not?</em> A programming course, a numerical methods course, a software engineering course, etc. That said you will get better at programming and learn plenty of tools and techniques (git, parallel programming, machine learning, etc.).</p>
+</section>
+<hr class="docutils" />
+<section id="collaboration-and-resource-use-policy">
+<h2>Collaboration and resource-use policy<a class="headerlink" href="#collaboration-and-resource-use-policy" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>You are allowed to collaborate with others but must write and submit your own work. Please write on top of your work with whom you’ve collaborated.</p></li>
+<li><p>You are allowed to look things up online (including coding things). If you are using code from online, you must</p>
+<ul>
+<li><p>make sure that it is freely available to be used;</p></li>
+<li><p>document in your code when and where you are using it.</p></li>
+</ul>
+</li>
+<li><p>While you can look up things online, you’re not allowed to directly look up an answer. So if we ask “write code that simulates a quantum computer in python” you’re not allowed to type into google “python code for simulating a quantum computer” and then copy it.</p></li>
+<li><p>You are not allowed to use github copilot or chatgpt.</p></li>
+<li><p>Please do not post your code on a public website, such as a public github page.</p></li>
+</ul>
+<hr class="docutils" />
+<p>Text and course designed by <a class="reference external" href="https://clark.physics.illinois.edu">Bryan Clark</a></p>
+</section>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="GettingStarted.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Getting Setup</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overall-learning-objectives">Overall Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#broad-themes">Broad Themes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projects">Projects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cellular-automata-project-0">Cellular Automata (project 0)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-computing">Quantum Computing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-mechanics-universality-and-renormalization">Statistical Mechanics, Universality, and Renormalization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generative-modeling">Generative Modeling</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-up-week">Make Up Week</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#condensed-matter">Condensed Matter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-and-submission-policies">Grading and Submission Policies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grading-rubric">Grading Rubric</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#course-staff-and-office-hours">Course Staff and Office Hours</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attendance">Attendance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequently-asked-questions">Frequently asked questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#collaboration-and-resource-use-policy">Collaboration and resource-use policy</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

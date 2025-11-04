@@ -1,0 +1,571 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Measuring the Ising Model &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/Measure';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Renormalization Group" href="RG.html" />
+    <link rel="prev" title="Simulating an Ising Model" href="IsingModel.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Measuring the Ising Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phases">Phases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-errors">A note about errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring">Measuring</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="measuring-the-ising-model">
+<h1>Measuring the Ising Model<a class="headerlink" href="#measuring-the-ising-model" title="Link to this heading">#</a></h1>
+<p>Our goal in this section will be to start measuring properties of our Ising model.  We will work with a larger system (<span class="math notranslate nohighlight">\(27 \times 27\)</span>) on this page. <em>When reporting energy and magnetization squared it should always be per spin</em>.</p>
+<section id="minimal-background">
+<h2>Minimal Background<a class="headerlink" href="#minimal-background" title="Link to this heading">#</a></h2>
+<p>We can measure properties or observables of our system at a temperature <span class="math notranslate nohighlight">\(T.\)</span>  An observable <span class="math notranslate nohighlight">\(O(c)\)</span> eats a configuration and spits out a number.  The average value of an observable is</p>
+<div class="math notranslate nohighlight">
+\[\sum_c P(c) O(c)\]</div>
+<p>Three observables we will consider are the energy <span class="math notranslate nohighlight">\(E(c)\)</span> (which we’ve already seen) whose average is</p>
+<div class="math notranslate nohighlight">
+\[\langle E \rangle = \sum_c P(c) E(c) = \sum_c \frac{\exp[-\beta E(c)]}{Z} E(c) = \sum_E P(E) E \]</div>
+<p>where <span class="math notranslate nohighlight">\(Z=\sum_c \exp[-\beta E(c)]\)</span>
+Notice that this means that <span class="math notranslate nohighlight">\(P(E) = \sum_{c\,\mathrm{with\,energy}\,E} P(c)\)</span>
+and the  squared magnetization per spin <span class="math notranslate nohighlight">\(M^2(c)= (\frac{1}{N} \sum_i s_i)^2\)</span>
+whose average</p>
+<div class="math notranslate nohighlight">
+\[\langle M^2 \rangle =  \sum_c P(c) M(c)^2 = \sum_{M^2} P(M^2) M^2\]</div>
+<p>Notice that this means that <span class="math notranslate nohighlight">\(P(M^2) = \sum_{c\,\mathrm{with\,squared\,magnetization}\,M^2} P(c)\)</span> .</p>
+<blockquote>
+<div><p><em>Question to think about:</em>  Why do we study <span class="math notranslate nohighlight">\(\langle m^2 \rangle\)</span> and not <span class="math notranslate nohighlight">\(\langle m \rangle\)</span>?</p>
+</div></blockquote>
+<p>When we measure an observable we can either compute its histogram or expectation value.</p>
+<section id="phases">
+<h3>Phases<a class="headerlink" href="#phases" title="Link to this heading">#</a></h3>
+<p>A <strong>phase</strong> of matter (like gas, liquid, solid) can be defined by an order parameter (i.e. an observable) which is zero in one phase and not zero in another phase.  A 2D Ising model has two phases: the ferromagnet (essentially all spins up) and the paramagnet (essentially all random spins).  In the paramagnet, the squared magnetization is zero in the thermodynamic limit.  The ferromagnet, the squared magnetization is not zero in the thermodynamic limit.</p>
+</section>
+<section id="a-note-about-errors">
+<h3>A note about errors<a class="headerlink" href="#a-note-about-errors" title="Link to this heading">#</a></h3>
+<p>You can think of your Monte Carlo code as a black box that gives <em>correlated</em> samples of the magnetization. To get an average, do exactly what you’re familiar with: sum the results then divide by the number of results. But further analysis involves subtleties that come with correlated data.</p>
+<p>Consider estimating the error of the previously computed average. Given uncorrelated data, the error in the mean typically quantified by the <strong>standard error</strong>, <span class="math notranslate nohighlight">\(\sigma_E \equiv \sigma / \sqrt{N}\)</span>, where <span class="math notranslate nohighlight">\(\sigma\)</span> is the standard deviation (ask python!) and <span class="math notranslate nohighlight">\(N\)</span> is the number of datapoints. (Note: The standard deviation is essentially a measure of the spread of the data and has nothing to do with the amount of data points you have.) For correlated data, this is the wrong way to estimate error. In the correlated case you must divide the number of datapoints by a quantity called the <strong>integrated autocorrelation time</strong>, <span class="math notranslate nohighlight">\(\tau\)</span>, to get the number of uncorrelated points.</p>
+<p>As an example, suppose you’ve generated 100 samples of the Ising model with a MCMC method which has <span class="math notranslate nohighlight">\(\tau = 4\)</span>. A non-zero value of <span class="math notranslate nohighlight">\(\tau\)</span> reflects the fact that movement from one configuration to another depends on where you start; here we need four moves to reach a configuration which is plausibly uncorrelated with the starting configuration. Thus, when analyzing the error of a mean, the number of uncorrelated samples in the calculation is a mere <span class="math notranslate nohighlight">\(100/4 = 25\)</span> samples.</p>
+<p>To compute the standard error scaled by the autocorrelation time <span class="math notranslate nohighlight">\(\tau\)</span>, you can use the <a class="reference internal" href="#stats.py"><span class="xref myst">stats.py</span></a> script. You can do this as follows</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stats</span>
+<span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">variance</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">autocorrelation</span><span class="p">)</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">Stats</span><span class="p">(</span><span class="n">myNumpyArrayOfData</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">error</span></code> is the standard error that properly takes into account the autocorrelation time.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="measuring">
+<h2>Measuring<a class="headerlink" href="#measuring" title="Link to this heading">#</a></h2>
+<p>For a range of <span class="math notranslate nohighlight">\(\beta J \in [0.0,0.1,0.2,...,1.0]\)</span> and <span class="math notranslate nohighlight">\(\beta=\infty\)</span> (*in your code you can just use a large <span class="math notranslate nohighlight">\(\beta\)</span> *) compute</p>
+<ul class="simple">
+<li><p>a prototypical snapshot (you can build this with <code class="docutils literal notranslate"><span class="pre">pylab.matshow()</span></code> )</p></li>
+<li><p>a histogram of <span class="math notranslate nohighlight">\(P(E)\)</span></p></li>
+<li><p>the value of <span class="math notranslate nohighlight">\(\langle E \rangle\)</span> (and error bar)</p></li>
+<li><p>a histogram of <span class="math notranslate nohighlight">\(P(M^2)\)</span></p></li>
+<li><p>the value of <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> (and error bar)</p></li>
+</ul>
+<div class="admonition-testing admonition">
+<p class="admonition-title">Testing</p>
+<p>To test your results, it’s important to check limits that you are able to compute in some alternative way.  In our case, it is reasonably straightforward to figure out the <span class="math notranslate nohighlight">\(\beta=0\)</span> and <span class="math notranslate nohighlight">\(\beta=\infty\)</span> results.  These results can be figured out either analytically or writing a short five-line python code - i.e. for the <span class="math notranslate nohighlight">\(\beta=0\)</span> case randomly sample <span class="math notranslate nohighlight">\(27 \times 27\)</span> -1 and 1’s and then average.  For these two limits, you should compute the histograms and average values of <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and <span class="math notranslate nohighlight">\(\langle E \rangle\)</span>.</p>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Fill out the table in the document.  Draw vertical lines on your respective histograms where <span class="math notranslate nohighlight">\(\langle E \rangle\)</span> and <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> are  (use <code class="docutils literal notranslate"><span class="pre">axvline()</span></code>).  On your <span class="math notranslate nohighlight">\(\beta=\infty\)</span> and <span class="math notranslate nohighlight">\(\beta=0\)</span> histogram, draw the ‘testing’ curvesfg on top of your Monte Carlo curve.  Also write in the table, the `testing’ values you determined for <span class="math notranslate nohighlight">\(\langle E \rangle\)</span> and <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> for <span class="math notranslate nohighlight">\(\beta = 0,\infty\)</span>.</p>
+</div>
+<p>At <span class="math notranslate nohighlight">\(\beta=0\)</span> (infinite temperature) every configuration is equally likely, but your energy and squared magnetization are not equally likely (see your histograms).  What this is telling you is that macroscopic observables are different from microscopic observables.</p>
+<p>If you look at your snapshot, you should see two phases.  One (at <span class="math notranslate nohighlight">\(\beta=0\)</span>) is the paramagnetic phase.  Every configuration is equally likely.  The other phase (large <span class="math notranslate nohighlight">\(\beta\)</span>) is the ferromagnetic phase.  Every spin should agree.</p>
+<p><em>Note about domain walls:</em>  Maybe you are seeing domain walls? Why is that?   This is because it’s very hard to move from the all-up to the all-down configuration.  This isn’t a critical problem (this happens in the real world too).  You don’t have to fix it but you could by adding in additional smarter moves.</p>
+<p>In between these two phases there is a phase transition; there is a critical point (one very specific temperature) where this happens.</p>
+<p>You now want to use this information to compute the transition location.  You should be able to roughly guess where the transition is just by looking at the prototypical snapshots.  To do a more thorough job, we are going to use the magnetization squared.  This is the order parameter for ferromagnetic phase.  When <span class="math notranslate nohighlight">\(L=\infty\)</span> the order parameter is non-zero in the ferromagnetic phase and zero in the paramagnetic phase.</p>
+<p>It won’t be exactly this sharp in the finite system but it should still give you a good sense for the location of the transition.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Graph <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> as a function of <span class="math notranslate nohighlight">\(\beta\)</span>. This graph must have error bars on it. Where is the transition?  Paste these graphs into your document.</p>
+</div>
+<p>Another way to identify the transition is to compute the specific heat</p>
+<div class="math notranslate nohighlight">
+\[
+C_v = \frac{\partial E}{\partial T} = \frac{\partial E}{\partial \beta}\frac{\partial \beta}{\partial T} = -\frac{1}{T^2}\frac{\partial E}{\partial \beta}
+\]</div>
+<p>and look for a peak.</p>
+<p>To compute the specific heat you can compute <span class="math notranslate nohighlight">\(\partial E/\partial \beta\)</span> by taking your <span class="math notranslate nohighlight">\(E\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span> curve and  subtracting your nearest neighbor points - i.e. <code class="docutils literal notranslate"><span class="pre">Energies[1:]</span> <span class="pre">-</span> <span class="pre">Energies[:-1]</span></code>).</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Produce a curve of the specific heat vs. <span class="math notranslate nohighlight">\(T\)</span>.  Paste it into your document</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Extra Credit (5 points)</p>
+<p>One thing that we haven’t measured is the free energy and entropy.  In order to measure this, you need to do some additional thermodynamic integration.  Look up how to go about this and implement it computing the entropy and free energy of the Ising model as a function of temperature.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Ising"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="IsingModel.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Simulating an Ising Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="RG.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">The Renormalization Group</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#phases">Phases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-errors">A note about errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring">Measuring</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

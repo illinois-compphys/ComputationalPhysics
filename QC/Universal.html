@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Gates for any Unitary &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'QC/Universal';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BQP in PSPACE" href="BQPinPSPACE.html" />
+    <link rel="prev" title="Controlled Gates" href="ControlledGates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Gates.html">Gates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gates for any Unitary</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#universal-single-qubit-gates">Universal Single Qubit Gates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-gates">Pauli Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-matrices">Rotation matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#any-one-qubit-unitary">Any one-qubit unitary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-aside-about-simulating-one-qubit-circuits">An aside about  simulating one-qubit circuits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-aside-about-controlling-one-qubit-unitaries">An aside about controlling one-qubit unitaries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-qubit-gates">Two qubit gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbitrary-unitaries">Arbitrary Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-discrete-universal-gate-sets">A note about Discrete Universal Gate Sets</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gates-for-any-unitary">
+<h1>Gates for any Unitary<a class="headerlink" href="#gates-for-any-unitary" title="Link to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page below here is not yet finished/polished.</p>
+</div>
+<p>We have built our simulator with some universal quantum gates: <span class="math notranslate nohighlight">\(P(\theta)\)</span>, H, and CNOT.</p>
+<p>These gates have the property that:</p>
+<ul class="simple">
+<li><p>You can build any unitary using these gates.</p></li>
+<li><p>They aren’t especially bad.  What we mean by this is that there isn’t another set of reasonable  gates that are much better.  One way to see this is that we can build other reasonable gate sets from this set without too much trouble.</p></li>
+<li><p>They aren’t cheating.  A couple special 1 and 2 qubit gates are reasonable atomic constructs that experimentalists can build.  There are lots of other choices but we will see (later) that with different choices you can quickly build up this set (and then can build anything).</p></li>
+</ul>
+<p>We will focus on showing the first two bullet points in this section.  We will first show how to reasonably efficiently build any one and two qubit gates.  This will tell us that there isn’t much penalty for using the set we’ve chosen.  Then we will also see how to build any arbitrary unitary from these gates.</p>
+<p>To accomplish this, what we will need to do is figure out how to take an arbitrary unitary and break it up into H, P, and CNOT.</p>
+<p>As our first step we are going to figure out how to build arbitrary 1 bit unitaries.</p>
+<p>Next, we will generate arbitrary control-unitaries (first one bit, and then otherwise)</p>
+<p>Finally, we will put it all together to generate an arbitrary unitary.  It is important to note that this algorithm will eat an arbitrary unitary and give you a circuit but there’s no reason to think that the circuit you get out will be the most efficient way of doing things.</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Gates for Shor’s Algorithm</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<p class="sd-card-text">If you’re goal is just to make it through Shor’s algorithm, then you only need to implement a small subset of these gates.  To get through Shor you are going to need</p>
+<p class="sd-card-text"><strong>Control-Phase</strong>:  To make this gate do, NOT -&gt; Rz -&gt; Control-Rz -&gt; Control-Phase</p>
+<p class="sd-card-text"><strong>Control-Classical Function</strong>: This will be done on a separate page.</p>
+<p class="sd-card-text"><strong>Swap:</strong> Figure out how to build a swap using three CNOT</p>
+<p class="sd-card-text"><strong>Long-range CNOT:</strong> (possibly already implemented in your simulator but you can also do long-range CNOT by swapping up and then CNOT and then swapping down)</p>
+</div>
+</details><hr class="docutils" />
+<section id="universal-single-qubit-gates">
+<h2>Universal Single Qubit Gates<a class="headerlink" href="#universal-single-qubit-gates" title="Link to this heading">#</a></h2>
+<p>We are going to spend a bit of time building circuits for more sophistcated gates.  We are going to start by building 1-wire circuits.  When you just have 1-wire (and therefore 1-qubit) we can visualize that qubit on a bloch sphere  (see <a class="reference external" href="https://en.wikipedia.org/wiki/Bloch_sphere">here</a>).  This is sensible because a single qubit has three parameters that specify it (two complex numbers and on constraints).   In our language, <span class="math notranslate nohighlight">\(|0\rangle\)</span> points in the <span class="math notranslate nohighlight">\(\hat{z}\)</span> direction, and <span class="math notranslate nohighlight">\(|1\rangle\)</span> points in the <span class="math notranslate nohighlight">\(-\hat{z}\)</span> direction.  <span class="math notranslate nohighlight">\(|0\rangle + |1\rangle\)</span> is in the <span class="math notranslate nohighlight">\(\hat{x}\)</span> direction.</p>
+<p>We can graph a single qubit in python using the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qutip</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">graph</span><span class="p">(</span><span class="n">vec</span><span class="p">):</span>
+    <span class="n">b</span><span class="o">=</span><span class="n">qutip</span><span class="o">.</span><span class="n">Bloch</span><span class="p">()</span>
+    <span class="n">up</span><span class="o">=</span><span class="n">qutip</span><span class="o">.</span><span class="n">basis</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">down</span><span class="o">=</span><span class="n">qutip</span><span class="o">.</span><span class="n">basis</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">add_states</span><span class="p">(</span><span class="n">vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">up</span><span class="o">+</span><span class="n">vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">down</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">graph</span><span class="p">(</span><span class="n">myOneWireState</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Go ahead and graph a couple vectors and see what it does. Also, try to figure out what the Hadamard gate does.</p>
+<section id="pauli-gates">
+<h3>Pauli Gates<a class="headerlink" href="#pauli-gates" title="Link to this heading">#</a></h3>
+<p>The three pauli gates are</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Z=
+\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; -1 \\
+\end{bmatrix}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X=
+\begin{bmatrix}
+0 &amp; 1 \\
+1 &amp; 0 \\
+\end{bmatrix}
+\end{split}\]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+Y=
+\begin{bmatrix}
+0 &amp; -i \\
+i &amp; 0 \\
+\end{bmatrix}
+\end{split}\]</div>
+<p>Figure out how to build these circuits from Hadamard and phase gates.  <em>Think about what this does on the Bloch sphere (or just graph it on some vectors before and after)</em>  Notice that X=NOT.</p>
+</section>
+<section id="rotation-matrices">
+<h3>Rotation matrices<a class="headerlink" href="#rotation-matrices" title="Link to this heading">#</a></h3>
+<p>Often we want to take a qubit and do a rotation around these axis.</p>
+<div class="math notranslate nohighlight">
+\[R_x(\theta)=e^{-i \frac{\theta}{2} X}\]</div>
+<div class="math notranslate nohighlight">
+\[R_y(\theta)=e^{-i \frac{\theta}{2} Y}\]</div>
+<div class="math notranslate nohighlight">
+\[R_z(\theta)=e^{-i \frac{\theta}{2} Z}\]</div>
+<p>Build a python code which eats <span class="math notranslate nohighlight">\(\theta\)</span> and produces circuits for these three gates.</p>
+</section>
+<section id="any-one-qubit-unitary">
+<h3>Any one-qubit unitary<a class="headerlink" href="#any-one-qubit-unitary" title="Link to this heading">#</a></h3>
+<p>Here we will consider how to generate arbitrary one-wire unitaries given our univesal gate sets.  Notice that a one-wire unitary essentially is a rotation of the Bloch sphere and so we expect to be able to write it as rotations.</p>
+<p>A unitary matrix has the property that <span class="math notranslate nohighlight">\(UU^\dagger=I\)</span>.  It then follows that <span class="math notranslate nohighlight">\(\det(UU^\dagger)=1\)</span> which implies <span class="math notranslate nohighlight">\(\det(U)\det(U^\dagger)=aa^*=1\)</span>.  Therefore the determinant of a unitary matrix, <span class="math notranslate nohighlight">\(\det(U)=e^{i\phi}\)</span>.</p>
+<p>We will find it convenient to write unitaries as
+$<span class="math notranslate nohighlight">\( U=
+\begin{bmatrix}
+a_{11} &amp; a_{12} \\
+a_{21} &amp; a_{22}
+\end{bmatrix} =
+e^{i\phi/2} \begin{bmatrix}
+u_{11} &amp; u_{12} \\
+u_{21} &amp; u_{22} \\
+\end{bmatrix} =e^{i\phi/2}
+\begin{bmatrix}
+e^{i\phi_1}\cos(\theta) &amp; e^{i\phi_2} \sin(\theta) \\
+-e^{-i\phi_2}\sin(\theta) &amp; e^{-i\phi_1} \cos(\theta) \\
+\end{bmatrix}
+\)</span>$</p>
+<p>with certain constraints on these values.</p>
+<p>If we then let
+$<span class="math notranslate nohighlight">\(\alpha = arg(u_{11})-arg(u_{21})\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\beta = arg(u_{11})+arg(u_{21})\)</span><span class="math notranslate nohighlight">\(
+\)</span><span class="math notranslate nohighlight">\(\theta = \arctan(|u_{21}|/|u_{11}|)\)</span>$</p>
+<p>we can write
+$<span class="math notranslate nohighlight">\(U = e^{i\phi/2} R_z(-\alpha)R_y(2 \theta)R_z(-\beta)\)</span>$
+(<em>At the moment you don’t have to worry about the global phase out front because it just gives a global phase to the entire system.  - You should understand this!  We will eventually need to deal with the phase though if, for example, we are controlling it</em>)</p>
+<p>Convince yourself that this gives you the right matrix.  This also checks that my formulas don’t have missing factors of two or minus signs somewhere (one way to convince yourself is to write three lines of code to take a random unitary, split it up like this and multiply out the matrices to check ).</p>
+<p>Build a python code which eats the unitary matrix and  produces a one-wire circuit for <span class="math notranslate nohighlight">\(U\)</span>.</p>
+<p>For testing you probably want to generate random unitaries and see if it does the correct thing.  To get a random unitary, generate a random matrix, make it Hermitian, multiply it by <span class="math notranslate nohighlight">\(i\)</span> and then exponentiate it using <code class="docutils literal notranslate"><span class="pre">scipy.linalg.expm</span></code>.</p>
+<p>Verify that when you run your one-wire circuit through your simulator that you get the correct results.</p>
+</section>
+<section id="an-aside-about-simulating-one-qubit-circuits">
+<h3>An aside about  simulating one-qubit circuits<a class="headerlink" href="#an-aside-about-simulating-one-qubit-circuits" title="Link to this heading">#</a></h3>
+<div class="tip admonition">
+<p class="admonition-title">Edification</p>
+<p>This section is just for your edification and one doesn’t need to understand it for anything else in this project.</p>
+</div>
+<p>Here we are going to start learning a bit about the power and the limitations of quantum computing.  First let’s think about simulations where you only have one-qubit gates.</p>
+<p>Do the following test.  Choose some random unitary matrices with determinant 1.  Run your circuit and get the quantum state as output.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span>
+<span class="n">U</span> <span class="mi">0</span> <span class="n">u11</span> <span class="n">u12</span> <span class="n">u21</span> <span class="n">u22</span>
+<span class="n">U</span> <span class="mi">1</span> <span class="n">v11</span> <span class="n">v12</span> <span class="n">v21</span> <span class="n">v22</span>
+<span class="n">U</span> <span class="mi">2</span> <span class="n">w11</span> <span class="n">w12</span> <span class="n">w21</span> <span class="n">w22</span>
+</pre></div>
+</div>
+<p>Now, run three simulations</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="n">U</span> <span class="mi">0</span> <span class="n">u11</span> <span class="n">u12</span> <span class="n">u21</span> <span class="n">u22</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="n">U</span> <span class="mi">0</span> <span class="n">v11</span> <span class="n">v12</span> <span class="n">v21</span> <span class="n">v22</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="n">U</span> <span class="mi">0</span> <span class="n">w11</span> <span class="n">w12</span> <span class="n">w21</span> <span class="n">w22</span>
+</pre></div>
+</div>
+<p>get your output and tensor product your outputs.  Compare it to the output you got when you had three wires?  What do you notice?  Why is this?</p>
+<p>Now, suppose that these four circuit descriptions have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Measure</span>
+</pre></div>
+</div>
+<p>at the end. Can you figure out the relationship of the probabilities of the first circuit description compares to the last three?  In other words, can you write some python code that takes a circuit description with only single qubit gates and simulates it <strong>exponentially</strong> faster then your general quantum simulator.  <em>You don’t have to do this for a grade but it’s a nice illustrative project if you’re ahead.</em></p>
+</section>
+<section id="an-aside-about-controlling-one-qubit-unitaries">
+<h3>An aside about controlling one-qubit unitaries<a class="headerlink" href="#an-aside-about-controlling-one-qubit-unitaries" title="Link to this heading">#</a></h3>
+<div class="tip admonition">
+<p class="admonition-title">Edification</p>
+<p>This section is just for your edification and one doesn’t need to understand it for anything else in this project.</p>
+</div>
+<p><strong>Control-U (one wire)</strong>
+We’ve seen that we can generate any 1-qubit unitary matrix. Now we’d like to see how we can generate ctrl-U for one-wire U. Figure out how to do a ctrl-U.  Here you have to pay attention to the phase <span class="math notranslate nohighlight">\(e^{i\phi}\)</span> since if it’s controlled it only applies to some of the binary numbers.</p>
+<p>You might want to use the fact that</p>
+<p><span class="math notranslate nohighlight">\(A=R_z(\alpha)R_y(-\theta)\)</span>
+<span class="math notranslate nohighlight">\(B=R_y(\theta)R_z(-\frac{\beta+\alpha}{2})\)</span>
+<span class="math notranslate nohighlight">\(C=R_z(\frac{\beta-\alpha}{2})\)</span></p>
+<p>and  that <span class="math notranslate nohighlight">\(ABC=I\)</span> and <span class="math notranslate nohighlight">\(AXBXC=U\)</span> (and that X=NOT) (<em>check this to feret out any factors of 2 I have wrong</em>).</p>
+<p>Add this to your preprocessor using the syntax</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CU</span> <span class="mi">0</span> <span class="mi">1</span> <span class="n">u11</span> <span class="n">u12</span> <span class="n">u21</span> <span class="n">u22</span>
+</pre></div>
+</div>
+<p>where the first number is the control and the second number is the wire the unitary is on.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This page below here is not yet finished/polished.</p>
+</div>
+</section>
+</section>
+<section id="two-qubit-gates">
+<h2>Two qubit gates<a class="headerlink" href="#two-qubit-gates" title="Link to this heading">#</a></h2>
+<p>At this point you have successfully generated any one-qubit unitaries.  The next step is to be able to generate an arbitrary two-qubit unitary (assuming you have access to one-qubit unitaries).  Work out how to get arbitrary two-qubit unitaries uses one-qubit unitaries and a CNOT.</p>
+</section>
+<section id="arbitrary-unitaries">
+<h2>Arbitrary Unitaries<a class="headerlink" href="#arbitrary-unitaries" title="Link to this heading">#</a></h2>
+<p>Finally, you know need to figure out how to take an arbitrary unitary <em>written as a big matrix</em> and write code which generates the circuit description for this unitary. Effectively what you wnat to do here is use circuit descriptions to decompose it into two-qubit unitaries.</p>
+</section>
+<section id="a-note-about-discrete-universal-gate-sets">
+<h2>A note about Discrete Universal Gate Sets<a class="headerlink" href="#a-note-about-discrete-universal-gate-sets" title="Link to this heading">#</a></h2>
+<p>In our work so far, we’ve been using a universal gate set that has a continuous set of gates (because our phase gate can be any angle).  There are also universal gate sets that are discrete.  In this case, we have to get the continuous phase to be pretty close from a discrete set of gates.  Consider this.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./QC"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ControlledGates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Controlled Gates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="BQPinPSPACE.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">BQP in PSPACE</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#universal-single-qubit-gates">Universal Single Qubit Gates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pauli-gates">Pauli Gates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rotation-matrices">Rotation matrices</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#any-one-qubit-unitary">Any one-qubit unitary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-aside-about-simulating-one-qubit-circuits">An aside about  simulating one-qubit circuits</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#an-aside-about-controlling-one-qubit-unitaries">An aside about controlling one-qubit unitaries</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#two-qubit-gates">Two qubit gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbitrary-unitaries">Arbitrary Unitaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-about-discrete-universal-gate-sets">A note about Discrete Universal Gate Sets</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

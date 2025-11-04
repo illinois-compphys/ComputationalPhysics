@@ -1,0 +1,701 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simulating an Ising Model &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/IsingModel';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Measuring the Ising Model" href="Measure.html" />
+    <link rel="prev" title="Overview" href="Overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Simulating an Ising Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-mechanics">Statistical Mechanics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chains">Markov Chains</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings algorithm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#states-and-parameters">States and parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-energy">Computing the Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-mcmc">Writing MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-your-code">Speeding Up Your Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coupling-from-the-past">Coupling From the Past</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="simulating-an-ising-model">
+<h1>Simulating an Ising Model<a class="headerlink" href="#simulating-an-ising-model" title="Link to this heading">#</a></h1>
+<p><em>In this page, you will write Monte Carlo code to sample configurations from the Ising model with the correct probability.</em></p>
+<section id="minimal-background">
+<h2>Minimal background<a class="headerlink" href="#minimal-background" title="Link to this heading">#</a></h2>
+<section id="the-ising-model">
+<h3>The Ising model<a class="headerlink" href="#the-ising-model" title="Link to this heading">#</a></h3>
+<p>The Ising model is one of the <em>drosophila</em> of physics. At first look, it’s a simple model of crystalline materials which attributes magnetism to the orientation of magnetic moments on a lattice, summarized by the Hamiltonian or energy</p>
+<div class="math notranslate nohighlight">
+\[
+E = - \sum_{i,j} s_i s_j.
+\]</div>
+<p>The spins have two orientations, <span class="math notranslate nohighlight">\(s_{i} = \pm 1\)</span>, which only interact with their *nearest neighbors. There are more complicated versions of the Ising model (<em>which we won’t use in the main part of the assignment</em>) whose energy terms have a different value <span class="math notranslate nohighlight">\(J_{ij}\)</span> for every bond <span class="math notranslate nohighlight">\((i,j)\)</span> - i.e. <span class="math notranslate nohighlight">\(J_{ij} s_i s_j\)</span> or an additional term for a magnetic field <span class="math notranslate nohighlight">\(\sum_i h_i s_i\)</span>.</p>
+<p>A <strong>configuration</strong> of an Ising model is a specification of every moment’s orientation — an assignment of values to the <span class="math notranslate nohighlight">\(s_i\)</span> variable for all moments in the system. For our purposes, configurations are ‘snapshots’ of the system which our simulator will hold in memory, like a vector containing <span class="math notranslate nohighlight">\(\pm 1\)</span> in its <span class="math notranslate nohighlight">\(i\)</span>th entry to specify whether moment <span class="math notranslate nohighlight">\(i\)</span> points up or down.</p>
+</section>
+<section id="statistical-mechanics">
+<h3>Statistical Mechanics<a class="headerlink" href="#statistical-mechanics" title="Link to this heading">#</a></h3>
+<p>There are a couple facts we need to know about statistical mechanics.</p>
+<p>(1) We can specify configurations of our system <span class="math notranslate nohighlight">\(c.\)</span>  In the case of an Ising model, the configuration is the orientation of each spin.</p>
+<p>(2)  Each configuration <span class="math notranslate nohighlight">\(c\)</span> has an energy <span class="math notranslate nohighlight">\(E(c)\)</span>.   We’ve already seen this for the Ising model.</p>
+<p>(3) For classical systems in contact with an energy reservoir of temperature <span class="math notranslate nohighlight">\(T\)</span>, the probability <span class="math notranslate nohighlight">\(P\)</span> of finding the system in configuration <span class="math notranslate nohighlight">\(c\)</span> is</p>
+<p><span class="math notranslate nohighlight">\(P(c) = \frac{e^{-\beta E(c)}}{\sum_c e^{-\beta E(c)}}\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(E(c)\)</span> is the configuration’s energy and <span class="math notranslate nohighlight">\(\beta \equiv 1/(kT)\)</span> with <span class="math notranslate nohighlight">\(k\)</span> Boltzmann’s constant  and <span class="math notranslate nohighlight">\(T\)</span> is the temperature.  We will work in units where <span class="math notranslate nohighlight">\(k=1.\)</span></p>
+</section>
+<section id="markov-chains">
+<h3>Markov Chains<a class="headerlink" href="#markov-chains" title="Link to this heading">#</a></h3>
+<p>We have just learned that statistical mechanics tells us that if we look at the system, each configuration <span class="math notranslate nohighlight">\(c\)</span>  appears with probability <span class="math notranslate nohighlight">\(P(c)\sim \exp(-\beta E(c))\)</span>.  Our first goal is to implement an algorithm which gives us configurations <span class="math notranslate nohighlight">\(c\)</span> with probability <span class="math notranslate nohighlight">\(P(c)\)</span>.</p>
+<p>One such algorithm is markov chain Monte Carlo.</p>
+<p>A Markov chain is a process where you are at some state <span class="math notranslate nohighlight">\(c\)</span> (i.e. a configuration) and then you choose another state <span class="math notranslate nohighlight">\(c'\)</span> with a probability that only depends on <span class="math notranslate nohighlight">\(c\)</span>.  In other words, you can’t use the fact that previously you were at configuration <span class="math notranslate nohighlight">\(b\)</span> to decide the probability <span class="math notranslate nohighlight">\(P(c \rightarrow c')\)</span> you’re going to go from <span class="math notranslate nohighlight">\(c\)</span> to <span class="math notranslate nohighlight">\(c'\)</span>.  This process is called a memoryless process.</p>
+<p>As long as you do a (non-pathalogical) random walk in a memoryless way, you’re guaranteed that, after walking around enough, that the probability you are in configuration <span class="math notranslate nohighlight">\(c\)</span> is some <span class="math notranslate nohighlight">\(\pi(c)\)</span>.  <span class="math notranslate nohighlight">\(\pi\)</span> is called  the <strong>stationary distribution</strong>.  Different markov chains will have different stationary distributions.    A Markov chain is non-pathological if:</p>
+<ul class="simple">
+<li><p>It is <em>aperiodic</em>; it doesn’t cycle between configurations in a subset of the system’s full configuration space.</p></li>
+<li><p>It is <em>connected</em>; given two configurations, there is a path with non-zero probability that the chain <em>could</em> (but not necessarily <em>will</em>) follow to get from one to the other.</p></li>
+</ul>
+<p>To simulate the Ising model, we wish to build a markov chain which has the stationary distribution <span class="math notranslate nohighlight">\(\pi(c) \sim \exp(-\beta E_c)\)</span>. We will do so with a <em>very</em> famous algorithm which lets us build a Markov chain for any <span class="math notranslate nohighlight">\(\pi(c)\)</span> we want.</p>
+</section>
+<section id="the-metropolis-hastings-algorithm">
+<h3>The Metropolis-Hastings algorithm<a class="headerlink" href="#the-metropolis-hastings-algorithm" title="Link to this heading">#</a></h3>
+<p>If you know your desired stationary distribution, the <strong>Metropolis-Hastings algorithm</strong> provides a canonical way to generate a Markov chain that produces it. <em>The fact that you can do this is amazing!</em>  The steps of the algorithm are:</p>
+<ul class="simple">
+<li><p>Start with some configuration <span class="math notranslate nohighlight">\(c\)</span></p></li>
+<li><p>Propose a move to a new trial configuration <span class="math notranslate nohighlight">\(c'\)</span> with a transition probability <span class="math notranslate nohighlight">\(T(c\rightarrow c')\)</span></p></li>
+<li><p>Accept the move to <span class="math notranslate nohighlight">\(c'\)</span> with probability <span class="math notranslate nohighlight">\(\min \left(1, \frac{\pi(c')}{\pi(c)}\frac{T(c'\rightarrow c)}{T(c \rightarrow c')} \right)\)</span></p></li>
+</ul>
+<p>The first step is straightforward, but the latter two deserve some explanation.</p>
+<p><strong>How <span class="math notranslate nohighlight">\(T(c\rightarrow c')\)</span> is picked</strong>: Choosing a procedure for movement between configurations is the art of MCMC, as there are many options with different strengths and weaknesses. In the simplest implementations of the Metropolis algorithm we choose a movement procedure where forward and reverse moves are equiprobable, <span class="math notranslate nohighlight">\(T(c \rightarrow c') = T(c' \rightarrow c)\)</span>.</p>
+<blockquote>
+<div><p><em>Question to think about</em>: How do equiprobable forward and reverse moves simplify the Metropolis algorithm?</p>
+</div></blockquote>
+<p><strong>Acceptance condition</strong>: To construct a Markov chain which asymptotes to the desired distribution <span class="math notranslate nohighlight">\(\pi\)</span>, the algorithm must somehow incorporate <span class="math notranslate nohighlight">\(\pi\)</span> in its walk through configuration space. Metropolis does this through the <strong>acceptance ratio</strong></p>
+<div class="math notranslate nohighlight">
+\[
+\alpha \equiv \frac{\pi(c')}{\pi(c)}\frac{T(c'\rightarrow c)}{T(c \rightarrow c')}.
+\]</div>
+<p>Notice how the first factor in <span class="math notranslate nohighlight">\(\alpha\)</span> is the <em>relative probability</em> of the configurations <span class="math notranslate nohighlight">\(c'\)</span> and <span class="math notranslate nohighlight">\(c\)</span>. Assuming that <span class="math notranslate nohighlight">\(T(c \rightarrow c')=T(c' \rightarrow c)\)</span>, we have that  <span class="math notranslate nohighlight">\(\alpha &gt; 1\)</span> indicates that <span class="math notranslate nohighlight">\(c'\)</span> is more likely than <span class="math notranslate nohighlight">\(c\)</span>, and the proposed move is automatically accepted. When <span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span>, <span class="math notranslate nohighlight">\(c'\)</span> is less probable than <span class="math notranslate nohighlight">\(c\)</span>, and the proposed move is accepted with probability <span class="math notranslate nohighlight">\(\alpha\)</span>.</p>
+<blockquote>
+<div><p><em>Question to think about</em>: Why are moves with <span class="math notranslate nohighlight">\(\alpha &lt; 1\)</span> accepted with probability <span class="math notranslate nohighlight">\(\alpha\)</span>, rather than outright rejected?</p>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="states-and-parameters">
+<h2>States and parameters<a class="headerlink" href="#states-and-parameters" title="Link to this heading">#</a></h2>
+<p>For our simulation, we are going to work on a two-dimensional lattice.  This leaves us with an energy</p>
+<div class="math notranslate nohighlight">
+\[E = - \sum_{(x,y)} s_{(x,y)} s_{(x+a,y+b)}\]</div>
+<p>where <span class="math notranslate nohighlight">\((a,b) \in \{(1,0) , (0,1), (-1,0), (0,-1)\}\)</span></p>
+<p>For this project we will be working on a <span class="math notranslate nohighlight">\(L \times L\)</span> grid (where <span class="math notranslate nohighlight">\(L\)</span> is 3 or 27 or 81).</p>
+<p>We are going to represent the state of our spins by a <span class="math notranslate nohighlight">\(L \times L\)</span> array which can have either a -1 (spin-down) or 1 (spin-up). To set up a random initial conidition you can do  <code class="docutils literal notranslate"><span class="pre">np.random.choice([1,-1],</span> <span class="pre">(L,L))</span></code> in python.   In C++, there are two approaches to storing the two dimensional array.  One approach is to use  the STL: <code class="docutils literal notranslate"><span class="pre">vector&lt;vector&lt;int&gt;</span> <span class="pre">&gt;</span> <span class="pre">spins</span></code>.  Another option is to use Eigen (see <a class="reference external" href="http://eigen.tuxfamily.org/index.php?title=Main_Page">here</a>) where you will use <code class="docutils literal notranslate"><span class="pre">MatrixXi</span></code>.</p>
+<p>This approach will work for square grids (and is what you want to do for this project!).   In some cases, you want a more complicated lattice (triangular, pyrochlore) and have different parameters for <span class="math notranslate nohighlight">\(J_{ij}\)</span> and <span class="math notranslate nohighlight">\(h_i\)</span>.  In that case, instead of storing it as a grid you can alternatively store it as a graph.  This below is just for your edification for future uses.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Storing your configuration as a graph.</p>
+<p>A more general way to store your configuration is to put your spins (and magnetic field) on <em>nodes</em> of a graph and the coupling constants <span class="math notranslate nohighlight">\(J_{ij}\)</span> as edges.
+<img alt="graph.png" src="../_images/graph_small.png" /></p>
+<p>A graph has a bunch of nodes (each node <span class="math notranslate nohighlight">\(i\)</span> has a state <span class="math notranslate nohighlight">\(s_i\)</span> which is either spin-up or spin-down and has a magnetic field <span class="math notranslate nohighlight">\(h_i\)</span>) and a bunch of edges (each edge has a <span class="math notranslate nohighlight">\(J_{ij}\)</span> on it).  Then, if you want a grid you can just choose a graph that is grid-like.
+<img alt="grid_small.png" src="../_images/grid_small.png" /></p>
+<p>Now there are two questions:  how do you represent this inside your code and how do you get the code to know about the graph that you want.</p>
+<p><em>Representing your spins:</em> Here is what I did in my code.  I wrote an Ising class which has two vectors which represent the state of the nodes and their magnetic fields (i.e. <code class="docutils literal notranslate"><span class="pre">vector&lt;int&gt;</span> <span class="pre">spins</span></code> and <code class="docutils literal notranslate"><span class="pre">vector&lt;double&gt;</span> <span class="pre">h</span></code>).   Then, I stored a neighbor vector.  The i’th element in the neighbor vector stores a list (or vector) of neighbors with their respective coupling constants.
+In other words, for the graph above, you want to be storing the following inside your computer:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Node</span><span class="p">:</span> <span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span>  <span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="p">(</span><span class="n">neighbor</span><span class="p">,</span> <span class="n">J</span><span class="p">)</span> <span class="o">...</span>
+<span class="mi">1</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>  <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mf">1.1</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="mi">5</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I stored this as <code class="docutils literal notranslate"><span class="pre">vector&lt;vector&lt;pair&lt;int,</span> <span class="pre">double&gt;</span> <span class="pre">&gt;</span> <span class="pre">&gt;</span> <span class="pre">neighbors</span></code> where the <code class="docutils literal notranslate"><span class="pre">pair&lt;int,double&gt;</span></code> stores the node you are a neighbor to and the weight.</p>
+<p><em>Setting up your graph:</em>  Setting up your Ising model this way gives you a lot of flexibility.  But now you need some way to tell your code what particular graph you want (maybe the one above or a grid, etc).</p>
+<p>I recommend doing this by reading two files.  A “spins.txt” which tells you the value of <span class="math notranslate nohighlight">\(h_i\)</span> for spin <span class="math notranslate nohighlight">\(i\)</span> and a “bonds.txt” which tells you which spins are connected and what their coupling constants are.</p>
+<p>For the first graph above:
+<strong>bonds.txt</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="mi">2</span> <span class="mf">1.0</span>
+<span class="mi">1</span> <span class="mi">3</span> <span class="o">-</span><span class="mf">0.5</span>
+<span class="mi">3</span> <span class="mi">4</span> <span class="mf">1.1</span>
+<span class="mi">2</span> <span class="mi">4</span> <span class="o">-</span><span class="mf">1.1</span>
+<span class="mi">4</span> <span class="mi">5</span> <span class="mf">0.6</span>
+</pre></div>
+</div>
+<p><strong>spin.txt</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="mf">0.2</span>
+<span class="mi">2</span> <span class="o">-</span><span class="mf">1.1</span>
+<span class="mi">3</span> <span class="mf">0.2</span>
+<span class="mi">4</span> <span class="mf">1.2</span>
+<span class="mi">5</span> <span class="mf">0.1</span>
+</pre></div>
+</div>
+<p>Then just write some sort of Init() function for your Ising model to read in the graph.  Also, go ahead and write yourself a python code that generates the relevant graph for a two-dimensional Ising model on a square grid.  Now, any time you want to run a different Ising model, you just have to change these files.</p>
+</div>
+</section>
+<section id="computing-the-energy">
+<h2>Computing the Energy<a class="headerlink" href="#computing-the-energy" title="Link to this heading">#</a></h2>
+<p>The next step in putting together your Ising model is learning how to compute the energy <span class="math notranslate nohighlight">\(E(c)\)</span> of a configuration.  Write some code (i.e <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">Energy(spins)</span></code>) which allows you to do this.</p>
+<p>In addition to computing the energy for a single configuration, it’s going to be critical to be able to compute the energy difference between two configurations that differ by a single spin flip (i.e. <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">deltaE(spin_to_flip)</span></code>)</p>
+<p><em>Why is this?</em>  Because the acceptance criterion we are going to use is the ratio of <span class="math notranslate nohighlight">\(\exp[-\beta E_\textrm{new}]/\exp[-\beta E_\textrm{old}]=\exp[-\beta \Delta E]\)</span>.</p>
+<p>Go ahead and make this function.  Make sure that the function takes time <span class="math notranslate nohighlight">\(O(1)\)</span> and not time <span class="math notranslate nohighlight">\(O(N)\)</span> (i.e. don’t call <code class="docutils literal notranslate"><span class="pre">Energy(spins)</span></code> twice).</p>
+<p><strong>Comment about computational complexity:</strong> One of the themes of this class is to think about the scaling of your algorithms (like we did thinking about various options for quantum computing).  Let’s do this for computing an energy difference.  One thing you can do is compute the energy, flip the spin, compute the energy, and subtract.  How long does this take? It takes <span class="math notranslate nohighlight">\(O(N + B)\)</span> time where <span class="math notranslate nohighlight">\(N\)</span> is the number of spins and <span class="math notranslate nohighlight">\(B\)</span> is the number of bonds.  Find a way to do it with a time that is proportional to <span class="math notranslate nohighlight">\(O(1)\)</span>.</p>
+<p>At this point you should be able to store a configuration of spins and compute energy and energy differences on them.</p>
+<div class="admonition-testing admonition">
+<p class="admonition-title">Testing</p>
+<ul class="simple">
+<li><p>Set up a <span class="math notranslate nohighlight">\(3 \times 3\)</span> grid and compute the energy of some spin configuration both by hand and with your code to make sure it’s the same</p></li>
+<li><p>Compute the energy difference of flipping a single spin both by</p>
+<ul>
+<li><p>using your <code class="docutils literal notranslate"><span class="pre">Energy()</span></code> function before and after a spin flip.</p></li>
+<li><p>using your <code class="docutils literal notranslate"><span class="pre">deltaE()</span></code> function.</p></li>
+</ul>
+</li>
+</ul>
+<p>Both approaches for computing the energy should be the same.  Another reasonable test is to compute the energy of a number of configurations that you can evaluate by hand (all spin-up, etc) and verify that it works.</p>
+</div>
+</section>
+<section id="writing-mcmc">
+<h2>Writing MCMC<a class="headerlink" href="#writing-mcmc" title="Link to this heading">#</a></h2>
+<p>We now want to put together the Monte Carlo.  The basic operation, which we call a <strong>step</strong> is to do the following (many times):</p>
+<ul class="simple">
+<li><p>Choose a new configuration <span class="math notranslate nohighlight">\(c'\)</span> with some probability <span class="math notranslate nohighlight">\(p(c \rightarrow c')\)</span> given the current configuration <span class="math notranslate nohighlight">\(c\)</span>.  The simplest method is to choose a random spin and flip it.  In this case both <span class="math notranslate nohighlight">\(T(c \rightarrow c') = T(c' \rightarrow c) = 1/N\)</span> (where <span class="math notranslate nohighlight">\(N\)</span> is the number of spins).  Therefore the ratio of <span class="math notranslate nohighlight">\(T\)</span> cancel in the acceptance probability <span class="math notranslate nohighlight">\(\alpha\)</span>).</p></li>
+<li><p>Evaluate the difference in energy <span class="math notranslate nohighlight">\(\Delta(c,c) \equiv E(c') - E(c)\)</span></p></li>
+<li><p>If <span class="math notranslate nohighlight">\(\frac{T(c' \rightarrow c)}{T(c \rightarrow c')} \exp[-\beta \Delta(c,c')]&gt;\textrm{ran}(0,1)\)</span> then accept the new configuration <span class="math notranslate nohighlight">\(c'\)</span>.  Otherwise leave the old configuration <span class="math notranslate nohighlight">\(c\)</span></p></li>
+</ul>
+<p>We will call a <strong>sweep</strong> doing <span class="math notranslate nohighlight">\(N\)</span> steps.</p>
+<p>You will typically need to do a certain number (maybe 20) sweeps before you should start collecting data.  This is called the equilibration time and is required because you need the Markov Chain to forget about your initial condition.</p>
+<p>Then you can take a measurement every sweep.  There is no need to measure more often then this (and doing so will just slow down the simulation).</p>
+<p>This is going to look something like
+this (in c++)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">sweep</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">sweep</span><span class="o">&lt;</span><span class="mi">10000</span><span class="p">;</span><span class="n">sweep</span><span class="o">++</span><span class="p">){</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+<span class="w">        </span><span class="c1">//Pick a random spin and try to flip it</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">//measure your histogram or energy, etc. </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>or (in python)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">sweep</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10000</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+        <span class="c1">#flip spins</span>
+    <span class="c1"># measure </span>
+</pre></div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>For your <span class="math notranslate nohighlight">\(3 \times 3\)</span> grid, run your Monte Carlo and make a histogram of the configurations. To do this, you should take a snapshot of your spin-configuration every sweep.  Your spin-configuration can be flattened down to nine spins (i.e. <span class="math notranslate nohighlight">\(\uparrow, \downarrow, \uparrow ... \uparrow)\)</span>.  This can be turned into a nine-bit binary number (<span class="math notranslate nohighlight">\(101..1\)</span>) which can then be turned into an integer from 0 to <span class="math notranslate nohighlight">\(2^9-1.\)</span>  You then have an integer for every sweep from which to make a histogram.</p>
+<p>Then, compare this histogram against the theoretical values - i.e you can compute the energy of all <span class="math notranslate nohighlight">\(2^9\)</span> configurations (using python) and then you can use the formula <span class="math notranslate nohighlight">\(\exp[-\beta E(c)]/Z\)</span> (where <span class="math notranslate nohighlight">\(Z\)</span> is the normalization) to make the theory graph from this.</p>
+<p><strong>You should have both graphs on top of each other on the same plot (maybe one with points and one with lines) to see that they agree</strong>.  There is going to be some error bar on your Monte Carlo data so they don’t have to match exactly.</p>
+<p>Note, that this is a great way to test your code.  It’s only going to work with a small number (i.e. 9) of spins.  If you tried to do this with 25 spins, you would need much too large a histogram.</p>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">How often should you take snapshots (or more generically compute observables)</p>
+<p>The promise of MCMC is that after a “long enough time” <span class="math notranslate nohighlight">\(T\)</span>, you should get a random sample (we unfortunately don’t know <span class="math notranslate nohighlight">\(T\)</span> a-priori - it’s at least one sweep but could be many sweeps). Roughly you want to measure an observable or add to your histogram every <span class="math notranslate nohighlight">\(T\)</span> sweeps.</p>
+<p><em>Q: What happens if you take snapshots too infrequently?</em>  You end up just wasting some time.  The samples are still independent.</p>
+<p><em>Q: What happens if you take snapshots too frequently?</em>  That’s a little more subtle.  If you take snapshots too soon then you are in trouble. This means that you should wait a fair amount of time before you start measuring snapshots.</p>
+<p>If you wait enough time for the first snapshot and then take measurements more frequently then you are still ok.  It’s just you have to be careful with your errorbars because subsequent snapshots may be correlated.</p>
+<p>Later on we will see how to estimate <span class="math notranslate nohighlight">\(T\)</span>.  For this simulation,let’s just assume that <span class="math notranslate nohighlight">\(T\)</span> is about a sweep.  Wait 10 sweeps before you begin measuring snapshots.  Then take a snapshot every sweep.  <em>Error bars for your histogram:</em>  If you have <span class="math notranslate nohighlight">\(k\)</span> samples in a bin then your error should be <span class="math notranslate nohighlight">\(\sqrt{k}\)</span>.</p>
+</div>
+<p>If you are using C++, your code will be very efficient (although make sure you are compiling with <code class="docutils literal notranslate"><span class="pre">-O3</span></code> or it will be much too slow!)</p>
+<p>In python unfortunately, this will turn out to be very slow especially if you are using <code class="docutils literal notranslate"><span class="pre">for</span></code> loops.</p>
+<p>The code will be correct but it will take a very long time (this doesn’t matter and won’t necessarily show up for the <span class="math notranslate nohighlight">\(3 \times 3\)</span> system but will mean you have to wait a long time for the larger systems you will do later in this assignment).</p>
+</section>
+<hr class="docutils" />
+<section id="speeding-up-your-code">
+<h2>Speeding Up Your Code<a class="headerlink" href="#speeding-up-your-code" title="Link to this heading">#</a></h2>
+<p>In order for you to be able to finish your assignment, your code will need to be sufficiently fast. If you are working in C++ or Julia, it will be natively fast enough.  If you are using python, the simplest way to make it fast (and the way you should use) is to just-in-time compile the functions that are slow.  This can be done using numba.  See</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="Numba.html"><span class="std std-doc">numba</span></a> for instructions.  Numba can be slightly tempremental so you may have to modify your code in some ways so that it can compile through the functions.</p></li>
+</ul>
+<p>Before numba was working well enough, we had a slower approach which used numpy to avoid for-loops.  You can see this older approach on <a class="reference internal" href="FastIsing.html"><span class="std std-doc">this page</span></a> (<em>but you shouldn’t do this if you don’t have a good reason</em>).</p>
+<p>In terms of speed, roughly what you should find for 10,000 sweeps for an <span class="math notranslate nohighlight">\(81 \times 81\)</span> lattice:</p>
+<ul class="simple">
+<li><p>Naive Python: ~13min 18s</p></li>
+<li><p>Python with numpy avoiding for loops: ~56.3 s</p></li>
+<li><p>Python with numba on top of the naive approach: ~13.5 s</p></li>
+</ul>
+<p>Once you’ve implemented this with numba, each step should be very fast.  That will be sufficient to complete the assignment.   There is one thing that is still somewhat inefficient.  As you approach the critical temperature, the autocorrelation time goes up.  This causes you to need to do a lot of sweeps before you get an independent sample.  If you want to overcome this, you can implement a <a class="reference internal" href="ClusterMoves.html"><span class="std std-doc">cluster move</span></a> (<strong>Extra Credit: 5+5 points</strong>)</p>
+</section>
+<section id="coupling-from-the-past">
+<h2>Coupling From the Past<a class="headerlink" href="#coupling-from-the-past" title="Link to this heading">#</a></h2>
+<div class="hint dropdown admonition">
+<p class="admonition-title">Extension and Extra Credit (10 points)</p>
+<p>By writing a Markov Chain Monte Carlo, you’ve produced a code which samples from the Boltzmann distribution for an Ising model - at least if we look away for long enough.  Unfortunately, we don’t know how long that necessarily needs to be.  In practice, this is rarely a problem.  Nonetheless, it would be satisfying if there was an algorithm that exactly sampled from the Boltzmann distribution of the Ising model with no heurestics or additional approximations.  There is such an algorithm: coupling from the past.  This algorithm is on my list of 10 algorithms I didn’t believe could accomplish what it was claiming when I first heard it (automatic differentiation is also on that list).</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Ising"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Measure.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Measuring the Ising Model</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-ising-model">The Ising model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-mechanics">Statistical Mechanics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#markov-chains">Markov Chains</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-metropolis-hastings-algorithm">The Metropolis-Hastings algorithm</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#states-and-parameters">States and parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-energy">Computing the Energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-mcmc">Writing MCMC</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#speeding-up-your-code">Speeding Up Your Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coupling-from-the-past">Coupling From the Past</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

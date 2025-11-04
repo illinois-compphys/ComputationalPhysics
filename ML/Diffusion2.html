@@ -1,0 +1,669 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Diffusion Models with Images &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Diffusion2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Diffusion Models with Images</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-diffusion">Fast Diffusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing-images">Undiffusing Images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing-with-a-network">Undiffusing with a network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-with-images">Training with images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-images">Prompt Images</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="diffusion-models-with-images">
+<h1>Diffusion Models with Images<a class="headerlink" href="#diffusion-models-with-images" title="Link to this heading">#</a></h1>
+<p><em>Acknowledgement:</em>. There is a lot of good information about diffusion models.  This assignment relied heavily on …  These may be useful to skim but you can not copy code from these places (and it won’t be that helpful because details and how things are set up matter here).</p>
+<p>Our goal in this part of the assignment is to use the code and what we learned on page 1 for a single one-dimensional point and use it for images.  This works because we can treat an image as a single point in a high-dimensional space.</p>
+<p>What we will do is load in some images and then learn to do the following in analogy to your work on page 1.</p>
+<ul class="simple">
+<li><p>diffuse the image to random gaussian noise (in a fast way)</p></li>
+<li><p>undiffuse the image (using some guess for the random noise used in diffusing the image)</p></li>
+<li><p>train a neural network to successfully make this guess for the random noise.</p></li>
+</ul>
+<p>Our code will look largely the same as page 1 although might have to be a little more complicated because we will need to eventually work in batches (and ideally use the GPU).</p>
+<p>Let’s start by pulling in the data so we can get our hand on the images.  To do this, we want to use</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!pip install datasets;
+!pip install diffusers
+import torchvision 
+from torchvision.transforms  import Compose
+from torch import nn
+from torch.nn import functional as F
+from torch.utils.data import DataLoader
+import pylab as plt
+import numpy as np
+import torch
+import copy
+from diffusers import DDPMScheduler, UNet2DModel
+import pickle
+
+dataset = torchvision.datasets.MNIST(root=&quot;mnist/&quot;, train=True, download=True, transform=Compose([
+              torchvision.transforms.ToTensor(),
+              torchvision.transforms.Lambda(lambda t: (t * 2) - 1)]))
+train_dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
+</pre></div>
+</div>
+<p>This will give you access to the data.</p>
+<p>At this point, we can go ahead and look at the images in the following way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">PlotImages</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">torchvision</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">make_grid</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">16</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">x</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">PlotImages</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will show us a 16x16 arrow of our 128 images (which in this case are just numbers).</p>
+<p>We can also go ahead and visualize just one of those numbers (the third one) by doing <code class="docutils literal notranslate"><span class="pre">plt.matshow(x[3,0,:,:])</span></code></p>
+<section id="fast-diffusion">
+<h2>Fast Diffusion<a class="headerlink" href="#fast-diffusion" title="Link to this heading">#</a></h2>
+<p>Our first goal is to go ahead and generate a fast diffusion of these letters. Copy your <code class="docutils literal notranslate"><span class="pre">ForwardFastDiffusion</span></code> from page 1.  You can continue using a similar set of <span class="math notranslate nohighlight">\(\beta_t\)</span> you were using previously - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta_max</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">timesteps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">T</span><span class="o">=</span><span class="n">timesteps</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">beta_max</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">-</span><span class="n">beta</span>
+<span class="n">alpha_bar</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumprod</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Your previous function needs to be modified so that the random gaussian noise is not just one number but adds gaussian noise to the whole image.  This can be done using <code class="docutils literal notranslate"><span class="pre">torch.randn_like(x)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">np.randn()</span></code>.  Now your function should work for one image - i.e. <code class="docutils literal notranslate"><span class="pre">x[3,0,:,:]</span></code>. Go ahead and verify this.</p>
+<p>Now, you need to make one more change.  We would like to be able to send it the entire batch of 128 images.  This is stored in an array that is 128x1x28x28.   Instead of sending a single T, now you want to be able to send a series of 128 T’s,  Fix your code to deal with this.  I did this with something like this</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Ts</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">128</span><span class="p">)])</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+<span class="n">Ts</span><span class="o">=</span><span class="n">Ts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then I was able to call ForwardFastDiffusion with these times.  While we aren’t using it here, it is important that the forward diffusion can take different times in the list - i.e. <code class="docutils literal notranslate"><span class="pre">Ts=[3,1,57,...]</span></code>. You should test this.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Call PlotImage for the batch of 128 images diffused at time steps <span class="math notranslate nohighlight">\(t\in [0,1,50,100,150,199]\)</span>  (in the case of t=50 then <code class="docutils literal notranslate"><span class="pre">Ts=[50,50,50,...,50]</span></code>)</p>
+</div>
+</section>
+<section id="undiffusing-images">
+<h2>Undiffusing Images<a class="headerlink" href="#undiffusing-images" title="Link to this heading">#</a></h2>
+<p>Our next goal is to get undiffusing to work for these images.  Copy over your training code from page 1.  Start with a model guess which is “exact” for a single (batch of) images.</p>
+<p>You want to add a <code class="docutils literal notranslate"><span class="pre">&#64;torch.no_grad</span></code> at the beginning of the function - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Undiffuse</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span><span class="n">Tstart</span><span class="p">,</span><span class="n">Tend</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>I had to make two changes to my page 1 code.</p>
+<p>First, I had to have the times <code class="docutils literal notranslate"><span class="pre">t</span></code>  and <code class="docutils literal notranslate"><span class="pre">t-1</span></code> not as a single scalar but as an array of  128x1x28x28  - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tsm1</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">t</span><span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">batch_size</span><span class="p">)]))</span>
+<span class="n">tsm1</span><span class="o">=</span><span class="n">tsm1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>I also had to change np.random.randn() to torch.randn_like(x_t).  Make these changes to your code.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Get your undiffusion to work for a single (batch) of images.  Undiffuse from time step <span class="math notranslate nohighlight">\(T=199\)</span> to <span class="math notranslate nohighlight">\(T=0\)</span> showing snapshots of what it looks like at $<span class="math notranslate nohighlight">\(T \in [0,1,50,100,150,199]\)</span>$</p>
+</div>
+</section>
+<section id="undiffusing-with-a-network">
+<h2>Undiffusing with a network<a class="headerlink" href="#undiffusing-with-a-network" title="Link to this heading">#</a></h2>
+<p>At this point you should have it working for a single image.  The next step is to replace your guess for the random numbers instead with a neural network that is going to make the guess for the random numbers.</p>
+<p>In the single-point case, we used a standard feed-forward neural network.  That one is not powerful enough here. Instead we are going to use a u-net.  It’s essentially just a fancier neural network with more parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">UNet2DModel</span><span class="p">(</span>
+    <span class="n">sample_size</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>  <span class="c1"># the target image resolution</span>
+    <span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># the number of input channels, 3 for RGB images</span>
+    <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># the number of output channels</span>
+    <span class="n">layers_per_block</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># how many ResNet layers to use per UNet block</span>
+    <span class="n">block_out_channels</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>  <span class="c1"># Roughly matching our basic unet example</span>
+    <span class="n">down_block_types</span><span class="o">=</span><span class="p">(</span> 
+        <span class="s2">&quot;DownBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a regular ResNet downsampling block</span>
+        <span class="s2">&quot;AttnDownBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a ResNet downsampling block with spatial self-attention</span>
+        <span class="s2">&quot;AttnDownBlock2D&quot;</span><span class="p">,</span>
+    <span class="p">),</span> 
+    <span class="n">up_block_types</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;AttnUpBlock2D&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;AttnUpBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a ResNet upsampling block with spatial self-attention</span>
+        <span class="s2">&quot;UpBlock2D&quot;</span><span class="p">,</span>   <span class="c1"># a regular ResNet upsampling block</span>
+      <span class="p">),</span>
+<span class="p">)</span> 
+</pre></div>
+</div>
+<p>This network was taken from this blog post explaining diffusion.</p>
+<p>The equivalent of calling <code class="docutils literal notranslate"><span class="pre">GuessZ(x_t,t)</span></code> in this case is to call <code class="docutils literal notranslate"><span class="pre">net(x_t,ts.squeeze()).sample</span></code>.</p>
+<p>This network is just initialized with random weights.  In a couple minutes you’re going to train your own weights.  But before then, we’d like to debug your sampling (and get it on the gpu).  Therefore, we are going to supply you with a network that we’ve already partially trained (in the same way you’re going to train your network).</p>
+<p>Copy unet3.pickle (<code class="docutils literal notranslate"><span class="pre">!wget</span> <span class="pre">https://clark.physics.illinois.edu/unet3.pickle</span></code>) onto your google colab and run the following code to load it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;network.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="c1"># The protocol version used is detected automatically, so we do not</span>
+    <span class="c1"># have to specify it.</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Go ahead and modify your undiffusing code to use this network.  The primary change you’re going to have to make it work is to replace guessZ with the call to the network. Check that your code runs when you do this and see if you can get it to give you a undiffused sample.  <strong>This is going to be very slow</strong>.  You are going to want to get it working on the GPU.  This only requires a few changes in your code but is a bit of a painful process.  Here’s what I had to do:</p>
+<ul class="simple">
+<li><p>In colab you have to change the RunTime to GPU (this will cause you to have to rerun everything in your notebook)</p></li>
+<li><p>Add a line <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">=</span> <span class="pre">torch.device(&quot;cuda&quot;</span> <span class="pre">if</span> <span class="pre">torch.cuda.is_available()</span> <span class="pre">else</span> <span class="pre">&quot;cpu&quot;)</span></code></p></li>
+<li><p>Add a line <code class="docutils literal notranslate"><span class="pre">net.to(device)</span></code>. (This sends the network to the device)</p></li>
+<li><p>In your Undiffuse function, you’re going to have to send many arrays to the device.  For example, I needed to do things like:</p>
+<ul>
+<li><p>alpha_ts=alpha[ts].to(device)</p></li>
+<li><p>s_t=(1-alpha_ts)/torch.sqrt(1-alpha_bar_ts).to(device)</p></li>
+</ul>
+</li>
+<li><p>When plotting I had to pull it back to the cpu with <code class="docutils literal notranslate"><span class="pre">PlotImages(x_t.cpu())</span></code></p></li>
+</ul>
+<p>When I do all this, my undiffusing function takes approximately 15 seconds to go from T=200 to T=0.</p>
+<p><em>Note:</em> Google colab doesn’t let you run on the GPU forever.  If you’re not using it, you should try to pick a different runtime.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Get your undiffusion to work with the unet and on the GPU. Show two different undiffusion samples (to show you get different samples) at times <span class="math notranslate nohighlight">\(T \in \{0,1,50,100,150,199\}\)</span> by calling undiffusion twice.</p>
+<p>In addition, just like page 1, get your code to report the “guess” for the actual image at those times (for one of the samples).</p>
+</div>
+</section>
+<section id="training-with-images">
+<h2>Training with images<a class="headerlink" href="#training-with-images" title="Link to this heading">#</a></h2>
+<p>Our next trick is to get training to work.  Again you should be able to copy over your code from page 1.</p>
+<p>You are going to have to make the following changes:</p>
+<ul class="simple">
+<li><p>Instead of <code class="docutils literal notranslate"><span class="pre">SamplePInit()</span></code> now should just return a new image; you can do this by <code class="docutils literal notranslate"><span class="pre">x0=next(iter(train_dataloader))[0]</span></code></p></li>
+<li><p>We have to get everything to the GPU:</p>
+<ul>
+<li><p><a class="reference external" href="http://x0=x0.to">x0=x0.to</a>(device)</p></li>
+<li><p>alpha_bar_t=alpha_bar[ts].to(device) (you may have to send <code class="docutils literal notranslate"><span class="pre">alpha_bar_t</span></code> to your <code class="docutils literal notranslate"><span class="pre">ForwardDiffusionFast</span></code> instead of the time.</p></li>
+<li><p>etc.</p></li>
+</ul>
+</li>
+</ul>
+<p>(Remember to make sure this version of your forward diffusion returns the noisy data and the noise).</p>
+<p>Go ahead and make these modifications.  Make sure you don’t start with our network (i.e. call the network and don’t load our pickled version any more).  Every 500 steps, you can go ahead and call Undiffuse and plot it to see how your training is coming along.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train your network.  Plot your loss as a function of steps (you may want to show a zoomed in version as well).  In addition, plot a final sample of your trained undiffused network.</p>
+<p>My network produces reasonable digits (like a seven year old might write) in about 5 minutes.</p>
+</div>
+</section>
+<section id="prompt-images">
+<h2>Prompt Images<a class="headerlink" href="#prompt-images" title="Link to this heading">#</a></h2>
+<p>Finally, we would like to get prompts working with images.  In this case, the prompts that are going to be actually used is simply a number (0 through 9).  Again, like in page 1, we are going to need to give the network the prompt both during training and undiffusing.</p>
+<p>We will embed the digits in the following way: we will represent number <span class="math notranslate nohighlight">\(i\)</span> by a vector <span class="math notranslate nohighlight">\(v\)</span> of length 10 where <span class="math notranslate nohighlight">\(v_i=1\)</span> and is zero otherwise.  This is called a one-hot encoding.  Write some code which takes a vector of <span class="math notranslate nohighlight">\(k\)</span> labels - i.e. tensor([6, 5, 1, 4 … ]) and returns a <span class="math notranslate nohighlight">\(k\)</span> x <span class="math notranslate nohighlight">\(1\)</span> x <span class="math notranslate nohighlight">\(10\)</span> vector which embeds the labels.</p>
+<p>Now that we have our embedded labels, we will use the following network for our prompting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">UNet2DConditionModel</span><span class="p">(</span>
+    <span class="n">sample_size</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span>  <span class="c1"># the target image resolution</span>
+    <span class="n">in_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># the number of input channels, 3 for RGB images</span>
+    <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># the number of output channels</span>
+    <span class="n">layers_per_block</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># how many ResNet layers to use per UNet block</span>
+    <span class="n">block_out_channels</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>  <span class="c1"># Roughly matching our basic unet example</span>
+    <span class="n">cross_attention_dim</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">down_block_types</span><span class="o">=</span><span class="p">(</span> 
+        <span class="s2">&quot;DownBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a regular ResNet downsampling block</span>
+        <span class="s2">&quot;AttnDownBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a ResNet downsampling block with spatial self-attention</span>
+        <span class="s2">&quot;AttnDownBlock2D&quot;</span><span class="p">,</span>
+    <span class="p">),</span> 
+    <span class="n">up_block_types</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;CrossAttnUpBlock2D&quot;</span><span class="p">,</span> 
+        <span class="s2">&quot;CrossAttnUpBlock2D&quot;</span><span class="p">,</span>  <span class="c1"># a ResNet upsampling block with spatial self-attention</span>
+        <span class="s2">&quot;UpBlock2D&quot;</span><span class="p">,</span>   <span class="c1"># a regular ResNet upsampling block</span>
+      <span class="p">),</span>
+<span class="p">)</span> <span class="c1">#&lt;&lt;&lt;</span>
+</pre></div>
+</div>
+<p>The key change from our previous network is that we are using a <code class="docutils literal notranslate"><span class="pre">UNet2DConditionModel</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">UNet2DModel</span></code>; we have added a <code class="docutils literal notranslate"><span class="pre">cross_attention_dim</span></code> which we set to 10 (for the ten digits).   Also in the up blocks, we are using a CrossAttnUpBlock2D.</p>
+<p>Now when we call our network, we need to use
+<code class="docutils literal notranslate"><span class="pre">net(x_t,t,</span> <span class="pre">encoder_hidden_states=embedVec)</span></code>
+(remember you should take your list of labels and embed it in the one-hot encoding).</p>
+<p>During training, you can get the labels (the number MNIST thinks it has) by doing
+<code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">labels=next(iter(train_dataloader))</span></code></p>
+<p>Once your diffusion model is trained, you should be able to then send it a prompt (some digit) during undiffusing and you should end up primarily with that type of digit.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train your network.  Plot a final sample of a batch of your trained undiffused network with a prompt using each of the ten digits.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-diffusion">Fast Diffusion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing-images">Undiffusing Images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing-with-a-network">Undiffusing with a network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-with-images">Training with images</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompt-images">Prompt Images</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

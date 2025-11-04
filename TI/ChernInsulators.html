@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Topological Insulators &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'TI/ChernInsulators';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Tight Binding Models" href="TightBinding.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Topological Insulators</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-gap">Measuring the gap.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-berry-phase">Computing the Berry Phase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-modes">Edge Modes</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="topological-insulators">
+<h1>Topological Insulators<a class="headerlink" href="#topological-insulators" title="Link to this heading">#</a></h1>
+<p><em>This page makes 40% of the grade</em></p>
+<p>In this section we are going to work with Haldane model from page 2 (remember this Hamiltonian includes both nearest neighbor hopping, the mass term <span class="math notranslate nohighlight">\(M\)</span>, and the second nearest neighbor terms).</p>
+<p>We will set</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(t'=0.3\)</span> (it should be negative numbers in your Hamiltonian)</p></li>
+<li><p><span class="math notranslate nohighlight">\(\phi=0.7\)</span></p></li>
+<li><p>We will adjust <span class="math notranslate nohighlight">\(M\)</span> writing the Hamiltonian as <span class="math notranslate nohighlight">\(H(M)\)</span>.</p></li>
+</ul>
+<p>We are going to show that the Hamiltonian <span class="math notranslate nohighlight">\(H(M)\)</span> can be in two different phases - a band insulator and Chern insulator - depending on the value of <span class="math notranslate nohighlight">\(M\)</span>.</p>
+<p>To accomplish this:</p>
+<ul class="simple">
+<li><p>Show that there is a gapless points as we tune <span class="math notranslate nohighlight">\(H(M)\)</span> from <span class="math notranslate nohighlight">\(0&lt;M&lt;2\)</span>.  Having a gapless point on any continuous path of Hamiltonians is a necessary requirement for two gapped Hamiltonians to be in two different phases.</p></li>
+<li><p>Show that the <em>Chern Number</em> is 1 for <span class="math notranslate nohighlight">\(0&lt;M&lt;M_c\)</span> (the chern insulator) , that the <em>Chern Number</em> is 0 for <span class="math notranslate nohighlight">\(M_c&lt;M&lt;2\)</span> (the band insulator) and that <span class="math notranslate nohighlight">\(H(M_c)\)</span> is the gapless point.</p></li>
+</ul>
+<section id="measuring-the-gap">
+<h2>Measuring the gap.<a class="headerlink" href="#measuring-the-gap" title="Link to this heading">#</a></h2>
+<p><em>This part makes 10% of the grade</em></p>
+<p>A necessary requirement for two Hamiltonians to be in different phase is that there is no continuous path of Hamiltonians between them which stays gapped.</p>
+<p>You should tune <span class="math notranslate nohighlight">\(M\)</span> and measure the direct gap at each value of <span class="math notranslate nohighlight">\(M\)</span>.</p>
+<p><em>Note:</em> In this section we care about the <em>direct gap</em> which is the minimum value of <span class="math notranslate nohighlight">\(E_2(\vec{k})-E_1(\vec{k})\)</span> and not <span class="math notranslate nohighlight">\(\min[E_2(\vec{k})]-\max[E_1(\vec{k})]\)</span></p>
+<div class="caution admonition">
+<p class="admonition-title">Testing</p>
+<p>Add to your document a graph of the gap <span class="math notranslate nohighlight">\(E\)</span> vs <span class="math notranslate nohighlight">\(M\)</span>.</p>
+<p><img alt="" src="../_images/EnergyvsMs.png" /></p>
+</div>
+</section>
+<section id="computing-the-berry-phase">
+<h2>Computing the Berry Phase<a class="headerlink" href="#computing-the-berry-phase" title="Link to this heading">#</a></h2>
+<p><em>This part makes 20% of the grade</em>
+While the existence of a gapless point is a necessary requirement for two different phases, measuring the Chern number is direct evidence of two different phases.</p>
+<p><em>Berry Phases:</em></p>
+<p><img alt="Berry1.png" src="../_images/Berry1.png" /></p>
+<p>First we need to learn how to compute a Berry phase.  First notice, that once we’ve rotated our Hamiltonian into <span class="math notranslate nohighlight">\(k\)</span> space,  we have a bunch of blocks in the Hamiltonian <span class="math notranslate nohighlight">\(H(\vec{k})\)</span> each one which corresponds to a point on our reciprocal lattice.</p>
+<p>When we diagonalize those blocks, we get two eigenvectors <span class="math notranslate nohighlight">\(|E_1(\vec{k}) \rangle\)</span> and <span class="math notranslate nohighlight">\(|E_2(\vec{k}) \rangle\)</span> (corresponding to two eigenvalues <span class="math notranslate nohighlight">\(E_1,E_2\)</span> with <span class="math notranslate nohighlight">\( E_1 &lt; E_2 \)</span> )  for each point in our reciprocal lattice. Those eigenvectors are of size <span class="math notranslate nohighlight">\(2N_1N_2 \times 1\)</span> but there is only a <span class="math notranslate nohighlight">\(2 \times 1\)</span> block that is not zero.  Call <span class="math notranslate nohighlight">\(|e_1(\vec{k})\rangle\)</span> the <span class="math notranslate nohighlight">\(2 \times 1 \)</span> non-zero block of <span class="math notranslate nohighlight">\(|E_1(\vec{k})\rangle.\)</span></p>
+<p>A note on python usage, if you diagonalize a block with <code class="docutils literal notranslate"><span class="pre">w,v</span> <span class="pre">=</span> <span class="pre">np.linalg.eigh(Hblock)</span></code> then the 0th eigenvector is <code class="docutils literal notranslate"><span class="pre">v[:,0]</span></code> <em>not</em> <code class="docutils literal notranslate"><span class="pre">v[0]</span></code>.</p>
+<p>We define a Berry phase <span class="math notranslate nohighlight">\(\theta_{k_1,k_2}= \textrm{Phase}(\langle e_i(k_1) | e_i(k_2)\rangle)\)</span>  (see the picture).
+The phase is only defined up to a multiplicative factor of <span class="math notranslate nohighlight">\(2\pi\)</span> (<em>this will become important in a minute</em>).</p>
+<p><img alt="Berry2.png" src="../_images/Berry2.png" /></p>
+<p>Now we want to compute the Berry flux which is the sum of the phases around a small plaquette of the form  (<em>see above picture</em>) <span class="math notranslate nohighlight">\(k_a \rightarrow k_b\equiv k_a+b_1 \rightarrow k_c \equiv k_a + b_1-b_2 \rightarrow k_d \equiv k_a -b_2 \rightarrow k_a\)</span></p>
+<p>The Berry flux is defined as</p>
+<div class="math notranslate nohighlight">
+\[ \textrm{Phase}(\langle \Psi(k_a) | \Psi(k_b) \rangle \langle \Psi(k_b) |\Psi(k_c) \rangle \langle \Psi(k_c) |\Psi(k_d) \rangle \langle \Psi(k_d)|\Psi(k_a)\rangle)\]</div>
+<p>Notice a couple things about this quantity
+(1) It is gauge invariant in the sense that a relative phase on each of the wave-functions ends up cancelling out
+(2) It is really only well defined modulo <span class="math notranslate nohighlight">\(2\pi\)</span>.  We are going to work in a limit where <span class="math notranslate nohighlight">\(L\)</span> is large enough (<em>we will need <span class="math notranslate nohighlight">\(N_1,N_2\geq9\)</span></em>) that <span class="math notranslate nohighlight">\(\vec{b_i}\)</span> is sufficiently small that the flux through the plaquette is always small (and so always between )</p>
+<p><strong>Make sure you adjust the Berry flux in each plaquette to be between <span class="math notranslate nohighlight">\(-\pi\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span>!</strong></p>
+<p>Now, we are going to compute the Berry flux over all the plaquettes (<em>see below</em>).
+<img alt="Berry4.png" src="../_images/Berry4.png" /></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Make a plot of your Berry flux for <span class="math notranslate nohighlight">\(M=0.8\)</span> and <span class="math notranslate nohighlight">\(M=1.2\)</span>.  The plots that I get that look nicest if you do a contour plot.  You should find that the berry flux is large where the gap is small.</p>
+</div>
+<p>As the next step, we want to sum up over all the Berry plaquettes.   Notice something very important here.  If you think about what’s going on, you are going to add each Berry phase twice once where the arrow is up (right) and once where the arrow is down (left).  This suggests that you’re always going to be zero!   What’s going on?  We’ve ignored the fact that we’ve adjusted each plaquette to be between <span class="math notranslate nohighlight">\(-\pi\)</span> and <span class="math notranslate nohighlight">\(\pi\)</span> by adjusting it by <span class="math notranslate nohighlight">\(2\pi n\)</span>.  That means the value might not be zero but must always be some <span class="math notranslate nohighlight">\(2\pi (n_1+n_2+...)\)</span> for some integer <span class="math notranslate nohighlight">\(m\equiv n_1+n_2+...\)</span> (that’s all you’ve done for adjusting).   <strong>The Chern Number is <span class="math notranslate nohighlight">\(m\)</span></strong>.  Note that it is always quantized!  This is very powerful.</p>
+<div class="caution admonition">
+<p class="admonition-title">Testing</p>
+<ul class="simple">
+<li><p>Verify you have the correct plaquettes by drawing lines between the k-points you are using.</p></li>
+<li><p>Verify you are getting an integer</p></li>
+<li><p>If you are getting a Chern number of -1, this means you’re computing the Chern number of the wrong band</p></li>
+<li><p>There is a known numerical instability at exactly <span class="math notranslate nohighlight">\(M=0\)</span>.  Don’t worry about this.</p></li>
+</ul>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>As a function of <span class="math notranslate nohighlight">\(M\)</span>, graph the Chern number.</p>
+<p><img alt="" src="TI/images/ChernVsMs.png" /></p>
+</div>
+</section>
+<section id="edge-modes">
+<h2>Edge Modes<a class="headerlink" href="#edge-modes" title="Link to this heading">#</a></h2>
+<p><em>This part makes 10% of the grade</em>
+Currently you are working with periodic boundary conditions.  Instead of being periodic in both directions, go ahead and be periodic in just one direction (<strong>make it open in the x-direction</strong>) .   Now, you can’t graph things with respect to <span class="math notranslate nohighlight">\(k_x\)</span> and <span class="math notranslate nohighlight">\(k_y.\)</span>  Instead, just graph it with respect to <span class="math notranslate nohighlight">\(k_y\)</span> in both the topological and non-topological phases.   You should find in the topological phase, that there are two modes that are gapless.  Once you’ve found those modes, check to see if they are gapless.</p>
+<div class="admonition-testing admonition">
+<p class="admonition-title">Testing</p>
+<ul class="simple">
+<li><p>Make sure your Hamiltonian is still Hermitian.</p></li>
+<li><p>Make sure your Fourier space Hamiltonian is block diagonal with blocks of size <span class="math notranslate nohighlight">\(2N_1 \times 2N_1\)</span>.</p></li>
+</ul>
+</div>
+<div class="admonition-grading admonition">
+<p class="admonition-title">Grading</p>
+<p>Add to your document a plot for <span class="math notranslate nohighlight">\(M=2.0\)</span> and <span class="math notranslate nohighlight">\(M=0.2\)</span> that shows the energy <span class="math notranslate nohighlight">\(E\)</span>  vs. <span class="math notranslate nohighlight">\(k_y\)</span> and show that there are two lines in the bulk gap</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./TI"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="TightBinding.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Tight Binding Models</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-gap">Measuring the gap.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-berry-phase">Computing the Berry Phase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#edge-modes">Edge Modes</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

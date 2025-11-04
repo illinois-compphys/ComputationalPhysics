@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Classical Gates &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'QC/ClassicalGates';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Controlled Gates" href="ControlledGates.html" />
+    <link rel="prev" title="Gates" href="Gates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Gates.html">Gates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Classical Gates</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reversible-classical-circuits">Reversible Classical Circuits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-reversibility">Getting Reversibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removing-the-junk">Removing the junk</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="classical-gates">
+<h1>Classical Gates<a class="headerlink" href="#classical-gates" title="Link to this heading">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Extra Credit</p>
+<p>Completing this page is worth <strong>10 points extra credit</strong></p>
+</div>
+<p>We’ve discussed a number of quantum gates and even described some subroutines which you can build out of quantum gates. But suppose instead we want to build a quantum circuit which implements a classical function - say some python function you’ve written.</p>
+<p><em>Q:  Why is this an interesting question?</em></p>
+<p>Well, first we might want to know if a quantum computer is, at least, as powerful as a classical computer.  Naively, you might think this is completely obvious but there is an important limitation to quantum computers which don’t exist for classical computers: quantum computers have to be reversible while classical computers don’t.</p>
+<p>Secondly, suppose we have a classical python function <span class="math notranslate nohighlight">\(f(x)\)</span> which can take any number from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(2^{100}\)</span>.    Classically, it would be impossible to run your function on all those numbers.  If you had a set of quantum gates which was implementing <span class="math notranslate nohighlight">\(f\)</span> though, you could take <span class="math notranslate nohighlight">\(\sum_i |i\rangle\)</span> (generated by Hadamards on <span class="math notranslate nohighlight">\(|0...0\rangle\)</span>) and then generate  <span class="math notranslate nohighlight">\(\sum_i |f(i)\rangle\)</span> which is a linear superposition over <span class="math notranslate nohighlight">\(2^{100}\)</span> function evaluations.  Unfortunately, this state by itself isn’t useful.  If we were to measure now we would just got a random value of <span class="math notranslate nohighlight">\(f(x)\)</span> (easy to get classically also by just running <span class="math notranslate nohighlight">\(f\)</span> on a random <span class="math notranslate nohighlight">\(x\)</span>).  But, maybe there are some situations where we can post-process this state which has all <span class="math notranslate nohighlight">\(2^{100}\)</span> values of <span class="math notranslate nohighlight">\(f\)</span> in it and do something.</p>
+<!--
+*Aside:*  This single fact makes quantum mechanics look pretty powerful.  Suppose that I have a function $f$ I want to compute. In the time that classically I can do $f(0)$, in quantum mechanics I can get a superposition $\sum_i f(i)$. It's as if I did all the calculations in parallel!  *But what happens if I measure the system now?*
+-->
+<section id="reversible-classical-circuits">
+<h2>Reversible Classical Circuits<a class="headerlink" href="#reversible-classical-circuits" title="Link to this heading">#</a></h2>
+<p>In this section, we want to learn how to take a python function and generate a quantum circuit for it.</p>
+<p>If I have a python function, the first thing I should do is convert it to a classical circuit.  In particular, I want the circuit to only use nand gates. Any classical python function can be made out of nand gates because nand gates are universal.  If the python function can run in time <span class="math notranslate nohighlight">\(O(T)\)</span> the number of NAND gates you need is going to be <span class="math notranslate nohighlight">\(O(T \log T)\)</span>.</p>
+<p>A nand gate (not-and) is a two bit gate which outputs 0 if the two inputs are 1. Otherwise it outputs 0 - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="n">NAND</span> <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span>
+<span class="mi">0</span> <span class="n">NAND</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span>
+<span class="mi">1</span> <span class="n">NAND</span> <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span>
+<span class="mi">1</span> <span class="n">NAND</span> <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Unfortunately, nand gates aren’t reversible. If I told you the output of a nand-gate is 1, you don’t know whether the two inputs were 0,0 or 0,1 or 1,0.   Consequently, a circuit made out of nand gates are also not going to be reversible.</p>
+<p>To start fixing this problem, we are going to replace the nand gate with a gate that’s reversible.  We are going to use a control-control-not (also called a toffeli gate).   The control-not does nothing on the first two wires.  The not happens on the third wire if the first two wires are 1 - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="mi">0</span> <span class="n">a</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="n">a</span>
+<span class="mi">0</span> <span class="mi">1</span> <span class="n">a</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">1</span> <span class="n">a</span>
+<span class="mi">1</span> <span class="mi">0</span> <span class="n">a</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">0</span> <span class="n">a</span>
+<span class="mi">1</span> <span class="mi">1</span> <span class="n">a</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">1</span> <span class="ow">not</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>The NAND gate has two inputs and one output.  The toffeli has three inputs and three outputs.
+Choose two toffeli inputs and (either a <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span> to map to (which order?) the three inputs of the toffeli so that one of the toffeli outputs is a NAND b.</p>
+<p><img alt="" src="../_images/NAND.png" /></p>
+<p><img alt="" src="../_images/toffeli2.png" /></p>
+</div>
+<hr class="docutils" />
+<section id="getting-reversibility">
+<h3>Getting Reversibility<a class="headerlink" href="#getting-reversibility" title="Link to this heading">#</a></h3>
+<p>Next we are going to do is replace each NAND gate with toffeli gates.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Write some code which takes a circuit of NAND gates and replaces them with toffeli.  Apply this to a nor gate (you can look up how to generate this from NAND’s if it isn’t obvious to you.  To emulate classical fan-out you may need to use the fact that a control-not classically copies bits).</p>
+</div>
+<p>Consider when we do this. We then get</p>
+<div class="math notranslate nohighlight">
+\[|x\rangle|0\rangle  \rightarrow |junk\rangle |f(x)\rangle\]</div>
+<p>where the <span class="math notranslate nohighlight">\(|junk\rangle\)</span> is the output of the extra two wires from each toffeli gate that isn’t the output of the NAND.  Having the <span class="math notranslate nohighlight">\(|junk\rangle\)</span> there is actually a major problem because we can’t interference on the <span class="math notranslate nohighlight">\(f(x)\)</span> with the junk still there.</p>
+<p>In some sense, we want <span class="math notranslate nohighlight">\( |x\rangle \rightarrow |f(x)\rangle\)</span>. That’s not possible though because everything has to be reversible.  Consider an adding circuit which takes</p>
+<p><span class="math notranslate nohighlight">\(|2\rangle |3\rangle \rightarrow |5\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle |4\rangle \rightarrow |5\rangle\)</span></p>
+<p>But then, what does the reverse circuit do:</p>
+<p><span class="math notranslate nohighlight">\(|5\rangle \rightarrow |?\rangle|?\rangle\)</span></p>
+<p>The most we could hope for is something like  <span class="math notranslate nohighlight">\(|2\rangle |3\rangle |0\rangle \rightarrow |2\rangle|3\rangle |5\rangle\)</span> or more generically</p>
+<div class="math notranslate nohighlight">
+\[|x\rangle|0\rangle \rightarrow |x\rangle |f(x)\rangle\]</div>
+<p>We will get this (with some additional ancilla running around). Concretely, if we are using <span class="math notranslate nohighlight">\(k\)</span> NAND gates and <span class="math notranslate nohighlight">\(f(x)\)</span> is written on <span class="math notranslate nohighlight">\(p\)</span> bits and <span class="math notranslate nohighlight">\(|x\rangle\)</span> is written on <span class="math notranslate nohighlight">\(b\)</span> bits, we will end up with</p>
+<p><span class="math notranslate nohighlight">\(|x\rangle |0^k\rangle |0^p\rangle \rightarrow |x\rangle |0^k\rangle |f(x)\rangle\)</span>.</p>
+<p>There are an intermediate <span class="math notranslate nohighlight">\(k\)</span> wires that start and end 0 (and so can be re-used).</p>
+</section>
+<section id="removing-the-junk">
+<h3>Removing the junk<a class="headerlink" href="#removing-the-junk" title="Link to this heading">#</a></h3>
+<p>To pull this off, we need to figure out how to remove the extra junk that we naively would have.</p>
+<p>At the moment, we have a unitary <span class="math notranslate nohighlight">\(U\)</span> which acts on <span class="math notranslate nohighlight">\(b+k\)</span> bits and gives <span class="math notranslate nohighlight">\(U|x\rangle|0\rangle = |junk\rangle|f(x)\rangle\)</span>.  Let’s figure out how to get rid of the junk.</p>
+<p>The first step is to figure out how to get</p>
+<div class="math notranslate nohighlight">
+\[|junk\rangle|f(x)\rangle |0^k\rangle \rightarrow |junk\rangle |f(x) \rangle |f(x)\rangle\]</div>
+<p><em>Hint:</em> Think about control-not gates.</p>
+<p>The second step is to figure out how to get</p>
+<div class="math notranslate nohighlight">
+\[ |junk\rangle |f(x) \rangle |f(x)\rangle \rightarrow |x\rangle|0^k\rangle |f(x)\rangle \]</div>
+<p>Notice that to accomplish this we can essentially ignore the last register.  The we really need to draw a circuit which takes</p>
+<div class="math notranslate nohighlight">
+\[ |junk\rangle |f(x) \rangle \rightarrow |x\rangle |0^k\rangle \]</div>
+<p><em>Hint:</em> Think about what your original quantum circuit did (i.e. the quantum nor gate you have). Can you use that to get yourself this operation.  This process is called uncomputing.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Put everything together.  Write code that takes a circuit made out of NAND gates and then generates the equivalent classical version including removing all of the additional junk that is naively there.</p>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./QC"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Gates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Gates</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ControlledGates.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Controlled Gates</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reversible-classical-circuits">Reversible Classical Circuits</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-reversibility">Getting Reversibility</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removing-the-junk">Removing the junk</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

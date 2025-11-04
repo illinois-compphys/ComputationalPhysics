@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Renormalization Group &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ising/RG';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extra Credit: Simulated Annealing" href="SimulatedAnnealing.html" />
+    <link rel="prev" title="Measuring the Ising Model" href="Measure.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ML/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ML/Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Renormalization Group</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-renormalization-group-with-an-ising-model-simulator">Implement the renormalization group with an Ising model simulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-graining">Coarse graining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-beta">Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-exponents-and-stability-of-fixed-points">Critical Exponents and Stability of Fixed Points</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-renormalization-group">
+<h1>The Renormalization Group<a class="headerlink" href="#the-renormalization-group" title="Link to this heading">#</a></h1>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Ken Wilson’s 1979 <em>Scientific American</em> article on renormalization, <a class="reference external" href="https://www.scientificamerican.com/magazine/sa/1979/08-01/">“Problems in Physics with Many Scales of Length”</a>. (<a class="reference external" href="http://www.phys.lsu.edu/~jarrell/COURSES/SOLID_STATE/Chap8/Wilson%20Problems%20in%20Physics%20with%20Many%20Scales%20of%20Length.pdf">Possible direct pdf link</a>)</p></li>
+</ul>
+</section>
+<section id="minimal-background">
+<h2>Minimal background<a class="headerlink" href="#minimal-background" title="Link to this heading">#</a></h2>
+<p>The Ising model was immortalized in physics history not by Ising, but by researchers who followed. In his original work (his PhD thesis, 1924), Ising considered only one-dimensional magnets and famously found that his namesake model did not describe a phase transition between paramagnetism and ferromagnetism, despite belief that it should. Interest in the model waned until 1936, when Rudolf Peierls argued that two-dimensional variants of the model <em>do</em> exhibit ferromagnetic phase transitions. In 1944, nearly a decade after Peierls’ argument, Lars Onsager published an exact solution of the two-dimensional model — so crafty that its details still vex most physicists — validating Peierls’ conclusions. Turns out the Ising model is a good model of ferromagnetism, but <strong>dimensionality matters</strong>.</p>
+<p>Evidently reliance on exact solutions is a poor method for identifying the interesting phases of models; we’d like to unpack more physics than two dimensions worth from a promising model over 20 years. It’s for this reason that Ken Wilson’s formulation of the <strong>renormalization group</strong> — following pioneering work by Gell-Mann and Low, Kadanoff, and undoubtedly many others — is held in such high regard.</p>
+<p>The renormalization group (RG) is a theory of theories. Roughly speaking, it’s a general method to determine how the physics of a particular model, expressed by a Hamiltonian <span class="math notranslate nohighlight">\(H\)</span> involving a set of coupling constants <span class="math notranslate nohighlight">\(\{ J_i\}\)</span>, depends on dimensionality and (principally) <em>scale</em>. More concretely, it’s a dynamical theory of the space of Hamiltonians. To make sense of RG we must step back and think broadly about how we write down physical models.</p>
+<p>Abstractly, we can imagine models as living in some infinite-dimensional space where the axes represent every conceivable interaction of the model’s microscropic constituents. For magnetism models, one axis might be interaction with an external magnetic field, <span class="math notranslate nohighlight">\(\mu B \sum_i s_i\)</span>, another nearest-neighbor interactions, <span class="math notranslate nohighlight">\(J_1 \sum_{\langle i j \rangle} s_i s_j\)</span>, another next-nearest neighbor interactions, <span class="math notranslate nohighlight">\(J_2 \sum_{\text{n.n.n.}} s_i s_j\)</span>, many more for all four-moment interactions, <span class="math notranslate nohighlight">\(\sum_{ijkl} K_{ijkl} s_i s_j s_k s_l\)</span>, and so on. To identify a concrete model, we merely specify values for the coupling constants <span class="math notranslate nohighlight">\(\mu B\)</span>, <span class="math notranslate nohighlight">\(J_1\)</span>, <span class="math notranslate nohighlight">\(J_2\)</span>, <span class="math notranslate nohighlight">\(\{ K_{ijkl} \}\)</span>, etc., which parameterize the model’s extension along each axis. Thus the plain Ising model lives along the <span class="math notranslate nohighlight">\(J_1\)</span> (and sometimes <span class="math notranslate nohighlight">\(\mu B\)</span>) axis, with all other coupling constants taken as 0.</p>
+<p>Outcomes of measurements depend immensely on the scales at which they’re taken, even when studying a single system. (Consider the results you might get measuring: the pressure of a balloon using its entire surface versus a square-angstrom patch; particles produced by 1eV proton collisions versus 10 TeV proton collisions.) Naively modeling, we would write down very different looking Hamiltonians to describe the physics at each scale. If it’s truly possible to attribute one Hamiltonian to the microscopic stuff in a system, there must be some way to determine how that Hamiltonian evolves as the system is probed at different scales.</p>
+<p>RG provides such a methodology by establishing differential equations for a model’s coupling constants. Viewing coupling constants as functions of some observation scale (be it energy or length), it determines the significance of interactions as a system is examined at increasing/decreasing scale, showing how the constants grow or shrink.</p>
+<p>On this page we’ll walk through a discrete, numerical application of RG to the Ising model. Iteratively transforming the model to larger and larger lattice sizes (lower and lower energies), we’ll find that it describes multiple phases of matter at low energy.</p>
+</section>
+<hr class="docutils" />
+<section id="implement-the-renormalization-group-with-an-ising-model-simulator">
+<h2>Implement the renormalization group with an Ising model simulator<a class="headerlink" href="#implement-the-renormalization-group-with-an-ising-model-simulator" title="Link to this heading">#</a></h2>
+<p>We would now like to use our Ising model simulation to understand something about the renormalization group. RG tells us to approach the model in the following way:</p>
+<ul class="simple">
+<li><p>Take your initial simulation</p></li>
+<li><p>Coarse grain it in some way (i.e. perform a scale transformation)</p></li>
+<li><p>Interpret the new simulation as looking just like the old simulation, but with different parameters.</p></li>
+</ul>
+<p>In our implementation the parameter we will tune is the the inverse temperature <span class="math notranslate nohighlight">\(\beta\)</span>. Our objective is to define a function <span class="math notranslate nohighlight">\(R(\beta)\)</span> which eats <span class="math notranslate nohighlight">\(\beta\)</span> and generates a new constant <span class="math notranslate nohighlight">\(\beta'=R(\beta)\)</span> representing the coupling’s value after coarse graining.</p>
+<section id="coarse-graining">
+<h3>Coarse graining<a class="headerlink" href="#coarse-graining" title="Link to this heading">#</a></h3>
+<p>The first step of renormalization is coarse-graining. To do this, we will take blocks of <span class="math notranslate nohighlight">\(3 \times 3\)</span> spins and turn them into a single spin by following a rule. The new spin is determined by majority voting: if most of the spins are up, make the coarse-grained spin up; if most of the spins are down, make the coarse-grained spin down.</p>
+<p><img alt="CG_small.png" src="../_images/CG_small.png" /></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Generate snapshots of spin configurations for <span class="math notranslate nohighlight">\(\beta  \in [0.0,0.3,0.4,0.5,0.6,\infty]\)</span> for</p>
+<ul class="simple">
+<li><p>an <span class="math notranslate nohighlight">\(81 \times 81\)</span> spin configuration</p></li>
+<li><p>a single coarse-grained <span class="math notranslate nohighlight">\(27 \times 27\)</span> spin configuration  and</p></li>
+<li><p>a double coarse-grained <span class="math notranslate nohighlight">\(9 \times 9\)</span> configuration.</p></li>
+</ul>
+<p><em>Can you see where the transition is?</em></p>
+</div>
+<p>Now we want to do something more quantative. We will take an Ising model on an <span class="math notranslate nohighlight">\(N \times N\)</span> lattice, coarse grain it to a <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> lattice, then match the properties of the coarse-grained lattice to a natively <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> lattice. This will provide a way to generate the function <span class="math notranslate nohighlight">\(R\)</span>.</p>
+<p><img alt="RG_small.png" src="../_images/RG_small.png" />
+<strong>Any <span class="math notranslate nohighlight">\(J\)</span> in this picture should be <span class="math notranslate nohighlight">\(\beta\)</span></strong></p>
+<p>To accomplish this we must find some quantitative feature of the model that can be compared to itself after coarse graining. Concretely, we will match the  <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span>. The approach is the following:</p>
+<ul class="simple">
+<li><p>Run your simulator on an <span class="math notranslate nohighlight">\(N \times N\)</span> model with a coupling constant <span class="math notranslate nohighlight">\(J\)</span>.</p>
+<ul>
+<li><p>While this simulator is running, compute the coarse-grained <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> model</p></li>
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2_{CG}[\beta] \rangle\)</span> of the coarse grained model.</p></li>
+<li><p>Make a graph of this for every <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+</ul>
+</li>
+<li><p>Run your simulator on an <span class="math notranslate nohighlight">\(N/3 \times N/3\)</span> model.</p>
+<ul>
+<li><p>Measure <span class="math notranslate nohighlight">\(\langle M^2[\beta'] \rangle\)</span> of the coarse grained model.</p></li>
+<li><p>Make a graph for this for every <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+</ul>
+</li>
+<li><p>Now plot your two curves on top of each other.</p>
+<ul>
+<li><p>Where the curves intersect are fixed points.</p></li>
+</ul>
+</li>
+<li><p>From these two curves you should be able to generate a graph of <span class="math notranslate nohighlight">\(R(\beta)\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+</ul>
+<div class="admonition-testing admonition">
+<p class="admonition-title">Testing</p>
+<p>The coarse grained calculation is very easy to mess up.</p>
+<ul class="simple">
+<li><p>Look at your coarse-grained snapshots and convince yourself that they look right.</p></li>
+<li><p>Figure out how to compute the <span class="math notranslate nohighlight">\(\beta=0\)</span> result for the coarse-grained <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice for <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> analytically or using five lines of python.  Check that this matches what you got in your Monte Carlo.  <strong>This is an important test and will catch lots of mistakes.</strong></p></li>
+</ul>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Plot for your native <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice and coarse-grained <span class="math notranslate nohighlight">\(27 \times 27\)</span> lattice <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> vs <span class="math notranslate nohighlight">\(\beta\)</span>.  You must put on your plot a point for the <span class="math notranslate nohighlight">\(\beta=0\)</span> “testing” point for both these curves.</p>
+</div>
+</section>
+<section id="getting-r-beta">
+<h3>Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span><a class="headerlink" href="#getting-r-beta" title="Link to this heading">#</a></h3>
+<p>You should have a coarse-grained and native <span class="math notranslate nohighlight">\(27 \times 27\)</span> curves.  Now you want to produce <span class="math notranslate nohighlight">\(R(\beta)\)</span>.  Here’s one approach:</p>
+<ul class="simple">
+<li><p>Graph the native curve as <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span>.  You want to interpolate this  using <code class="docutils literal notranslate"><span class="pre">scipy.interpolate.interp1d</span></code> <strong>where the interpolation takes <span class="math notranslate nohighlight">\(\langle M^2\rangle\)</span> and gives back <span class="math notranslate nohighlight">\(\beta\)</span>.  This is backwards from how you’ve graphed it naively</strong></p></li>
+<li><p>Go through the coarse grained curve and find the <span class="math notranslate nohighlight">\(\beta\)</span> on the native curve for each value of <span class="math notranslate nohighlight">\(\beta\)</span> on the coarse-grained curve.  This can be done by calling your interpolation above.</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Put the plot for <span class="math notranslate nohighlight">\(R(\beta)\)</span> vs. <span class="math notranslate nohighlight">\(\beta\)</span> in the document for <span class="math notranslate nohighlight">\(0&lt;\beta&lt;1\)</span>. Also draw <span class="math notranslate nohighlight">\(y=x\)</span> on this plot.  Where are the fixed points of this curve (the values such that R(\beta)=\beta)? The fixed points are the places on your plot where the <span class="math notranslate nohighlight">\(R(\beta)\)</span> curve intersects the line <span class="math notranslate nohighlight">\(y=x\)</span> (<em>understand why this is</em>).  What is the critical transition temperature?</p>
+</div>
+<div class="hint dropdown admonition">
+<p class="admonition-title">Extra Credit</p>
+<p><strong>Each of these three things (1D phase transition, 3D phase transition and 2D with flow with magnetic field are individually 5 points extra credit)</strong></p>
+<p>You’ve now succesfully implemented the RG approach for the 2D Ising model. Congratulations!</p>
+<ul class="simple">
+<li><p>It is an interesting exercise to try the same approach for the 1D Ising model (where you should find no phase transition) and the</p></li>
+<li><p>3D Ising model (where you should also be able to compute the critical exponent <span class="math notranslate nohighlight">\(\nu\)</span> as described below.</p></li>
+<li><p>Another fun activity is to work on the 2D Ising model but with more parameters (i.e. add in a magnetic field and determine the RG flow as a function of both <span class="math notranslate nohighlight">\(J\)</span> and <span class="math notranslate nohighlight">\(h\)</span>.  (<em>Previously we were looking at the flow for <span class="math notranslate nohighlight">\(\beta\)</span> which is the same as the flow for <span class="math notranslate nohighlight">\(J\)</span> in our simulation because <span class="math notranslate nohighlight">\(\beta\)</span> and <span class="math notranslate nohighlight">\(J\)</span> showed up in all the equations as <span class="math notranslate nohighlight">\(\beta J\)</span>.  If you wanted to do two coupling constants you can’t do <span class="math notranslate nohighlight">\(\beta\)</span> any more but have to do <span class="math notranslate nohighlight">\(J\)</span> and <span class="math notranslate nohighlight">\(h\)</span></em>)</p></li>
+</ul>
+</div>
+<div class="tip dropdown admonition">
+<p class="admonition-title">Extra Credit</p>
+<p><strong>This is 20 points extra credit</strong></p>
+<p>In this work, you have performed the RG flow by running simulations at two different system sizes and the matching them.  This is conceptually the simplest thing to do.  In practice, as the number of coupling constants gets large, though, this would become unwieldy.  There is a way to determine the flow with simulations at a single temperature using the <a class="reference external" href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.42.859">Monte Carlo Renormalization Group</a></p>
+</div>
+<div class="hint dropdown admonition">
+<p class="admonition-title">Extension</p>
+<p>So far we’ve seen how to do the renormalization group using Monte Carlo.  There is an alternative performing RG using tensor networks called TNRG that can be used to compute the critical exponent of things like Ising models.</p>
+</div>
+</section>
+<section id="critical-exponents-and-stability-of-fixed-points">
+<h3>Critical Exponents and Stability of Fixed Points<a class="headerlink" href="#critical-exponents-and-stability-of-fixed-points" title="Link to this heading">#</a></h3>
+<p>The whole point of the renormalization group is that you should be able to apply the renormalization procedure over and over again and flow to a fixed point which corresponds to a phase.  We’ve already seen this in pictures when you coarse grained twice.  Now, we are going to see if we can use your <span class="math notranslate nohighlight">\(R(\beta)\)</span> plot to see the same thing.  Suppose you start at <span class="math notranslate nohighlight">\(\beta=0.35\)</span>.  We can then ask what your new <span class="math notranslate nohighlight">\(\beta\)</span> is after the first coarse graining step - it’s <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  Now, suppose we were to do the renormalization procedure again.  Well instead of starting at <span class="math notranslate nohighlight">\(0.35\)</span> you would start at <span class="math notranslate nohighlight">\(R(0.35)\)</span>.  A nice way to see this graphically is to draw an arrow from <span class="math notranslate nohighlight">\((0.35,R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span>.   You can do this using <code class="docutils literal notranslate"><span class="pre">pylab.pyplot.arrow(0.35,</span> <span class="pre">R(0.35),</span> <span class="pre">R(0.35)-0.35,0)</span></code>.  The arrow is now pointing at the new spot on the x-axis you would start.  And after you apply the RG step you’ll actually be at <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Draw the arrow from <span class="math notranslate nohighlight">\((R(0.35),R(0.35))\)</span> to <span class="math notranslate nohighlight">\((R(0.35),R(R(0.35)))\)</span>.  Now iterative the RG process a couple more times.  Do you see what’s happening?</p>
+<p>Do this over again starting at <span class="math notranslate nohighlight">\(\beta=0.5\)</span> and draw your arrows.</p>
+<p>What you’ve done is show that there are two stable fixed points that correspond to the phases and one unstable fixed point (you only get back to it if you start exactly there) which corresponds to the critical point.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Add your <span class="math notranslate nohighlight">\(R(\beta)\)</span> curve with the arrows to your document.</p>
+</div>
+<p>You should find that <span class="math notranslate nohighlight">\(R(\beta)\)</span> is linear around the unstable fixed point. Do you? Unstable fixed-points are characterized by a set of universal critical exponents. Many other systems have the same universal critical exponents, even when they are fundamentally different from magnets! <!-- (One example is opalescence in critical liquid&ndash;gas phase transitions.)--> For example, the two-dimensional Lennard Jones fluid - has the same critical exponents.</p>
+<p>One particular critical exponent, <span class="math notranslate nohighlight">\(\nu\)</span>, is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+b^{1/\nu} = \textrm{slope}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(b=3\)</span> is the ``scale factor’’ we are coarse-graining by.</p>
+<p>You should find your critical exponent.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Add to your document, your critical exponent <span class="math notranslate nohighlight">\(\nu\)</span>.</p>
+</div>
+<div class="hint dropdown admonition">
+<p class="admonition-title">Extension</p>
+<p>You’ve computed a critical exponent using the renormalization group!  There is an alternative approach to computing critical exponents by just looking directly at your data on <span class="math notranslate nohighlight">\(\langle M \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle M^2 \rangle\)</span>  and <span class="math notranslate nohighlight">\(\langle E \rangle\)</span>.  Critical exponents essentially tell you how these various quantities scale as the temperature approaches the critical point.  Without too much work you can look up the 2D Ising model critical point and try to match them with your data.</p>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Ising"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Measure.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Measuring the Ising Model</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="SimulatedAnnealing.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extra Credit: Simulated Annealing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-background">Minimal background</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-the-renormalization-group-with-an-ising-model-simulator">Implement the renormalization group with an Ising model simulator</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coarse-graining">Coarse graining</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-r-beta">Getting <span class="math notranslate nohighlight">\(R(\beta)\)</span></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#critical-exponents-and-stability-of-fixed-points">Critical Exponents and Stability of Fixed Points</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Hopfield Networks &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Hopfield';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Restricted Boltzmann Machines" href="RBM.html" />
+    <link rel="prev" title="Overview" href="Overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hopfield Networks</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hopfield-networks-as-an-ising-model">Hopfield networks as an Ising Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-hopfield-network">Building a Hopfield Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-that-the-energy-goes-down-during-a-run">Seeing that the “energy” goes down during a run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-some-inputs">Training some inputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-memories-can-you-remember">How many memories can you remember?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-the-energy-landscape">Looking at the energy landscape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video">Video</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="hopfield-networks">
+<h1>Hopfield Networks<a class="headerlink" href="#hopfield-networks" title="Link to this heading">#</a></h1>
+<p>The first aspect of the brain that we will try to understand is memory. How does memory work? Roughly speaking, neurons somehow store sensational signals entering the brain as memories, then “remember” those memories by retrieving them when similar signals appear in the future.</p>
+<p>The Hopfield network, invented by the physicist John Hopfield, is a model of how neurons store and process memories. We will learn how to implement this model, teach it to memorize images, and recover images from its memory.</p>
+<p>The Hopfield network is a particular artificial neural network. In general, a neural network is a graph with neurons at the vertices of the graph and edges connecting the neurons to one another. The edges of this graph can be directed or undirected. The Hopfield network in particular has undirected edges. The Hopfield network has a set of variables that define the model. Each neuron <span class="math notranslate nohighlight">\(i\)</span> has a <em>state</em> <span class="math notranslate nohighlight">\(s_i\)</span> that represents the level of activation of the neuron. Additionally, each neuron has a bias (or threshold) <span class="math notranslate nohighlight">\(b_i\)</span> to activate and each edge has a weight <span class="math notranslate nohighlight">\(W_{ij}\)</span> associated with it that indicates how likely neurons <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are to activate together.</p>
+<p>The Hopfield network is a dynamical model. Its dynamics is governed by an update rule. At step <span class="math notranslate nohighlight">\(n\)</span> in the dynamics, we choose a random neuron <span class="math notranslate nohighlight">\(i\)</span> and update it state. The state of the <span class="math notranslate nohighlight">\(i\)</span>-th neuron in the network has <span class="math notranslate nohighlight">\(s^n_i\)</span> is either -1 or 1. To decide on the new state at step <span class="math notranslate nohighlight">\(n+1\)</span>, we:</p>
+<ul class="simple">
+<li><p>ignore the neuron’s current state,</p></li>
+<li><p>compute the total “weight” coming into it, <span class="math notranslate nohighlight">\(T_i \equiv \sum_{j\neq i}  s^n_j W_{ji}\)</span>,</p></li>
+<li><p>if <span class="math notranslate nohighlight">\(T_i &gt; b_i\)</span> then the new state is <span class="math notranslate nohighlight">\(s^{n+1}_i = 1\)</span>  else <span class="math notranslate nohighlight">\(s^{n+1}_i = -1\)</span></p></li>
+</ul>
+<p>Here is a sketch of a four neuron Hopfield network in a particular state. Included is a description of how to update the circled neuron’s state according to the above update rule.</p>
+<p><img alt="" src="../_images/diagram.jpg" /></p>
+<hr class="docutils" />
+<section id="hopfield-networks-as-an-ising-model">
+<h2>Hopfield networks as an Ising Model<a class="headerlink" href="#hopfield-networks-as-an-ising-model" title="Link to this heading">#</a></h2>
+<p>The Hopfield network is really just an Ising model at zero temperature with a site-dependent magnetic field and long-ranged interactions. The analogous concepts are:</p>
+<p>Hopfield Network <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> Ising Model</p>
+<ul class="simple">
+<li><p>Neuron <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> Ising Spin</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(+1\)</span> = Spin Up</p></li>
+<li><p><span class="math notranslate nohighlight">\(-1\)</span> = Spin Down</p></li>
+</ul>
+</li>
+<li><p><span class="math notranslate nohighlight">\(W_{ij}\)</span> <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> <span class="math notranslate nohighlight">\(J_{ij}\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(b_i\)</span> <span class="math notranslate nohighlight">\(\longleftrightarrow\)</span> <span class="math notranslate nohighlight">\(h_i\)</span></p></li>
+</ul>
+<p>The energy of the corresponding Ising model is</p>
+<div class="math notranslate nohighlight">
+\[
+E = -\frac{1}{2} \sum_{ij} W_{ij} s_i s_j + \sum_i b_i s_i.
+\]</div>
+<p>Recall how we did Metropolis Markov chain Monte Carlo updates in the Ising model unit. We chose a spin at random and flipped it with a probability <span class="math notranslate nohighlight">\(\min(1,e^{-\Delta E/k_BT})\)</span> that depended on the energy of the old and new spin configurations. When the temperature is zero (<span class="math notranslate nohighlight">\(T=0\)</span>), we only accept spin flips that decreased the energy. This <span class="math notranslate nohighlight">\(T=0\)</span> Monte Carlo spin flip update is equivalent to the update rule of the Hopfield network.</p>
+<p>There is a really nice implication of this analogy. First, notice that each update either decreases the energy or leaves it unchanged. This means that after enough updates you will eventually reach a configuration which is a <em>local</em> minimum in energy. At such a minimum, there are no further network updates to make; each attempted update step returns the same configuration. Consequently, for each input to a Hopfield network, there is a particular output to which the Hopfield network converges.</p>
+<p>This property of Hopfield networks is reminiscint of memory. For different stimuli, I may remember different things. Our hope is that:</p>
+<ul class="simple">
+<li><p>those “memories” are close to the original stimulus</p></li>
+<li><p>we can find a way to remember particular memories.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="building-a-hopfield-network">
+<h2>Building a Hopfield Network<a class="headerlink" href="#building-a-hopfield-network" title="Link to this heading">#</a></h2>
+<p>The first step of this assignment is to write code to build a Hopfield Network. You will need to store the states <span class="math notranslate nohighlight">\(s_i\)</span> and biases <span class="math notranslate nohighlight">\(b_i\)</span> of the <span class="math notranslate nohighlight">\(n\)</span> neurons in two vectors and the weights <span class="math notranslate nohighlight">\(W_{ij}\)</span> in an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. You will need a function that updates the state (chooses a random neuron and updates it according to the above update rule). You will also need a procedure to determine if the network has converged. One way to go about this is to loop through all the neurons and check if any of them want to change (but don’t change them!). A function that computes the energy, as well as functions that set and return the state, are useful as well.</p>
+<p>To set up the bias, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(b_i\)</span>.</p>
+<p>To set up the weights, choose a random number between <span class="math notranslate nohighlight">\(-1\)</span> and <span class="math notranslate nohighlight">\(1\)</span> for each <span class="math notranslate nohighlight">\(W_{ij}\)</span>. Remember that the hopfield network is symmetric so make sure that <span class="math notranslate nohighlight">\(W_{ij}=W_{ji}\)</span> and make sure that <span class="math notranslate nohighlight">\(W_{ii}=0\)</span>.</p>
+<p>Once you have this set up, set random weights and biases as well as random state and update it until it converges. At the moment, because we haven’t learned how to train the network, it’s not clear whether or not the results are sensible.</p>
+</section>
+<hr class="docutils" />
+<section id="seeing-that-the-energy-goes-down-during-a-run">
+<h2>Seeing that the “energy” goes down during a run<a class="headerlink" href="#seeing-that-the-energy-goes-down-during-a-run" title="Link to this heading">#</a></h2>
+<p>As the next step, we’d like to explicitly verify the statement that the energy never increases during a Hopfield network’s dynamics. Run your network through the update rule for a series of random initial states. Measure the energy of the initial states and their subsequent updates. Produce a graph, with lines for each run, plotting the energy versus update step. Show that the plots are monotonically non-increasing. This demonstrates that Hopfield networks converge to some “memory” for different initial conditions.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Produce a graph with 10 lines on it showing that the energy starting from 10 different intial conditions decays until convergence. It should look something like:</p>
+<p><img alt="energy2.jpg" src="../_images/energy2.jpg" /></p>
+<p><em>Hint:</em> This was produced with 100 neurons. I ran 10 different initial conditions and ran each one until they converged. I printed out the energy every 100 update steps (i.e., equal to the number of neurons).</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="training-some-inputs">
+<h2>Training some inputs<a class="headerlink" href="#training-some-inputs" title="Link to this heading">#</a></h2>
+<p>Now that you have a Hopfield network running, the next step is to learn how to train it to memorize some data. Hopfield networks can remember arbitrary bit-strings. In our case, these bit-strings will represent binary images, where <span class="math notranslate nohighlight">\(\pm 1\)</span> represent different color pixels in the image.</p>
+<p>To memorize a set of <span class="math notranslate nohighlight">\(m\)</span> memories, we need to set our weights to</p>
+<div class="math notranslate nohighlight">
+\[
+W = \frac{1}{m} \sum_{k=1}^m v^{(k)} (v^{(k)})^T,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(v^{(k)}\)</span> is an <span class="math notranslate nohighlight">\(n \times 1\)</span> column vector representing the <span class="math notranslate nohighlight">\(k\)</span>-th memory.  In the example below, there will be 2 memories so <span class="math notranslate nohighlight">\(m=2\)</span> and so there will be a memory <span class="math notranslate nohighlight">\(v^{(0)}\)</span> and <span class="math notranslate nohighlight">\(v^{(1)}\)</span></p>
+<p>Let’s have it learn some images (we will start with some small images and then work up to doing bigger images). Take the images generated in <a class="reference download internal" download="" href="../_downloads/b39008f4ba14faefed13c585b3f5eeaa/makeImage.py"><span class="xref download myst">makeImage.py</span></a>. These are just binary numbers that can be converted into the state of the neurons.</p>
+<p>Some example images to remember:
+<img alt="Face" src="../_images/face2.jpg" />
+<strong>Binary Number:</strong> 0000000000000100010000000000000000000000000010000000000000000001110000001000100001000001101000000001</p>
+<p><img alt="Tree" src="../_images/tree2.jpg" />
+<strong>Binary Number:</strong> 0001111000000111100000001100000000110000001111111000001100100000110000000011000000001100000000110000</p>
+<p>Here I am using “0” and “1” which gets mapped to “-1” and “1”.</p>
+<p>Write code that reads in these images and sets the weights of a Hopfield network to remember them. We want to see if the network can restore these images. To do this, we will feed it a “nearby” image and see how well it recovers the remembered image. Use these two approaches to give it a nearby image:</p>
+<ul class="simple">
+<li><p>Take the face (or the tree) image and remove (or corrupt somehow) the left 1/4 of it. Save the resulting binary string and run a Hopfield network — trained on the uncorrupted image — with this as the input state. Take the binary string produced at the end of the simulation and see what the result is (by comparing both the output binary number and the picture it represents). You might want to print occassional snapshots of the picture as the network updates.</p></li>
+<li><p>Write code that takes a string and perturbs it in <span class="math notranslate nohighlight">\(k\)</span> spots. Then feed it to your network and let it evolve and see if you can get it back.</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Show that you can memorize these images and restore them after you’ve perturbed them.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="how-many-memories-can-you-remember">
+<h2>How many memories can you remember?<a class="headerlink" href="#how-many-memories-can-you-remember" title="Link to this heading">#</a></h2>
+<p>In this section, we will determine how many memories a Hopfield network can remember. To do this, write code that generates <span class="math notranslate nohighlight">\(p\)</span> memories and encodes their weights into a network. Then pick one of those target memories and corrupt it with <span class="math notranslate nohighlight">\(k\)</span> random bit flips. (When corrupting the bits of this memory, pick <span class="math notranslate nohighlight">\(k\)</span> distinct random neurons and flip their states. You can do this with <code class="docutils literal notranslate"><span class="pre">numpy.random.shuffle()</span></code>. Do not try to randomly pick neurons one at a time since you might “corrupt” a neuron multiple times this way.) Do this enough times for each <span class="math notranslate nohighlight">\((p,k)\)</span> to compute a reasonable average and produce a matrix of the <a class="reference external" href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> between the target and the converged result. This will be a <span class="math notranslate nohighlight">\(p \times k\)</span> matrix which can be displayed in python using <code class="docutils literal notranslate"><span class="pre">pylab.matshow</span></code>.</p>
+<p>Use 100 neurons. You probably want to use the version of your code which stores weights as a matrix.</p>
+<p>You should be able to cleanly see how many memories the network can remember and how robust it is at remembering a memory given a partial version of that memory.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Produce a graph that shows how many memories you can remember.
+<img alt="hammingDistance" src="../_images/hammingDistance.jpg" /></p>
+<p><em>Hint:</em> To produce this graph I used 100 neurons.  For each point on this graph (memories x corrupted bits) I stored 5 sets of memories and attempted to recover a random (perturbed) memory from that set 20 times.  I then computed the average Hamming distances between the memory I got and the memory I was trying to recover over these 100 attempts.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="looking-at-the-energy-landscape">
+<h2>Looking at the energy landscape<a class="headerlink" href="#looking-at-the-energy-landscape" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>To accomplish this part of the assignment you need to download <a class="reference external" href="https://www.graphviz.org/">Graphviz</a> or use the online version of graphviz (which is probably easier).</p>
+</div></blockquote>
+<p>In this step we will to look at the energy landscape of the Hopfield network more explicitly. A Hopfield network with <span class="math notranslate nohighlight">\(n\)</span> neurons has <span class="math notranslate nohighlight">\(2^n\)</span> possible {on,off} combinations of neuron states. Each of these combinations can flow down in energy to (at most) <span class="math notranslate nohighlight">\(n\)</span> different nodes after attempting to update one of the neurons. This generates a graph.</p>
+<p>Give your hopfield network 6 neurons and 2 memories.</p>
+<p>Graphviz eats a description of a graph and generates a picture of it.
+The description looks like</p>
+<p>Generate this graph, where a directed arrow corresponds to one configuration pointing to another configuration. For your first attempt, just color the target memories.</p>
+<p>To compute a picture from this do</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dot</span> <span class="n">myFile</span><span class="o">.</span><span class="n">digraph</span>  <span class="o">-</span><span class="n">Tsvg</span> <span class="o">-</span><span class="n">o</span> <span class="n">myFile</span><span class="o">.</span><span class="n">svg</span>
+</pre></div>
+</div>
+<p>You can then load a svg file in your browser.</p>
+<p><em>Hint:</em> To do this, I used 6 neurons.  This means <span class="math notranslate nohighlight">\(2^6\)</span> states. For each state I looped over the 6 neurons and produced all of the states that I might get from doing an update of that neuron (to do this I needed to write a <code class="docutils literal notranslate"><span class="pre">Update(int</span> <span class="pre">neuron)</span></code> function that eats a neuron to try to update. Then I printed out the two integers that represent the binary numbers before and after the update.</p>
+<p>My energy landscape pictures look a bit like this:
+<img alt="" src="../_images/energy.svg" /></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Show the energy landscape.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="video">
+<h2>Video<a class="headerlink" href="#video" title="Link to this heading">#</a></h2>
+<iframe id="kmsembed-1_ltjyxil9" width="640" height="394" src="https://mediaspace.illinois.edu/embed/secure/iframe/entryId/1_ltjyxil9/uiConfId/26883701/st/0" class="kmsembed" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow="autoplay *; fullscreen *; encrypted-media *" referrerPolicy="no-referrer-when-downgrade" sandbox="allow-downloads allow-forms allow-same-origin allow-scripts allow-top-navigation allow-pointer-lock allow-popups allow-modals allow-orientation-lock allow-popups-to-escape-sandbox allow-presentation allow-top-navigation-by-user-activation" frameborder="0" title="Physics 446 Hopfield Network"></iframe></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="RBM.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Restricted Boltzmann Machines</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hopfield-networks-as-an-ising-model">Hopfield networks as an Ising Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-hopfield-network">Building a Hopfield Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seeing-that-the-energy-goes-down-during-a-run">Seeing that the “energy” goes down during a run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-some-inputs">Training some inputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-many-memories-can-you-remember">How many memories can you remember?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#looking-at-the-energy-landscape">Looking at the energy landscape</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#video">Video</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

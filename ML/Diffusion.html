@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Generative Diffusion Models &#8212; Computing in Physics (Phy446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Diffusion';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Overview" href="../TI/Overview.html" />
+    <link rel="prev" title="Restricted Boltzmann Machines" href="RBM.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Phy446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Setup</a></li>
+
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Generative Diffusion Models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-1">Approach 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-2">Approach 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-3">Approach 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-next-step-faster-diffusing">The Next Step: Faster Diffusing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing">Undiffusing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="generative-diffusion-models">
+<h1>Generative Diffusion Models<a class="headerlink" href="#generative-diffusion-models" title="Link to this heading">#</a></h1>
+<p>Our goal in this assignment is to understand generative models like stable diffusion.  In stable diffusion, you type a string and it generates a picture of that string.  For this assignment, we are going to get to 70% of that understanding.</p>
+<section id="diffusion">
+<h2>Diffusion<a class="headerlink" href="#diffusion" title="Link to this heading">#</a></h2>
+<p>We are going to start by thinking about diffusion. Consider a pollen particle which is being buffeted by air.  If we weren’t paying attention to the air, but instead just the pollen particle, what we would expect to see is that the pollen particle would ocassionally jump in random directions as the air is hitting it.  We might model this by saying that at time <span class="math notranslate nohighlight">\(t\)</span> the particle is at <span class="math notranslate nohighlight">\(x_t = x_{t-1} +\sqrt{\delta} z\)</span> where <span class="math notranslate nohighlight">\(z \sim N(0,1)\)</span> is a random guassian number with unit standard deviation.   Now if the pollen was also in some sort of potential <span class="math notranslate nohighlight">\(E(x)\)</span> (say a gravitational field or a harmonic oscillator) we would expect it to also drift with the force induced by this potential.  This motivates the Langevin equation</p>
+<div class="math notranslate nohighlight">
+\[x_t = x_{t-1} + \frac{\delta}{2} F(x_{t-1})+ \sqrt{\delta} z \]</div>
+<p>where <span class="math notranslate nohighlight">\(z\sim N(0,1)\)</span> is a random gaussian number with unit standard deviation,  <span class="math notranslate nohighlight">\(F(x_{t-1}) =  -\nabla_x E(x_{t-1}) = \nabla_x\log p(x_{t-1})\)</span>   and <span class="math notranslate nohighlight">\(p(x_{t-1}) = \exp[-E(x_{t-1})]\)</span>.  While we will start with <span class="math notranslate nohighlight">\(x\)</span> being in one dimension, we will generically allow <span class="math notranslate nohighlight">\(x\)</span> to be in arbitrary dimension.</p>
+<p>Notice that this is a Markov chain:  the new position <span class="math notranslate nohighlight">\(x_{t}\)</span> only depends on the current position <span class="math notranslate nohighlight">\(x_{t-1}\)</span> and not any of the other times.</p>
+<p>Because it is a Markov chain it has to have a stationary distribution.  It turns out (in the limit of small-ish <span class="math notranslate nohighlight">\(\delta\)</span>), the probability distribution you end up with is <span class="math notranslate nohighlight">\(\exp[-E(x)]\)</span>.  This will be a key property of the Langevin equation for our purposes.  There are three ways we can verify this:</p>
+<ul class="simple">
+<li><p>Simulate the Langevin equation and check its probability distribution</p></li>
+<li><p>Make another Markov chain that we know has the right probabilty distribution and show that it is equivalent to Langevin dynamics</p></li>
+<li><p>Demonstrate that the Langevin equation has the right dynamics</p></li>
+</ul>
+<section id="approach-1">
+<h3>Approach 1<a class="headerlink" href="#approach-1" title="Link to this heading">#</a></h3>
+<p>We will start with the first approach.  Write a function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ForwardDiffusion</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">locations</span>
+</pre></div>
+</div>
+<p>which takes an initial condition <code class="docutils literal notranslate"><span class="pre">x_0</span></code> and an integer number of steps <span class="math notranslate nohighlight">\(T\)</span>, and a step-size <span class="math notranslate nohighlight">\(\delta\)</span>.  Let’s use a simple harmonic oscillator as the energy - i.e. <span class="math notranslate nohighlight">\(E=x^2/2\)</span>.  It should return the list of locations that it has been at (later when we work with more dimensions we will switch to just returning the last location).</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>After you’ve written this function, go ahead and run it out to <span class="math notranslate nohighlight">\(T=10000\)</span>.  Plot a histogram of the distribution of locations that you visited <em>ignoring the first 1000 steps</em>. These first 1000 steps are just the transient.   Check that the distribution that you arrive at is</p>
+<div class="math notranslate nohighlight">
+\[P(x) = \frac{1}{\sqrt{2\pi}} \exp[-x^2/2]\]</div>
+</div>
+</section>
+<section id="approach-2">
+<h3>Approach 2<a class="headerlink" href="#approach-2" title="Link to this heading">#</a></h3>
+<p>We can alternatively start with a Markov chain that we know the stationary distribution to - i.e. the Metropolis Markov chain.</p>
+<p>In this section we are trying to reason about why the forward diffusion equation generated a probability distribution <span class="math notranslate nohighlight">\(P(x) \propto \exp[-E(x)]\)</span>.  The algorithm that we described is clearly a Markov chain - i.e. the probabilistic locations of the next step only depend on the current locations.  Therefore there needs to be some stationary distribution.  Our goal is just to figure out which one.  Unfortunately, we don’t know how to easily reason about the stationary distributions.  Let’s see if instead we can start with a Markov chain that we do understand and which generates the right distribution and massage it into the equation above.</p>
+<p>One Markov chain we do understand is the Metropolis method.  In the Metropolis method, we know that we should choose a move from <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(x'\)</span> with probability <span class="math notranslate nohighlight">\(T(x \rightarrow x')\)</span> and then we should accept that move with probability</p>
+<div class="math notranslate nohighlight">
+\[ A(x\rightarrow x') = \frac{\pi(x')}{\pi(x)} \frac{T(x' \rightarrow x)}{T(x \rightarrow x')}\]</div>
+<p>Let’s start with moving with simply a guassian with standard deviation <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span>.  Then</p>
+<div class="math notranslate nohighlight">
+\[T(x \rightarrow x') = T(x' \rightarrow x) = \exp\left[-\frac{(x-x')^2}{2\delta}\right]\]</div>
+<p>Then we should accept with probability</p>
+<div class="math notranslate nohighlight">
+\[A(x \rightarrow x') = \exp[-(E(x')-E(x))]\]</div>
+<p>This will give us a Markov chain which samples the probability distribution <span class="math notranslate nohighlight">\(p(x) \propto \exp[-E(x)]\)</span> but unfortunately doesn’t look like our dynamics above.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Nonetheless, go ahead and implement this markov chain using the quadratic energy <span class="math notranslate nohighlight">\(E(x)=x^2/2\)</span> and verify that it gives the right distribution.</p>
+</div>
+<p>Now, we are going to go ahead and try to massage our Metropolis MCMC into something that looks more like our target dynamics.  Let us now try a new sample probability using</p>
+<div class="math notranslate nohighlight">
+\[T(x \rightarrow x') = \exp\left[-\frac{((x+\delta/2 F(x))-x')^2}{2\delta}\right]\]</div>
+<p>What this probability distribution tells us is that we should first drift our particle from <span class="math notranslate nohighlight">\(x \rightarrow x+\frac{\delta}{2} F(x)\)</span> and then sample a gaussian with standard deviation <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span> from that point.  This, in fact, is the Langevin dynamics described above.</p>
+<p>Using Metropolis, let’s work out the acceptance probability <span class="math notranslate nohighlight">\(A(x \rightarrow x')\)</span> for this new choice.</p>
+<div class="math notranslate nohighlight">
+\[ \frac{T(x' \rightarrow x)}{T(x \rightarrow x')} = \exp\left[\delta (x-x')[F(x)+F(x')] +(\delta/2)^2 (F(x)^2 - F(x')^2)  \right]/(2\delta)\]</div>
+<p>We will find that the acceptance ratio <span class="math notranslate nohighlight">\(A(x \rightarrow x') = \pi(x')/\pi(x) T(x' \rightarrow x)/T(x \rightarrow x')\)</span> approaches 1 if the potential is linear over a range of <span class="math notranslate nohighlight">\(\sqrt{\delta}\)</span>. One can see this analytically.   Instead let’s go ahead and test this by running a variational Monte Carlo using this improved move.    Notice, that this is guaranteed to sample the right distribution.  If the acceptance ratio is 1 (or essentially 1) then we are guaranteed that the dynamics above actually do sample the correct thing.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Go ahead and show that the acceptance ratio is 1 by running this in a Monte Carlo and computing the acceptance ratio.</p>
+<p>In addition, you can check this by choosing a series of <span class="math notranslate nohighlight">\(x\)</span> points (no Monte Carlo involved), choose an <span class="math notranslate nohighlight">\(x'\)</span> by the Langevin equation and verify that the acceptance ratio for this would be essentially 1.0 if you made this move. Use <span class="math notranslate nohighlight">\(\delta =0.05\)</span></p>
+</div>
+</section>
+<section id="approach-3">
+<h3>Approach 3<a class="headerlink" href="#approach-3" title="Link to this heading">#</a></h3>
+<p>The two previous approaches were essentially showing that the Langevin equation gives us the stationary distribution we want numerically.  We can also show this analytically.</p>
+<p>Starting from a generalized version of the Langevin eqution, <span class="math notranslate nohighlight">\(x(t + \Delta t) = x(t) + l(t) + F\gamma\Delta t\)</span>, where <span class="math notranslate nohighlight">\(l(t)\)</span> is essentially any reasonable symmetric random perturbation.</p>
+<p>You can show that this satisfies the diffusion equation,</p>
+<div class="math notranslate nohighlight">
+\[ \frac{\partial \rho}{\partial t} = D \frac{\partial^2 \rho}{\partial x^2} - \gamma F \frac{\partial \rho}{\partial x}\]</div>
+<p>A nice exposition of this is in <a class="reference external" href="https://sethna.lassp.cornell.edu/StatMech/EntropyOrderParametersComplexity20.pdf">James Sethna’s Stat Mech Book</a> around equations 2.7.</p>
+<p>It’s pretty easy from this equation to see that it corresponds to the drift, diffusion step of the Langevin equation - i.e. formally the solution of <span class="math notranslate nohighlight">\(\frac{\partial \rho}{\partial t} = (\hat{A} + \hat{B})\rho\)</span> for small t is <span class="math notranslate nohighlight">\(\rho(t) = \exp[A t] \exp[B t]\)</span> which directly corresponds to the drift and diffusion term.</p>
+<p>It’s also easy to work out what the stationary distribution of this equation as <span class="math notranslate nohighlight">\(\frac{\partial \rho}{\partial t} = 0\)</span> giving us that</p>
+<div class="math notranslate nohighlight">
+\[  D \frac{\partial^2 \rho}{\partial x^2}  = \gamma F \frac{\partial \rho}{\partial x}\]</div>
+<p>which is satisfied by</p>
+<div class="math notranslate nohighlight">
+\[ \rho(x) = \mathcal C \exp\left( -\frac{\gamma}{D} E(x) \right)\]</div>
+<p>Interestingly, this is very closely related to a method for simulating quantum ground states - diffusion Monte Carlo.</p>
+</section>
+</section>
+<section id="the-next-step-faster-diffusing">
+<h2>The Next Step: Faster Diffusing<a class="headerlink" href="#the-next-step-faster-diffusing" title="Link to this heading">#</a></h2>
+<p>So far, we’ve learned that the Langevin dynamics (in the limit of small-ish <span class="math notranslate nohighlight">\(\delta\)</span>) are a Markov chain which ends up in the probability distribution proportional to <span class="math notranslate nohighlight">\(p(x) \propto \exp[-E(x)]\)</span>.</p>
+<p>We are now going to focus explicitly on the energy functional for a harmonic oscillator <span class="math notranslate nohighlight">\(E(x) = x^2/2\)</span>.</p>
+<p>In addition, we are going to generalize our diffusion to allow different step sizes at each step (as well as do a somewhat unfortunate change of variables - this will ensure that we are consistent with both the Langevin literature (from above) and the diffusion literature (now below)).</p>
+<p>Using this energy function, we get</p>
+<div class="math notranslate nohighlight">
+\[x_t= x_{t-1} \left(1- \frac{\delta}{2}\right) + \sqrt{\delta} z\]</div>
+<p>We know are going to let <span class="math notranslate nohighlight">\(\delta\)</span> be a function of time giving us</p>
+<div class="math notranslate nohighlight">
+\[x_t= x_{t-1} \left(1- \frac{\delta_t}{2}\right) + \sqrt{\delta_t} z\]</div>
+<p>and then let <span class="math notranslate nohighlight">\(\beta_t = \delta_t\)</span> and <span class="math notranslate nohighlight">\(\sqrt{1-\beta_t} = \left(1- \frac{\delta_t}{2}\right)\)</span></p>
+<p>This last identification is true in the limit of small <span class="math notranslate nohighlight">\(\delta_t\)</span> (just Taylor expand the exponential) and is commonly what is done in the literature so we are going to do it here.  There is probably no deep fundamental reason to do so.</p>
+<p>This leaves us with</p>
+<div class="math notranslate nohighlight">
+\[x_t= x_{t-1} \sqrt{1-\beta_t} + \sqrt{\beta_t} z\]</div>
+<p><span class="math notranslate nohighlight">\(\beta_t\)</span> is the step size (or standard deviation of the gaussian) that we are going to take at step <span class="math notranslate nohighlight">\(t\)</span> of our walk. In the early steps, we will take small steps and the later steps, we will take large steps. The reason for this is that we will eventually see that the first few steps of this Markov chain correspond to the last few steps of denoising an image and it will be easier to do this when those steps are small.  All the <span class="math notranslate nohighlight">\(\beta_t\)</span>, we use are going to be sufficiently small that every one of them will still be in the small step-size limit and so we will still converge to our stationary distribution as long as our maximum beta is large enough.</p>
+<p>Let us pick the beta at step <span class="math notranslate nohighlight">\(t\)</span> to be  <span class="math notranslate nohighlight">\(\beta_t = 0.0001 + (0.05-0.0001)/200 t\)</span><br />
+This can be generated in python by just doing
+<code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">=</span> <span class="pre">np.linspace(0.0001,</span> <span class="pre">0.05,</span> <span class="pre">timesteps,dtype=np.float32)</span></code>  Notice with these choices of <span class="math notranslate nohighlight">\(\beta_t\)</span> after going over all the steps you will have done a walk of total distance <span class="math notranslate nohighlight">\(\beta \approx 5\)</span>.</p>
+<p>Modify your function <code class="docutils literal notranslate"><span class="pre">ForwardDiffusion(x_0,T,</span> <span class="pre">beta_t)</span></code> so that it takes an initial coordinate <span class="math notranslate nohighlight">\(x_0\)</span>, a number of steps to go to <span class="math notranslate nohighlight">\(T\)</span>, and a list <code class="docutils literal notranslate"><span class="pre">beta_t</span></code> of step sizes and then runs the corresponds forward diffusion.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Run your forward diffusion 5 times starting from <span class="math notranslate nohighlight">\(x_0=0.4\)</span> plotting a line for each run of <span class="math notranslate nohighlight">\(x(t)\)</span> vs. step <span class="math notranslate nohighlight">\(t\)</span>. It is also interesting to make the plot <span class="math notranslate nohighlight">\(x(t)\)</span> vs <code class="docutils literal notranslate"><span class="pre">np.cumsum(beta_t)</span></code></p></li>
+<li><p>This time it doesn’t make sense to collect the probability distribution over many steps because the probability distribution changes over time.<br />
+Instead, run your function 10000 times starting from <span class="math notranslate nohighlight">\(x_0=0.4\)</span> out to a time-step of T=199 and graph a histogram of the resulting distribution x(199).  Plot a theory curve on top of it showing that you get the correct probability distribution.</p></li>
+</ul>
+</div>
+<p>Now, we would like to produce a new function
+<code class="docutils literal notranslate"><span class="pre">ForwardDiffusionFast(x_0,T,</span> <span class="pre">alpha_bar)</span></code> which produces the same probability distribution but does it quickly.   Note this function again takes <span class="math notranslate nohighlight">\(x_0\)</span> and the step <span class="math notranslate nohighlight">\(T\)</span> to run to, as well as the list of <code class="docutils literal notranslate"><span class="pre">alpha_bar</span></code> (which comes from the <code class="docutils literal notranslate"><span class="pre">beta_t</span></code>)   In other words, you want to produce the same probability distribution after some number of time steps but which doesn’t require taking each and every step to get there (i.e. you just want to be able to jump to step 150).  It turns out that this possible because the sum of a bunch of random gaussian steps is a random gaussian step.</p>
+<p>If we let</p>
+<div class="math notranslate nohighlight">
+\[\alpha_t = 1-\beta_t\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\overline{\alpha_t}= \prod_{i=1}^t \alpha_i\]</div>
+<p>then you can jump to step <span class="math notranslate nohighlight">\(T\)</span> from initial point <span class="math notranslate nohighlight">\(x_0\)</span> by doing</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{\overline{\alpha_t}} x_0 + \sqrt{1-\overline{\alpha_t}} z\]</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Go ahead and write a
+<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">ForwardDiffusionFast(x_0,T,</span> <span class="pre">alpha_bar):</span></code>
+which quickly generates the same distribution as ForwardDiffusion.  Plot a histogram of ForwardDiffusionFast out to T=199 and check that you get the same probability distribution as ForwardDiffusion</p>
+</div>
+</section>
+<section id="undiffusing">
+<h2>Undiffusing<a class="headerlink" href="#undiffusing" title="Link to this heading">#</a></h2>
+<p>Our next step is to figure out how to undiffuse.</p>
+<p>In our forward diffusion process we have samples <span class="math notranslate nohighlight">\(x_0\)</span> from an initial distriution <span class="math notranslate nohighlight">\(p_{init}(x_0)\)</span> which we forward diffuse</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">SamplePInit</span><span class="p">()</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">ForwardDiffusionFast</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">alpha_bar</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>giving us a (largely gaussian) final distribution <span class="math notranslate nohighlight">\(p_{final}\)</span>.</p>
+<p>Now, we’d like to start with samples <span class="math notranslate nohighlight">\(x_t\)</span> from <span class="math notranslate nohighlight">\(p_{final}\)</span> and write a function <code class="docutils literal notranslate"><span class="pre">Undiffuse(xt)</span></code> which returns a sample <span class="math notranslate nohighlight">\(x_0\)</span> which is sampled from <span class="math notranslate nohighlight">\(p_{init}\)</span> - i.e.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span> <span class="o">=</span> <span class="n">SamplePInit</span><span class="p">()</span>
+<span class="n">xt</span> <span class="o">=</span> <span class="n">ForwardDiffusionFast</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">alpha_bar</span><span class="p">)</span>
+<span class="n">new_x0</span> <span class="o">=</span> <span class="n">Undiffuse</span><span class="p">(</span><span class="n">xt</span><span class="p">)</span> 
+<span class="c1"># new_x0 doesn&#39;t have to be x_0 but if we histogram $new_x0$ and $x_0$ those histograms should be the same</span>
+</pre></div>
+</div>
+<p>In some sense, this should be possible - the laws of physics don’t know about the direction in time.  In practice though, you don’t often see things undiffuse even if we reverse the force (i.e. after a drop of food coloring diffuses in a cup, it doesn’t undiffuse by turning it upside-down.) The reason for this is that we aren’t actually successfully reversing the directions of “all the air molecules bouncing off the pollen” even if we do reverse the force on the pollen.  Nonetheless, if we are careful (and have the right information) we can get this undiffusion to happen.   Mathematically, what we need to do is figure out how to (stochastiaclly) run the Langevin Markov chain backwards.</p>
+<p>The Langevin markov chain is a rule which tells us, given <span class="math notranslate nohighlight">\(x_{t-1}\)</span> how we should stochastically choose <span class="math notranslate nohighlight">\(x_t\)</span> - i.e. it is defined by <span class="math notranslate nohighlight">\(p(x_t | x_{t-1})\)</span>.</p>
+<p>To reverse it, we would like to figure out <span class="math notranslate nohighlight">\(p(x_{t-1} | x_{t})\)</span>.   It turns out we can’t quite do this.  Instead, what we are going to do is get a rule for <span class="math notranslate nohighlight">\(p(x_{t-1} | x_{t},x_0)\)</span>.  In practice, then to run our Markov chain backwards we start with <span class="math notranslate nohighlight">\(x_t\)</span>, guess the <span class="math notranslate nohighlight">\(x_0\)</span> that would have generated that <span class="math notranslate nohighlight">\(x_t\)</span>, and then use our rule to get <span class="math notranslate nohighlight">\(x_{t-1}\)</span>.  We can then do this over and over again decreasing <span class="math notranslate nohighlight">\(t\)</span> until we get to <span class="math notranslate nohighlight">\(t=0\)</span>.  Actually it will turn out to be slightly preferable to guess the random number <span class="math notranslate nohighlight">\(z_g^t\)</span> used in your fast diffusion function (i.e. the result of the call to <code class="docutils literal notranslate"><span class="pre">np.random.randn()</span></code>) then <span class="math notranslate nohighlight">\(x_0\)</span>.  But since you can get <span class="math notranslate nohighlight">\(x_0\)</span> given <span class="math notranslate nohighlight">\(z_g^t\)</span> and <span class="math notranslate nohighlight">\(x_t\)</span> it’s equivalent.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Derivation</p>
+<p>Let’s go ahead and derive the rule for <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0)\)</span>.</p>
+<p>First start by looking at <span class="math notranslate nohighlight">\(p(x_t, x_{t-1}, x_0)\)</span>.   We can expand this out using Bayes theorem as</p>
+<p><span class="math notranslate nohighlight">\(p(x_t, x_{t-1}, x_0) = p(x_t | x_{t-1}, x_0) p(x_{t-1}|x_0) p(x_0)\)</span></p>
+<p>and</p>
+<p><span class="math notranslate nohighlight">\(p(x_t, x_{t-1},x_0) = p(x_{t-1}| x_t,x_0) p(x_{t}|x_0)p(x_0)\)</span></p>
+<p>Some algebra then gives us
+<span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0) = p(x_t| x_{t-1},x_0)\frac{p(x_{t-1}|x_0)}{p(x_t|x_0)}\)</span></p>
+<p>Notice the first term on the rhs doesn’t depend on <span class="math notranslate nohighlight">\(x_0\)</span> (it’s a Markov chain and so if you tell me <span class="math notranslate nohighlight">\(x_{t-1}\)</span> I don’t also need <span class="math notranslate nohighlight">\(x_0\)</span>).</p>
+<p>Using our fast diffusion this gives us</p>
+<p><span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0) = \exp\left[-\frac{1}{2}\left(\frac{(x_t-\sqrt{\alpha_t}x_{t-1})^2}{\beta_t}  + \frac{ (x_{t-1}-\sqrt{\overline{\alpha_{t-1} } } x_0)^2}{1-\overline{\alpha_{t-1}}} - \frac{( x_t - \sqrt{\overline{\alpha_t}}x_0)^2}{1-\overline{\alpha_t}} \right)   \right]\)</span></p>
+<p>You can simplify this by rewriting this as</p>
+<div class="math notranslate nohighlight">
+\[p(x_{t-1} | x_t, x_0) = \frac{1}{\sqrt{2\pi \tilde{\beta_t}}} \exp\left[-\frac{(x-\tilde{\mu}_t)^2}{2\tilde{\beta_t}}\right]\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[\tilde{\mu}_t= \frac{\sqrt{\alpha_t}(1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t} \mathbf{x}_t + \frac{\sqrt{\bar{\alpha}_{t-1}}\beta_t}{1 - \bar{\alpha}_t} \mathbf{x}_0 \]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\tilde{\beta_t} = \frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_t} \beta_t\]</div>
+<p>This tells us that our undiffusion step should be (after guess <span class="math notranslate nohighlight">\(x_0\)</span>)</p>
+<div class="math notranslate nohighlight">
+\[x_{t-1} = x_t + \tilde{\mu}_t + N(0,1) \sqrt{\tilde{\beta_t}}\]</div>
+<p>(technical note: we don’t do the N(0,1) step when <span class="math notranslate nohighlight">\(t=0\)</span>)</p>
+<p>Now from our fast diffusion we have that</p>
+<p><span class="math notranslate nohighlight">\(x_0 = \frac{1}{\sqrt{\overline{\alpha}_t}} (x_t - \sqrt{1-\overline{\alpha}_t}z^g_t)\)</span>
+where <span class="math notranslate nohighlight">\(z^g_t\)</span> is our guess for the noise from foward diffusion (i.e. instead of guess <span class="math notranslate nohighlight">\(x_0\)</span> we can guess the noise we used to get <span class="math notranslate nohighlight">\(x_t\)</span>).</p>
+<p>We can plug <span class="math notranslate nohighlight">\(x_0\)</span> into our diffusion step.  Using some algebra we end up with the following:</p>
+</div>
+<p>When we work this all out the undiffusing step gives us (after we guess the random noise)</p>
+<div class="math notranslate nohighlight">
+\[x_{t-1}=\frac{1}{\sqrt{\alpha_t}} (x_t - s_t * z^g_t) + \delta_{t,0} \sqrt{\tilde{\beta_t}} N(0,1)  \]</div>
+<p>where <span class="math notranslate nohighlight">\(\delta_{t,0}\)</span> is 1 unless <span class="math notranslate nohighlight">\(t=0\)</span>, <span class="math notranslate nohighlight">\(z^g_t\)</span> is your guess for the full noise used to diffuse from <span class="math notranslate nohighlight">\(t=0\)</span>, and the noise scale</p>
+<div class="math notranslate nohighlight">
+\[s_t=\frac{1-\alpha_t}{\sqrt{1-\overline{\alpha_t}}}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\tilde{\beta_t} = \frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_t} \beta_t\]</div>
+<p>Let’s go ahead and write some functions now to get this working:</p>
+<p>Write an <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">Undiffuse(x_t,t)</span></code> function which takes <span class="math notranslate nohighlight">\(x_t\)</span> and (stochastically) returns <span class="math notranslate nohighlight">\(x_{t-1}\)</span>. In this function you are going to call <code class="docutils literal notranslate"><span class="pre">GuessZ(xt,t)</span></code> which you will also write.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> function is generic.  We will also write a <code class="docutils literal notranslate"><span class="pre">SamplePInit()</span></code> function.  For our first example, we will make it always return 0.4.  In other words, our probability distribution is <span class="math notranslate nohighlight">\(p(0.4)=1\)</span> and <span class="math notranslate nohighlight">\(p(x\neq 0.4)=0\)</span>.</p>
+<p>Whe you write <code class="docutils literal notranslate"><span class="pre">GuessZ</span></code>, since you (secretly) know that <span class="math notranslate nohighlight">\(x_0\)</span> is always <span class="math notranslate nohighlight">\(0.4\)</span> you can probably do a really good job of having guessZ successfully guess the right random noise :)</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Once these functions are written, let’s work on the undiffusion.</p>
+<ul class="simple">
+<li><p>Run your undiffusion 5 times starting all from a single diffused point.  Graph <span class="math notranslate nohighlight">\(x(t)\)</span> vs <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p>Run your undiffusion many times out to T=0 and histogram it.  Show that you get a delta function at 0.4</p></li>
+<li><p>Run your fast forward diffusion from T=0 to T=125 and your undiffusion from T=200 to T=125 and plot the histograms showing they are the same.</p></li>
+</ul>
+</div>
+<p>We now want to make life a little harder.  We are going to have a new probability distribution.</p>
+<div class="math notranslate nohighlight">
+\[p(0.4) = 0.8\]</div>
+<div class="math notranslate nohighlight">
+\[p(-0.6) = 0.2\]</div>
+<div class="math notranslate nohighlight">
+\[p(\text{anything else}) = 0\]</div>
+<p>Write the new <code class="docutils literal notranslate"><span class="pre">SampleFromInitP</span></code> function.</p>
+<p>Now we also need a new <code class="docutils literal notranslate"><span class="pre">guessZ(xt)</span></code> function.  Notice that this is much trickier and doesn’t always have an obvious answer.  If I tell you what <span class="math notranslate nohighlight">\(x_t\)</span> is, you don’t really know which <span class="math notranslate nohighlight">\(x_0\)</span> it came from (maybe 0.4 and maybe -0.6).  Therefore, you don’t know whether to report <span class="math notranslate nohighlight">\(z_{0.4}\)</span> (i.e. the random guess from 0.4) or to report <span class="math notranslate nohighlight">\(z_{-0.6}\)</span>.  It turns out the right thing to do is to report is the weighted average</p>
+<div class="math notranslate nohighlight">
+\[\frac{0.8 z_a \exp(-z_a^2/2) + 0.2 z_b \exp(-z_b^2/2)}{0.8\exp(-z_a^2/2)+0.2\exp(-z_b^2/2)}\]</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Do the undiffusion from this new probabability distribution.  Plot the same three plots  you did in the previous grading.</p>
+<p>In addition, notice that at each step in your diffusion you are making a guess for <span class="math notranslate nohighlight">\(z\)</span>.  This corresponds to a guess for <span class="math notranslate nohighlight">\(x_0\)</span>.  For ten runs, graph the guess as a function of <span class="math notranslate nohighlight">\(t\)</span>.</p>
+</div>
+</section>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h2>
+<p>So far we’ve managed to do undiffusion where we know what the right guess for the random number <span class="math notranslate nohighlight">\(z_g\)</span> is.  But in practice we don’t always know this.  Now, we’d like to work in a situation where we (pretend) we don’t know this.  Instead, we are going to train a neural network which learns the noise.</p>
+<p>To do this, we are going to use pytorch.  To generate a simple neural network using pytorch, we can have</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+
+<span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_out</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">1</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_out</span><span class="p">),</span>
+                      <span class="p">)</span>
+<span class="n">net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span><span class="mi">4</span><span class="p">]))</span>  <span class="o">&lt;--</span><span class="n">This</span> <span class="n">runs</span> <span class="n">the</span> <span class="n">network</span> <span class="k">with</span> <span class="n">a</span> <span class="n">noise</span> <span class="n">of</span> <span class="mi">3</span> <span class="n">at</span> <span class="n">time</span><span class="o">-</span><span class="n">step</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>Now, we need to learn how to use pytorch to train a network to match the noise.  Essentially what we are going to do is the following:</p>
+<ul class="simple">
+<li><p>Pick a random <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p>Get from your ForwardDiffusionFast function both the noise (&lt;–this is a new thing you have to return) and the noisy data.</p></li>
+<li><p>Have your network guess the noise.  Using a loss-function modify your network to match the noise more closely.</p></li>
+</ul>
+<p>Here is the general framework for pytorch optimization.  You have to define some optimization pieces.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span> 
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">200000</span><span class="p">):</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+  <span class="n">x0</span><span class="o">=</span> <span class="n">SamplePInit</span><span class="p">()</span>
+  <span class="c1"># Choose a random time t</span>
+  
+  <span class="c1"># call your FowardDiffusionFast (make sure you return the noisyData and the noise)</span>
+  <span class="n">noisyData</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">noisyData</span><span class="p">,</span><span class="n">t</span><span class="p">])</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="c1"># include the time for the data</span>
+  <span class="n">noise</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">noise</span><span class="p">])</span> <span class="c1">#make it so pytorch reads the noise</span>
+
+  <span class="n">loss</span><span class="o">=</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">noise</span><span class="p">,</span><span class="n">net</span><span class="p">(</span><span class="n">noisyData</span><span class="p">))</span>
+  <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>  
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">loss.item()</span></code> gives you the loss.</p>
+<p>Fill out your optimization.  Run it and you should then have a net which guesses your random noise.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train your network.  Plot the loss as a function of training step.  You may have to do a window averaging over approximately 100 steps to generate this plot.</p>
+</div>
+<p>Now in your undiffuse, you can make your <code class="docutils literal notranslate"><span class="pre">guess=net(torch.tensor([float(x_t),t]))</span></code> as opposed to calling guessZ. Go ahead and make this replacement and then run your undiffusion generating the plots you made before including the standard 10 samples of undiffusion as well as the histogram as well as the best guess at a given time step (for 10 samples).</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Generate these plots.</p>
+</div>
+<p>You may find this code helpful to see what fraction of your states are to the left and right of zero</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">myHist</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">myData</span><span class="p">,</span><span class="n">density</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">mask</span><span class="o">=</span><span class="n">myHist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span>
+<span class="n">p_right</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">myHist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">mask</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">mask</span><span class="o">=</span><span class="n">myHist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span>
+<span class="n">p_left</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">myHist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">mask</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_right</span><span class="o">/</span><span class="p">(</span><span class="n">p_right</span><span class="o">+</span><span class="n">p_left</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="prompts">
+<h2>Prompts<a class="headerlink" href="#prompts" title="Link to this heading">#</a></h2>
+<p>Finally in programs such as stable diffusion, you give the program a prompt and ask it to produce that image - i.e. astronaut on a horse.  In our simple example here, we are going to also give our simulation a prompt:  we will work with a simple version of this telling it either “left” or “right” to ask it to either find the point below zero or above zero.</p>
+<p>To accomplish this, during the training we need to give our network not only the diffused location <span class="math notranslate nohighlight">\(x_t\)</span> and the time <span class="math notranslate nohighlight">\(t\)</span> but also the prompt-information.  It needs to give it this information both during training and undiffusing.  That way, during training it will learn to be biased toward the right location conditioned on the prompt.  We will embed as “left” equals -1 and “right” equals 1 - i.e. <code class="docutils literal notranslate"><span class="pre">embedPrompt</span> <span class="pre">=</span> <span class="pre">-1</span> <span class="pre">if</span> <span class="pre">prompt==&quot;left&quot;</span> <span class="pre">else</span> <span class="pre">1</span></code></p>
+<p>Modify your network to take an extra input:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_out</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">1</span>  <span class="c1"># &lt;-- all I&#39;ve changed is n_input is now 3</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                      <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_out</span><span class="p">),</span>
+                      <span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, when you call the network you need to call it as
+<code class="docutils literal notranslate"><span class="pre">net(torch.tensor([float(x_t),t,embedPrompt]))</span></code></p>
+<p>During training to get the embedded prompt, you want to check if it’s less then 0 (send it the embeddedPrompt for left) or more then 0 (send it the embeddedPrompt for 1).</p>
+<p>During undiffusion, you then have to decide whether your prompt is “left” or “right” and then run it.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Modify your code to do “prompting.”  Train your network and then produce two sets of our three typical plots:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x(t)\)</span> vs <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p>histogram of final outcome</p></li>
+<li><p>guess of <span class="math notranslate nohighlight">\(x(0)\)</span> as a function of <span class="math notranslate nohighlight">\(t\)</span></p></li>
+</ul>
+<p>One set should be when the prompt is “left” and one set should be when the prompt is “right.”</p>
+</div>
+<p>Please continue onto <a class="reference internal" href="Diffusion2.html"><span class="std std-doc">3.2 Diffusion Models - page 2</span></a></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="RBM.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Restricted Boltzmann Machines</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../TI/Overview.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Overview</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diffusion">Diffusion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-1">Approach 1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-2">Approach 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-3">Approach 3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-next-step-faster-diffusing">The Next Step: Faster Diffusing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing">Undiffusing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
