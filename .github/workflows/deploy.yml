@@ -24,6 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
+        pip install "jupyter-book<2"
         pip install -r requirements.txt
 
     # Build the book
