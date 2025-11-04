@@ -31,7 +31,8 @@ jobs:
       run: |
         echo "Current directory: $(pwd)"
         ls -la
-        jupyter-book --verbose build ComputationalPhysics/ 
+        jupyter-book --version
+        jupyter-book build -v ComputationalPhysics/ 
 
     # Deploy the book's HTML to gh-pages branch
     - name: GitHub Pages action
