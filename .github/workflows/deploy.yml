@@ -10,10 +10,13 @@ on:
 jobs:
   build-and-deploy-book:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+      pages: write
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python-version: [3.13]
+        python-version: [3]
     steps:
     - uses: actions/checkout@v2
 
