@@ -1,0 +1,1405 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Masked Diffusion: Generative Models for Text &#8212; Computing in Physics (Physics 446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/MaskedDiffusion';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Physics 446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Started</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines (Extra Credit)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Masked Diffusion: Generative Models for Text</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-set-up">Getting Set Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-for-words">Noise for Words</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-forward-process">The forward process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#faster-masking">Faster masking</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing">Undiffusing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences">Two sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#being-greedy">Being greedy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-real-language-model">A Real Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tokens-and-blanks">Tokens and blanks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-it-to-answer-questions">Getting it to answer questions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#being-greedy-with-a-real-model">Being greedy with a real model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#talking-to-it">Talking to it</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences-again">Two sentences (again)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-tiny-corpus">A tiny corpus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-chat-model-came-from">Where the Chat Model Came From</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="masked-diffusion-generative-models-for-text">
+<h1>Masked Diffusion: Generative Models for Text<a class="headerlink" href="#masked-diffusion-generative-models-for-text" title="Link to this heading">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Extra Credit</p>
+<p>This page is <strong>extra credit</strong> for the machine learning unit.  It builds directly on <a class="reference internal" href="Diffusion.html"><span class="std std-doc">Generative Diffusion Models</span></a>, so finish that page first.  You don’t need to have done the <a class="reference internal" href="RBM.html"><span class="std std-doc">restricted Boltzmann machine</span></a> page.</p>
+</div>
+<p>On the <a class="reference internal" href="Diffusion.html"><span class="std std-doc">continuous diffusion page</span></a> we built a diffusion model for a continuous variable: we took a point <span class="math notranslate nohighlight">\(x_0\)</span>, slowly added gaussian noise to it until nothing of the original was left, and then learned how to run that process backwards.  This is how image generators like stable diffusion work, because a pixel is (essentially) a continuous number.</p>
+<p>Our goal in this page is to do the same thing for <strong>text</strong>.  By the end you will</p>
+<ul class="simple">
+<li><p>have a conversation with a real language model that writes by <em>undiffusing</em> instead of by writing one word at a time left to right (like chatGPT does).  We will give you the neural network and its weights.  You will write the diffusion.</p></li>
+<li><p>train your own (small) text diffusion model from scratch.</p></li>
+</ul>
+<p>Everything you learned on the continuous diffusion page is going to carry over:  there will be a forward process which destroys information, a fast way to jump to any step of it, an undiffusion step which needs a <em>guess</em> for <span class="math notranslate nohighlight">\(x_0\)</span>, and a neural network that is trained to make that guess.  Only one thing is going to have to change, and it is the first thing we need to deal with.</p>
+<section id="getting-set-up">
+<h2>Getting Set Up<a class="headerlink" href="#getting-set-up" title="Link to this heading">#</a></h2>
+<p>You are going to need a few things installed and (for the second half of the page) an internet connection, because we will download a pre-trained network and some text to train on.</p>
+<p><strong>Packages.</strong>  You need <code class="docutils literal notranslate"><span class="pre">torch</span></code>, <code class="docutils literal notranslate"><span class="pre">transformers</span></code> (version 4.48 or newer), <code class="docutils literal notranslate"><span class="pre">requests</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>.</p>
+<ul>
+<li><p>On <a class="reference external" href="https://colab.research.google.com">Google Colab</a> all of these are already installed.  This is the easiest way to do this page.  Select <code class="docutils literal notranslate"><span class="pre">Runtime</span> <span class="pre">&gt;</span> <span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span> <span class="pre">&gt;</span> <span class="pre">T4</span> <span class="pre">GPU</span></code> before you start.</p></li>
+<li><p>On your own machine run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">torch</span> <span class="s2">"transformers&gt;=4.48"</span> <span class="n">requests</span> <span class="n">numpy</span> <span class="n">matplotlib</span>
+</pre></div>
+</div>
+<p>(or put a <code class="docutils literal notranslate"><span class="pre">!</span></code> in front of it and run it in a notebook cell).  If you already have <code class="docutils literal notranslate"><span class="pre">transformers</span></code> and loading the network fails with an error about not recognizing <code class="docutils literal notranslate"><span class="pre">modernbert</span></code>, your version is too old: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">transformers</span></code>.</p>
+</li>
+</ul>
+<p><strong>Downloads.</strong>  You don’t have to download anything by hand.  The code we give you fetches the following the first time you run it:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>what</p></th>
+<th class="head"><p>where it comes from</p></th>
+<th class="head"><p>size</p></th>
+<th class="head"><p>used in</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>the pre-trained chat network</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/dllm-hub/ModernBERT-large-chat-v0.1">dllm-hub/ModernBERT-large-chat-v0.1</a> on Hugging Face</p></td>
+<td><p>0.9 GB</p></td>
+<td><p><em>A Real Language Model</em></p></td>
+</tr>
+<tr class="row-odd"><td><p>a piece of the TinyStories dataset</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/datasets/roneneldan/TinyStories">roneneldan/TinyStories</a> on Hugging Face</p></td>
+<td><p>4 MB</p></td>
+<td><p><em>A tiny corpus</em></p></td>
+</tr>
+<tr class="row-even"><td><p>(optional) a bigger chat network</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/dllm-hub/Qwen3-0.6B-diffusion-mdlm-v0.1">dllm-hub/Qwen3-0.6B-diffusion-mdlm-v0.1</a> on Hugging Face</p></td>
+<td><p>1.5 GB</p></td>
+<td><p><em>Talking to it</em></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The networks are saved in <code class="docutils literal notranslate"><span class="pre">~/.cache/huggingface</span></code> so they are only downloaded once (on Colab they are downloaded again each time you start a new session).  Neither needs an account or a login.</p>
+<p><strong>Hardware.</strong>  Everything up to <em>A Real Language Model</em> runs instantly on any laptop.  Chatting with the pre-trained network and training your own on stories are much faster with a GPU (Colab’s free one is plenty) but will run on a laptop CPU if you are patient.</p>
+</section>
+<section id="noise-for-words">
+<h2>Noise for Words<a class="headerlink" href="#noise-for-words" title="Link to this heading">#</a></h2>
+<p>To a computer, text is a list of integers.  We chop the text into pieces called <strong>tokens</strong> (for now a token is just a word) and replace each token by its index in a list of all the allowed tokens called the <strong>vocabulary</strong>.  Here is the vocabulary we will use for the first half of this page and a sentence written in it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vocab</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"the"</span><span class="p">,</span> <span class="s2">"cat"</span><span class="p">,</span> <span class="s2">"box"</span><span class="p">,</span> <span class="s2">"is"</span><span class="p">,</span> <span class="s2">"alive"</span><span class="p">,</span> <span class="s2">"empty"</span><span class="p">,</span> <span class="s2">"nobody"</span><span class="p">,</span> <span class="s2">"knows"</span><span class="p">,</span> <span class="s2">"if"</span><span class="p">,</span> <span class="s2">"or"</span><span class="p">,</span> <span class="s2">"until"</span><span class="p">,</span> <span class="s2">"somebody"</span><span class="p">,</span> <span class="s2">"looks"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">]</span>
+<span class="n">MASK</span> <span class="o">=</span> <span class="mi">13</span>   <span class="c1"># the index of "_"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Encode</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">vocab</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sentence</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vocab</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">x_0</span> <span class="o">=</span> <span class="n">Encode</span><span class="p">(</span><span class="s2">"nobody knows if the cat is alive or if the box is empty until somebody looks"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Decode</span><span class="p">(</span><span class="n">x_0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So our data <span class="math notranslate nohighlight">\(x_0\)</span> is no longer a single number.  It is a list of <span class="math notranslate nohighlight">\(L\)</span> integers <span class="math notranslate nohighlight">\(x_0 = (x_0^1, x_0^2, \ldots, x_0^L)\)</span>.  (Here <span class="math notranslate nohighlight">\(L=16\)</span>.)</p>
+<p>On the continuous diffusion page our forward step was <span class="math notranslate nohighlight">\(x_t = \sqrt{1-\beta_t}\, x_{t-1} + \sqrt{\beta_t} z\)</span>.  That isn’t going to work here.  Token 1 is <code class="docutils literal notranslate"><span class="pre">cat</span></code> and token 2 is <code class="docutils literal notranslate"><span class="pre">box</span></code>, but there isn’t any sense in which token 1.3 is “mostly a cat and a little bit of a box.”  We can’t add a small gaussian to an integer label.</p>
+<p>We need a different way of slowly destroying information.  The simplest one you could imagine is to erase things.  We add one extra token to our vocabulary, the <strong>mask</strong> token (we will print it as <code class="docutils literal notranslate"><span class="pre">_</span></code>), and our noise is going to be:</p>
+<blockquote>
+<div><p>At step <span class="math notranslate nohighlight">\(t\)</span>, each token that hasn’t already been erased gets replaced by the mask with probability <span class="math notranslate nohighlight">\(\beta_t\)</span>.  Once a token has been masked it stays masked forever.</p>
+</div></blockquote>
+<p>This is called <strong>masked diffusion</strong> (or <em>absorbing</em> diffusion, because the mask state absorbs everything and never gives it back).  Notice that this is still a Markov chain:  <span class="math notranslate nohighlight">\(x_t\)</span> only depends on <span class="math notranslate nohighlight">\(x_{t-1}\)</span>.  On the continuous diffusion page, if you ran the forward process for long enough, every starting point ended up in the same place (a unit gaussian).  Here, if you run long enough, every sentence ends up in the same place too:  a sentence of all masks.</p>
+<p>There is a nice physical picture here.  Think of each token as an unstable nucleus.  At every step each surviving nucleus has some probability <span class="math notranslate nohighlight">\(\beta_t\)</span> of decaying, the decays are independent of each other, and nothing ever un-decays.</p>
+<section id="the-forward-process">
+<h3>The forward process<a class="headerlink" href="#the-forward-process" title="Link to this heading">#</a></h3>
+<p>Just like last time we need to pick the <span class="math notranslate nohighlight">\(\beta_t\)</span> for each of our <span class="math notranslate nohighlight">\(T\)</span> steps.  As before define</p>
+<div class="math notranslate nohighlight">
+\[\alpha_t = 1-\beta_t\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\overline{\alpha_t}= \prod_{i=1}^t \alpha_i\]</div>
+<p>Last time <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> told you how much of the original signal was left at step <span class="math notranslate nohighlight">\(t\)</span>.  It means the same thing here but now it is even easier to interpret:  <span class="math notranslate nohighlight">\(\alpha_t\)</span> is the probability that a token survives step <span class="math notranslate nohighlight">\(t\)</span>, so <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> <strong>is the probability that a token is still unmasked after <span class="math notranslate nohighlight">\(t\)</span> steps.</strong></p>
+<p>We are going to choose</p>
+<div class="math notranslate nohighlight">
+\[\beta_t = \frac{1}{T-t+1} \qquad t = 1,2,\ldots,T\]</div>
+<p>so that we take small steps early (at <span class="math notranslate nohighlight">\(t=1\)</span> each token is masked with probability <span class="math notranslate nohighlight">\(1/T\)</span>) and large steps late (at <span class="math notranslate nohighlight">\(t=T\)</span> everything that is left gets masked for sure).</p>
+<p>To keep ourselves from getting confused by off-by-one errors, let’s store <code class="docutils literal notranslate"><span class="pre">beta</span></code> and <code class="docutils literal notranslate"><span class="pre">alpha_bar</span></code> as arrays of length <span class="math notranslate nohighlight">\(T+1\)</span> so that <code class="docutils literal notranslate"><span class="pre">beta[t]</span></code> really is <span class="math notranslate nohighlight">\(\beta_t\)</span>.  We will set <code class="docutils literal notranslate"><span class="pre">beta[0]=0</span></code> (nothing happens at step 0) so that <code class="docutils literal notranslate"><span class="pre">alpha_bar[0]=1</span></code>.</p>
+<p>Write a function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">MakeSchedule</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha_bar</span>
+</pre></div>
+</div>
+<p>(<code class="docutils literal notranslate"><span class="pre">torch.cumprod</span></code> will be useful.)</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Plot <span class="math notranslate nohighlight">\(\beta_t\)</span> and <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> as a function of <span class="math notranslate nohighlight">\(t\)</span> for <span class="math notranslate nohighlight">\(T=50\)</span>.</p>
+<p>You should find that <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> is a straight line.  Convince yourself (with pencil and paper - the product telescopes) that for our choice of <span class="math notranslate nohighlight">\(\beta_t\)</span></p>
+<div class="math notranslate nohighlight">
+\[\overline{\alpha_t} = 1-\frac{t}{T}\]</div>
+<p>and plot this on top of your <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> to check.  In other words, at step <span class="math notranslate nohighlight">\(t\)</span> a fraction <span class="math notranslate nohighlight">\(t/T\)</span> of the sentence is masked (on average).</p>
+</div>
+<p>Now write a function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ForwardMask</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">xs</span>
+</pre></div>
+</div>
+<p>which takes a sentence <code class="docutils literal notranslate"><span class="pre">x_0</span></code> (a tensor of integers), a number of steps <code class="docutils literal notranslate"><span class="pre">t</span></code> to run for and the list <code class="docutils literal notranslate"><span class="pre">beta</span></code>, and runs the forward process one step at a time.  It should return the list of sentences <code class="docutils literal notranslate"><span class="pre">[x_0,</span> <span class="pre">x_1,</span> <span class="pre">...,</span> <span class="pre">x_t]</span></code> that it went through.</p>
+<p>Some things that will be helpful:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.rand(len(x))</span> <span class="pre">&lt;</span> <span class="pre">p</span></code> gives you a list of <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> which are each <code class="docutils literal notranslate"><span class="pre">True</span></code> with probability <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">hit</span></code> is such a list then <code class="docutils literal notranslate"><span class="pre">x[hit]</span> <span class="pre">=</span> <span class="pre">MASK</span></code> masks those tokens.</p></li>
+<li><p>Make sure you do <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">x.clone()</span></code> before you change <code class="docutils literal notranslate"><span class="pre">x</span></code>.  Otherwise you will also be changing every earlier sentence you’ve stored in your list (and <code class="docutils literal notranslate"><span class="pre">x_0</span></code>!)</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Run your forward process on the sentence <code class="docutils literal notranslate"><span class="pre">x_0</span></code> above with <span class="math notranslate nohighlight">\(T=16\)</span> and print out (using <code class="docutils literal notranslate"><span class="pre">Decode</span></code>) the sentence at every step.  You should see it slowly dissolve into masks.</p></li>
+<li><p>Now use <span class="math notranslate nohighlight">\(T=50\)</span>.  Run your forward process 1000 times and plot the average fraction of the sentence that is masked as a function of the step <span class="math notranslate nohighlight">\(t\)</span>.  Plot the theory curve <span class="math notranslate nohighlight">\(1-\overline{\alpha_t}\)</span> on top of it.</p></li>
+</ul>
+</div>
+</section>
+<section id="faster-masking">
+<h3>Faster masking<a class="headerlink" href="#faster-masking" title="Link to this heading">#</a></h3>
+<p>Just like last time, it is going to be painful (when we get to training) to have to take every step of the forward process just to get a sample at step <span class="math notranslate nohighlight">\(t\)</span>.  Last time we could jump straight to step <span class="math notranslate nohighlight">\(t\)</span> because the sum of a bunch of gaussians is a gaussian.</p>
+<p>Here it is even easier.  Each token is doing its own thing independent of all the other tokens, and all that can happen to a token is that it is either still there or it has been masked.  We already know the probability that a token is still there after <span class="math notranslate nohighlight">\(t\)</span> steps:  it’s <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span>.  So to jump to step <span class="math notranslate nohighlight">\(t\)</span>:</p>
+<blockquote>
+<div><p>Mask each token of <span class="math notranslate nohighlight">\(x_0\)</span> independently with probability <span class="math notranslate nohighlight">\(1-\overline{\alpha_t}\)</span>.</p>
+</div></blockquote>
+<p>Compare this to <span class="math notranslate nohighlight">\(x_t = \sqrt{\overline{\alpha_t}}\, x_0 + \sqrt{1-\overline{\alpha_t}}\, z\)</span> from last time.  It’s the same idea:  keep the signal with weight <span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span> and replace it with noise with weight <span class="math notranslate nohighlight">\(1-\overline{\alpha_t}\)</span>.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Go ahead and write a</p>
+<p><code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">ForwardMaskFast(x_0,</span> <span class="pre">t,</span> <span class="pre">alpha_bar):</span></code></p>
+<p>which quickly generates a sample of <span class="math notranslate nohighlight">\(x_t\)</span> (just the one sentence, not the whole history).</p>
+<p>To check that it gives the same distribution as <code class="docutils literal notranslate"><span class="pre">ForwardMask</span></code>, use <span class="math notranslate nohighlight">\(T=50\)</span> and <span class="math notranslate nohighlight">\(t=20\)</span>.  Run each function 5000 times and each time count how many of the 16 tokens are masked.  Plot the two histograms of this count on top of each other.</p>
+<p>You can also work out what this histogram should be:  each of the <span class="math notranslate nohighlight">\(L=16\)</span> tokens is independently masked with probability <span class="math notranslate nohighlight">\(p=1-\overline{\alpha_t}\)</span>, so the number masked follows the binomial distribution</p>
+<div class="math notranslate nohighlight">
+\[P(n) = \binom{L}{n} p^n (1-p)^{L-n}\]</div>
+<p>Plot this theory curve on top of your histograms. (<code class="docutils literal notranslate"><span class="pre">math.comb(L,n)</span></code> is the binomial coefficient.)</p>
+</div>
+</section>
+</section>
+<section id="undiffusing">
+<h2>Undiffusing<a class="headerlink" href="#undiffusing" title="Link to this heading">#</a></h2>
+<p>Our next step is to figure out how to undiffuse - i.e. to <em>unmask</em>.</p>
+<p>As before, we have samples <span class="math notranslate nohighlight">\(x_0\)</span> from an initial distribution <span class="math notranslate nohighlight">\(p_{init}(x_0)\)</span> which we forward diffuse</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_0</span> <span class="o">=</span> <span class="n">SamplePInit</span><span class="p">()</span>
+<span class="n">x_T</span> <span class="o">=</span> <span class="n">ForwardMaskFast</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">alpha_bar</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Last time this gave us a (largely gaussian) final distribution.  This time we know <em>exactly</em> what the final distribution is:  <span class="math notranslate nohighlight">\(x_T\)</span> is a sentence that is nothing but masks.</p>
+<p>Now we’d like to start with <span class="math notranslate nohighlight">\(x_T\)</span> (a blank page) and step backwards <span class="math notranslate nohighlight">\(x_T \rightarrow x_{T-1} \rightarrow \cdots \rightarrow x_0\)</span> so that we end up with a sample from <span class="math notranslate nohighlight">\(p_{init}\)</span>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="nb">all</span> <span class="n">masks</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+   <span class="n">x</span> <span class="o">=</span> <span class="n">Undiffuse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<span class="c1"># x doesn't have to be any particular sentence, but if we histogram the x we get</span>
+<span class="c1"># and the sentences from SamplePInit() those histograms should be the same</span>
+</pre></div>
+</div>
+<p>If <span class="math notranslate nohighlight">\(p_{init}\)</span> is “sentences that people write in English” then we will have built a machine that writes.</p>
+<p>The plan is the same as last time.  We can’t get <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t)\)</span> directly, but we can get <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0)\)</span>.  So to run backwards we take <span class="math notranslate nohighlight">\(x_t\)</span>, <em>guess</em> the <span class="math notranslate nohighlight">\(x_0\)</span> that it came from, and then use our rule to get <span class="math notranslate nohighlight">\(x_{t-1}\)</span>.  The rule turns out to be really simple:</p>
+<blockquote>
+<div><p>To go from <span class="math notranslate nohighlight">\(x_t\)</span> to <span class="math notranslate nohighlight">\(x_{t-1}\)</span>:</p>
+<ul class="simple">
+<li><p>a token that is <strong>not</strong> masked is left alone</p></li>
+<li><p>a token that <strong>is</strong> masked is unmasked (i.e. replaced with our guess for <span class="math notranslate nohighlight">\(x_0\)</span> at that position) with probability</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\frac{\overline{\alpha}_{t-1}-\overline{\alpha}_t}{1-\overline{\alpha}_t}\]</div>
+<p>and otherwise stays masked.</p>
+</div></blockquote>
+<p>For our choice of schedule, <span class="math notranslate nohighlight">\(\overline{\alpha}_t = 1-t/T\)</span>, this probability is just</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{t}\]</div>
+<p>This makes some sense.  If we are at step <span class="math notranslate nohighlight">\(t\)</span>, we have <span class="math notranslate nohighlight">\(t\)</span> steps left to unmask everything and so (on average) we should do a fraction <span class="math notranslate nohighlight">\(1/t\)</span> of what is left right now.  At the very last step (<span class="math notranslate nohighlight">\(t=1\)</span>) the probability is one and everything that is left gets unmasked.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Derivation</p>
+<p>Let’s go ahead and derive the rule for <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0)\)</span>.  Because every token is noised independently we can do this one token at a time.</p>
+<p>The first steps are exactly the same as last time.  Expanding <span class="math notranslate nohighlight">\(p(x_t, x_{t-1}, x_0)\)</span> in two ways using Bayes theorem and doing some algebra gives</p>
+<div class="math notranslate nohighlight">
+\[p(x_{t-1}|x_t,x_0) = p(x_t| x_{t-1})\frac{p(x_{t-1}|x_0)}{p(x_t|x_0)}\]</div>
+<p>(where we’ve used the fact that it’s a Markov chain to drop the <span class="math notranslate nohighlight">\(x_0\)</span> in the first term).  All three pieces on the right hand side come from our forward process.</p>
+<p><strong>If the token is not masked at step <span class="math notranslate nohighlight">\(t\)</span></strong>, then it wasn’t masked at step <span class="math notranslate nohighlight">\(t-1\)</span> either (masks never go away) and so <span class="math notranslate nohighlight">\(x_{t-1}=x_t=x_0\)</span> with probability one.</p>
+<p><strong>If the token is masked at step <span class="math notranslate nohighlight">\(t\)</span></strong>, there are two things it could have been at step <span class="math notranslate nohighlight">\(t-1\)</span>:</p>
+<p><em>It was still <span class="math notranslate nohighlight">\(x_0\)</span> and it got masked on this very step.</em></p>
+<div class="math notranslate nohighlight">
+\[p(x_{t-1}=x_0|x_t=\textrm{mask},x_0) = \beta_t \frac{\overline{\alpha}_{t-1}}{1-\overline{\alpha}_t}\]</div>
+<p><em>It was already masked.</em></p>
+<div class="math notranslate nohighlight">
+\[p(x_{t-1}=\textrm{mask}|x_t=\textrm{mask},x_0) = 1 \cdot \frac{1-\overline{\alpha}_{t-1}}{1-\overline{\alpha}_t}\]</div>
+<p>Using <span class="math notranslate nohighlight">\(\beta_t \overline{\alpha}_{t-1} = (1-\alpha_t)\overline{\alpha}_{t-1} = \overline{\alpha}_{t-1} - \overline{\alpha}_t\)</span> the first of these becomes the probability in the rule above.  You should check that the two probabilities add up to one.</p>
+<p>Compare this to the continuous diffusion page, where <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0)\)</span> was a gaussian with mean <span class="math notranslate nohighlight">\(\tilde{\mu}_t\)</span> and variance <span class="math notranslate nohighlight">\(\tilde{\beta_t}\)</span>.  Here it is just a (biased) coin flip.</p>
+<p>Finally, we don’t know <span class="math notranslate nohighlight">\(x_0\)</span>, so what do we do?  If the token gets unmasked we need to say what it turns into, and the right thing to do is to <em>sample</em> it from our best knowledge of what <span class="math notranslate nohighlight">\(x_0\)</span> is at that position given everything we can see - i.e. from <span class="math notranslate nohighlight">\(p(x_0^i | x_t)\)</span>.  This is the job of the guessing function.</p>
+</div>
+<p>Let’s go ahead and write some functions now to get this working.</p>
+<p>Write a function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">Undiffuse(x_t,</span> <span class="pre">t,</span> <span class="pre">GuessX0,</span> <span class="pre">mask)</span></code> which takes <span class="math notranslate nohighlight">\(x_t\)</span> and (stochastically) returns <span class="math notranslate nohighlight">\(x_{t-1}\)</span>.  It gets handed</p>
+<ul class="simple">
+<li><p>the sentence <code class="docutils literal notranslate"><span class="pre">x_t</span></code> and the step <code class="docutils literal notranslate"><span class="pre">t</span></code></p></li>
+<li><p>a <em>function</em> <code class="docutils literal notranslate"><span class="pre">GuessX0(x_t)</span></code> which you will also write.  Notice that last time your guess was a single number (the noise).  This time, for every position in the sentence, the guess is a <strong>probability for each token in the vocabulary</strong>:  <code class="docutils literal notranslate"><span class="pre">GuessX0(x_t)</span></code> should return a tensor <code class="docutils literal notranslate"><span class="pre">p</span></code> of shape <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">len(vocab))</span></code> where <code class="docutils literal notranslate"><span class="pre">p[i,v]</span></code> is the probability that the token at position <code class="docutils literal notranslate"><span class="pre">i</span></code> was originally token <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p></li>
+<li><p>the integer <code class="docutils literal notranslate"><span class="pre">mask</span></code> which is used for the mask token (for now this will be <code class="docutils literal notranslate"><span class="pre">MASK</span></code>; later, when we use a real model, it will be a different number)</p></li>
+</ul>
+<p>Your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> should then</p>
+<ol class="arabic simple">
+<li><p>call <code class="docutils literal notranslate"><span class="pre">p</span> <span class="pre">=</span> <span class="pre">GuessX0(x_t)</span></code></p></li>
+<li><p>sample a guess for every position: <code class="docutils literal notranslate"><span class="pre">guess</span> <span class="pre">=</span> <span class="pre">torch.multinomial(p,</span> <span class="pre">1).squeeze(1)</span></code> gives you a list of <span class="math notranslate nohighlight">\(L\)</span> tokens where the <span class="math notranslate nohighlight">\(i\)</span>’th one has been sampled from the probabilities <code class="docutils literal notranslate"><span class="pre">p[i]</span></code></p></li>
+<li><p>decide which positions get unmasked:  those which are currently masked <strong>and</strong> pass a coin flip with probability <span class="math notranslate nohighlight">\(1/t\)</span></p></li>
+<li><p>copy the guess into those positions (and only those positions)</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> is generic.  All of the knowledge about what sentences are likely is hiding in <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code>.  Over the course of this page we are going to hand your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> four different guessers and you will never have to change it.</p>
+<p>For our first example, we are going to have a <code class="docutils literal notranslate"><span class="pre">SamplePInit()</span></code> that always returns the sentence <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code>.  In other words our probability distribution is <span class="math notranslate nohighlight">\(p(\texttt{the cat is alive})=1\)</span>.</p>
+<p>When you write <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code>, since you (secretly) know what <span class="math notranslate nohighlight">\(x_0\)</span> always is, you can probably do a really good job of guessing :).  It should return probability one for the right word at every position and zero for everything else.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Once these functions are written, let’s work on the undiffusion.  Use <span class="math notranslate nohighlight">\(T=10\)</span>.</p>
+<ul class="simple">
+<li><p>Run your undiffusion 5 times starting from a sentence of four masks (<code class="docutils literal notranslate"><span class="pre">torch.full((4,),</span> <span class="pre">MASK)</span></code>).  For each run print the sentence at every step.  You should see the words appear in a different (random) order each time.</p></li>
+<li><p>Run your undiffusion 1000 times all the way to <span class="math notranslate nohighlight">\(t=0\)</span> and verify that you always get <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code>.</p></li>
+<li><p>Run your <code class="docutils literal notranslate"><span class="pre">ForwardMaskFast</span></code> from <span class="math notranslate nohighlight">\(t=0\)</span> to <span class="math notranslate nohighlight">\(t=5\)</span> and your undiffusion from <span class="math notranslate nohighlight">\(t=10\)</span> to <span class="math notranslate nohighlight">\(t=5\)</span> (1000 times each) and plot histograms of the number of masked tokens in each case showing they are the same.</p></li>
+</ul>
+</div>
+<section id="two-sentences">
+<h3>Two sentences<a class="headerlink" href="#two-sentences" title="Link to this heading">#</a></h3>
+<p>We now want to make life a little harder.  We are going to have a new probability distribution.</p>
+<div class="math notranslate nohighlight">
+\[p(\texttt{the cat is alive}) = 0.8\]</div>
+<div class="math notranslate nohighlight">
+\[p(\texttt{the box is empty}) = 0.2\]</div>
+<div class="math notranslate nohighlight">
+\[p(\textrm{anything else}) = 0\]</div>
+<p>Write the new <code class="docutils literal notranslate"><span class="pre">SamplePInit</span></code> function.</p>
+<p>Now we also need a new <code class="docutils literal notranslate"><span class="pre">GuessX0(x_t)</span></code> function.  Notice that (just like last time) this is much trickier and doesn’t always have an obvious answer.  If I show you <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">_</span></code> you don’t really know which sentence it came from.  It turns out the right thing to report is how probable each sentence is <em>given what you can see</em>.  This is Bayes theorem:</p>
+<ul class="simple">
+<li><p>Give each sentence a weight:  its prior probability (0.8 or 0.2) if it agrees with every token of <span class="math notranslate nohighlight">\(x_t\)</span> that isn’t masked, and zero if it disagrees anywhere.</p></li>
+<li><p>Divide the weights by their sum so they add to one.  Call them <span class="math notranslate nohighlight">\(w_A\)</span> and <span class="math notranslate nohighlight">\(w_B\)</span>.</p></li>
+<li><p>Then at each position, the probability of sentence <span class="math notranslate nohighlight">\(A\)</span>’s word is <span class="math notranslate nohighlight">\(w_A\)</span> and the probability of sentence <span class="math notranslate nohighlight">\(B\)</span>’s word is <span class="math notranslate nohighlight">\(w_B\)</span>.  (At a position where both sentences have the same word, like <code class="docutils literal notranslate"><span class="pre">the</span></code>, it gets <span class="math notranslate nohighlight">\(w_A+w_B=1\)</span>.)</p></li>
+</ul>
+<p>So for example</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(x_t\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(w_A\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(w_B\)</span></p></th>
+<th class="head"><p>guess for position 2</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">_</span></code></p></td>
+<td><p>0.8</p></td>
+<td><p>0.2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat</span></code> 80%, <code class="docutils literal notranslate"><span class="pre">box</span></code> 20%</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">alive</span></code></p></td>
+<td><p>1</p></td>
+<td><p>0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">cat</span></code> 100%</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">empty</span></code></p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">box</span></code> 100%</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This is the analog of the weighted average of <span class="math notranslate nohighlight">\(z_a\)</span> and <span class="math notranslate nohighlight">\(z_b\)</span> that you reported on the continuous diffusion page.</p>
+<p>One technical note:  it is possible that your <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> gets handed something that agrees with neither sentence (like <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty</span></code>), in which case both weights are zero and you’d be dividing by zero.  If that happens just fall back to using the weights 0.8 and 0.2.  (Whether this should ever happen is something you are about to find out.)</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Do the undiffusion from this new probability distribution.</p>
+<ul class="simple">
+<li><p>Using <span class="math notranslate nohighlight">\(T=50\)</span>, generate 2000 sentences and make a bar chart of how often you got each one.  You should get <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code> 80% of the time and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">empty</span></code> 20% of the time (and hopefully almost nothing else).</p></li>
+<li><p>At each step of your undiffusion you are making a guess for <span class="math notranslate nohighlight">\(x_0\)</span>.  For ten runs (again at <span class="math notranslate nohighlight">\(T=50\)</span>) plot the guessed probability that position 2 is <code class="docutils literal notranslate"><span class="pre">cat</span></code> as a function of <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+<li><p>Now be greedy and try to do it faster.  Repeat your bar chart for <span class="math notranslate nohighlight">\(T=1, 2, 4, 10\)</span>.  What happens?</p></li>
+<li><p>Plot the fraction of your sentences which are <em>not</em> one of the two real sentences as a function of <span class="math notranslate nohighlight">\(T\)</span> (include <span class="math notranslate nohighlight">\(T=50\)</span> and use a log-log plot).</p></li>
+</ul>
+</div>
+<p>You should have found that with <span class="math notranslate nohighlight">\(T=1\)</span> almost a third of your sentences are things like <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty</span></code> and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">alive</span></code> which have probability zero in <span class="math notranslate nohighlight">\(p_{init}\)</span>!   Your <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> is exactly right - it’s impossible to do any better.  So what went wrong?</p>
+<p>The problem is that <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> tells you about each position <strong>separately</strong>.  From <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span></code> it (correctly) says that position 2 is <code class="docutils literal notranslate"><span class="pre">cat</span></code> 80% of the time and that position 4 is <code class="docutils literal notranslate"><span class="pre">alive</span></code> 80% of the time.  What it doesn’t tell you is that those two things always happen <em>together</em>.  If you unmask both positions in the same step, you are flipping two separate coins and 2 × 0.8 × 0.2 = 32% of the time they disagree.</p>
+<p>If instead you only unmask one of them, the <em>next</em> call to <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> sees it and becomes certain about the other.  Taking many small steps is what turns a guesser that only knows about single positions into samples in which all the positions fit together.  This is the entire reason for doing diffusion: at <span class="math notranslate nohighlight">\(T=1\)</span> you have a model that fills in every blank independently; at large <span class="math notranslate nohighlight">\(T\)</span> you have a model of whole sentences.</p>
+<p>This is the same thing that happened on the continuous diffusion page in a slightly different guise.  There, the step you took (a gaussian around <span class="math notranslate nohighlight">\(\tilde{\mu}_t\)</span>) was only the right answer if the step was small.  The price for taking a small number of big steps is that you get the wrong distribution.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Why <span class="math notranslate nohighlight">\(0.32/T\)</span>?</p>
+<p>Things only go wrong if the two positions that matter (2 and 4) get unmasked on the <em>same</em> step.  If they are both still masked at step <span class="math notranslate nohighlight">\(t\)</span>, the probability that they both get unmasked right now is <span class="math notranslate nohighlight">\((1/t)^2\)</span> and the probability neither does is <span class="math notranslate nohighlight">\((1-1/t)^2\)</span>.  The probability that both are still masked when we get to step <span class="math notranslate nohighlight">\(t\)</span> is <span class="math notranslate nohighlight">\((t/T)^2\)</span> (each one is still masked with probability <span class="math notranslate nohighlight">\(t/T\)</span>).  So the probability that they come out together at step <span class="math notranslate nohighlight">\(t\)</span> is <span class="math notranslate nohighlight">\((t/T)^2 (1/t)^2 = 1/T^2\)</span> and summing over the <span class="math notranslate nohighlight">\(T\)</span> steps gives <span class="math notranslate nohighlight">\(1/T\)</span>.  When they do come out together they disagree with probability <span class="math notranslate nohighlight">\(2\times 0.8\times 0.2=0.32\)</span>.</p>
+</div>
+</section>
+<section id="being-greedy">
+<h3>Being greedy<a class="headerlink" href="#being-greedy" title="Link to this heading">#</a></h3>
+<p>Our <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> makes two random choices:  <em>which positions</em> to unmask (a coin flip for each) and <em>what token</em> to put there (a sample from the guess).  It is the honest thing to do in the sense that (with enough steps) it gives you samples from exactly <span class="math notranslate nohighlight">\(p_{init}\)</span>.</p>
+<p>But there’s another thing you might want.  You might not care about getting a fair sample of everything that could be said.  You might just want one good sentence.  Then there is an obvious thing to try:</p>
+<ul class="simple">
+<li><p>What token?  Don’t sample.  At each position take the <strong>most probable</strong> token.</p></li>
+<li><p>Which positions?  Don’t flip coins.  Unmask the positions where your guess is <strong>most confident</strong> - i.e. where that most probable token has the highest probability.  We still want to be done in <span class="math notranslate nohighlight">\(t\)</span> more steps so unmask the top <span class="math notranslate nohighlight">\(k\)</span> where <span class="math notranslate nohighlight">\(k\)</span> is (number still masked)/<span class="math notranslate nohighlight">\(t\)</span> rounded up.</p></li>
+</ul>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">UndiffuseGreedy(x_t,</span> <span class="pre">t,</span> <span class="pre">GuessX0,</span> <span class="pre">mask)</span></code> which does this.  It takes exactly the same arguments as <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> so you can swap one for the other.</p>
+<p>Some things that will be helpful:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">confidence,</span> <span class="pre">guess</span> <span class="pre">=</span> <span class="pre">p.max(dim=-1)</span></code> gives you (for each position) the largest probability and which token has it</p></li>
+<li><p>you don’t want to unmask things that aren’t masked, so set their confidence to -1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">confidence.topk(k).indices</span></code> gives you the positions of the <code class="docutils literal notranslate"><span class="pre">k</span></code> largest entries</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">math.ceil</span></code> rounds up</p></li>
+</ul>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Using the two-sentence <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> and <span class="math notranslate nohighlight">\(T=4\)</span>, run your greedy undiffusion a few times printing the sentence at each step.</p></li>
+<li><p>Make the bar chart of outcomes for the greedy undiffusion with <span class="math notranslate nohighlight">\(T=1\)</span>, <span class="math notranslate nohighlight">\(T=2\)</span> and <span class="math notranslate nohighlight">\(T=4\)</span>.</p></li>
+</ul>
+<p>You should find that greedy never produces a nonsense sentence, even with <span class="math notranslate nohighlight">\(T=1\)</span>.  But it has paid a price for this.  What is it?</p>
+</div>
+<p>Keep this tradeoff in mind:  the stochastic undiffusion is <em>faithful</em> (it samples everything in <span class="math notranslate nohighlight">\(p_{init}\)</span> with the right probabilities) but it needs lots of steps.  The greedy one is <em>safe</em> but it always says the same thing.</p>
+</section>
+</section>
+<section id="a-real-language-model">
+<h2>A Real Language Model<a class="headerlink" href="#a-real-language-model" title="Link to this heading">#</a></h2>
+<p>So far we’ve managed to do undiffusion where we know what the right guess for <span class="math notranslate nohighlight">\(x_0\)</span> is.  For a distribution with two sentences in it we could just write <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> down.  The distribution we really care about - all the text that people write - has rather more sentences in it and we can’t.</p>
+<p>So, just like last time, the guessing function is going to be replaced by a neural network.  On the continuous diffusion page the network took in <span class="math notranslate nohighlight">\((x_t, t)\)</span> and returned its guess for the noise.  Here the network takes in a sentence <span class="math notranslate nohighlight">\(x_t\)</span> that has some masks in it and returns, for every position, a probability for every token in the vocabulary.  That is exactly the thing that your <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> returned.</p>
+<p>Later in this page you will train one of these yourself.  But training a network that knows enough about the world to answer questions takes a lot of text and a lot of computer time, so first we are going to hand you one that has already been trained and get it to talk.</p>
+<p>The network we are going to use is called ModernBERT.  It is a transformer with about 400 million parameters (which makes it about three times bigger than GPT-2 and far smaller than the models behind chatGPT or Claude).  The version we are using was trained with (essentially) the recipe you will use at the end of this page on a large collection of questions and answers.</p>
+<p>We aren’t going to worry about what’s inside a transformer here.  For us it is a black box that makes guesses.  <strong>All the code that turns it into something that can write is going to be yours</strong> - in fact you have already written it.</p>
+<p>The following code downloads <a class="reference external" href="https://huggingface.co/dllm-hub/ModernBERT-large-chat-v0.1">the network and its weights</a> (about 0.9 GB so it will take a minute the first time) and wraps it into a guessing function.  If you are on Google Colab, select <code class="docutils literal notranslate"><span class="pre">Runtime</span> <span class="pre">&gt;</span> <span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span> <span class="pre">&gt;</span> <span class="pre">T4</span> <span class="pre">GPU</span></code> before you start as it will make everything faster.  If the import fails, see <em>Getting Set Up</em>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: load the pre-trained network and wrap it as a guessing function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoModelForMaskedLM</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"mps"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"dllm-hub/ModernBERT-large-chat-v0.1"</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="n">bert</span> <span class="o">=</span> <span class="n">AutoModelForMaskedLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">BERT_MASK</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">mask_token_id</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Tokens</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""text -&gt; tensor of token ids"""</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Text</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""tensor of token ids -&gt; text"""</span>
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GuessBERT</span><span class="p">(</span><span class="n">x_t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""The network's guess for x_0. Returns p of shape (L, vocabulary size):</span>
+<span class="sd">    p[i, v] is the probability that position i is token v."""</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">bert</span><span class="p">(</span><span class="n">x_t</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">logits</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">bert</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e6</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> million parameters, running on </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens in the vocabulary; the mask is token </span><span class="si">{</span><span class="n">BERT_MASK</span><span class="si">}</span><span class="s2"> which prints as </span><span class="si">{</span><span class="n">Text</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">BERT_MASK</span><span class="p">]))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="tokens-and-blanks">
+<h3>Tokens and blanks<a class="headerlink" href="#tokens-and-blanks" title="Link to this heading">#</a></h3>
+<p>Let’s first get a feeling for what we’ve been given.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Tokens(text)</span></code> and <code class="docutils literal notranslate"><span class="pre">Text(x)</span></code> play the role of your <code class="docutils literal notranslate"><span class="pre">Encode</span></code> and <code class="docutils literal notranslate"><span class="pre">Decode</span></code>.  The vocabulary now has about 50,000 tokens in it rather than 14.  Common words get their own token and less common words get built out of multiple pieces.  You can put a mask into your text by typing <code class="docutils literal notranslate"><span class="pre">[MASK]</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">GuessBERT(x_t)</span></code> plays the role of your <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code>.  You give it a sentence with some masks in it and it gives you back the probability of every one of the 50,000 tokens at every position.</p>
+<p>Here is a function that will show you the network’s top guesses at each masked position:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ShowGuesses</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Tokens</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">GuessBERT</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">torch</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">BERT_MASK</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">():</span>
+        <span class="n">best</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"position </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: "</span> <span class="o">+</span> <span class="s2">",  "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Text</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">!r}</span><span class="s2"> </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">%"</span> <span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">best</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">best</span><span class="o">.</span><span class="n">indices</span><span class="p">)))</span>
+
+<span class="n">ShowGuesses</span><span class="p">(</span><span class="s2">"The capital of France is [MASK]."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul>
+<li><p>Print out <code class="docutils literal notranslate"><span class="pre">Tokens(&quot;Masked</span> <span class="pre">diffusion</span> <span class="pre">is</span> <span class="pre">surprisingly</span> <span class="pre">simple.&quot;)</span></code>.  Then use <code class="docutils literal notranslate"><span class="pre">Text</span></code> on each of the tokens separately (i.e. <code class="docutils literal notranslate"><span class="pre">Text(x[i:i+1])</span></code>) to see how the sentence was chopped up.</p></li>
+<li><p>Try <code class="docutils literal notranslate"><span class="pre">ShowGuesses</span></code> on four or five sentences of your own with <strong>one</strong> <code class="docutils literal notranslate"><span class="pre">[MASK]</span></code> in them.  Find one where the network is very sure of the answer and one where it isn’t.</p></li>
+<li><p>Now try this one, which has <strong>two</strong> masks in it:</p>
+<p><code class="docutils literal notranslate"><span class="pre">ShowGuesses(&quot;[Question]\nName</span> <span class="pre">a</span> <span class="pre">country</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">capital</span> <span class="pre">city.\n[/Question]\n\n[Answer]\nThe</span> <span class="pre">capital</span> <span class="pre">of</span> <span class="pre">[MASK]</span> <span class="pre">is</span> <span class="pre">[MASK].\n[/Answer]&quot;)</span></code></p>
+<p>(The funny <code class="docutils literal notranslate"><span class="pre">[Question]</span></code> and <code class="docutils literal notranslate"><span class="pre">[Answer]</span></code> markers are how this network was shown questions and answers during its training.  We will come back to this in a moment.)</p>
+<p>Look at the top guess at each of the two positions.  What sentence do you get if you take them both?</p>
+</li>
+<li><p>Fill in the first mask yourself with one of the countries the network suggested and run it again.  What happens to the guess for the capital?  Then try putting in a capital and masking the country.</p></li>
+</ul>
+</div>
+<p>You should have found that with both blanks open you get something like <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">capital</span> <span class="pre">of</span> <span class="pre">India</span> <span class="pre">is</span> <span class="pre">Bangkok</span></code>.  The network isn’t confused about geography:  once you tell it the country, it is nearly certain about the capital.</p>
+<p>This is <em>exactly</em> the <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty</span></code> problem.  The network has in mind a bunch of perfectly good sentences (<code class="docutils literal notranslate"><span class="pre">...of</span> <span class="pre">India</span> <span class="pre">is</span> <span class="pre">Delhi</span></code>, <code class="docutils literal notranslate"><span class="pre">...of</span> <span class="pre">Thailand</span> <span class="pre">is</span> <span class="pre">Bangkok</span></code>, <code class="docutils literal notranslate"><span class="pre">...of</span> <span class="pre">France</span> <span class="pre">is</span> <span class="pre">Paris</span></code>) and when it reports its guesses one position at a time you can’t tell which country goes with which capital.</p>
+<p>And you already know the fix.  Don’t fill in everything at once.  Undiffuse.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Take the two-mask sentence from above and turn it into tokens with <code class="docutils literal notranslate"><span class="pre">Tokens</span></code>.  Then call your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> on it (<strong>you shouldn’t need to change your function</strong> - just hand it <code class="docutils literal notranslate"><span class="pre">GuessBERT</span></code> and <code class="docutils literal notranslate"><span class="pre">BERT_MASK</span></code> instead of <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> and <code class="docutils literal notranslate"><span class="pre">MASK</span></code>).</p>
+<ul class="simple">
+<li><p>Use <span class="math notranslate nohighlight">\(T=1\)</span> (so everything is filled in at once) and do this 10 times printing out the sentences you get.  How many of the capitals are right?</p></li>
+<li><p>Now use <span class="math notranslate nohighlight">\(T=20\)</span> and do it 10 times again.</p></li>
+</ul>
+</div>
+</section>
+<section id="getting-it-to-answer-questions">
+<h3>Getting it to answer questions<a class="headerlink" href="#getting-it-to-answer-questions" title="Link to this heading">#</a></h3>
+<p>On the continuous diffusion page we ended by giving our model a prompt (<code class="docutils literal notranslate"><span class="pre">left</span></code> or <code class="docutils literal notranslate"><span class="pre">right</span></code>).  To do this we had to feed the prompt into the network as an extra input.  How do we give our text model a prompt, like a question we want it to answer?</p>
+<p>It turns out that this is the place where masked diffusion is much nicer than what we did before.  The prompt is just text.  The answer is just text.  So we write down a sentence where the first part is the question and the rest is masks</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[Question]
+Why is the sky blue?
+[/Question]
+
+[Answer]
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+</pre></div>
+</div>
+<p>and undiffuse.  Your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> never touches a token that isn’t a mask, so the question stays put.  And the network sees the whole thing - question included - when it makes its guess for the masks.  The prompt is just the part of <span class="math notranslate nohighlight">\(x_t\)</span> that happens to already be unmasked.</p>
+<p>Here is a function that writes a question in the format this network was trained on:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">MakePrompt</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"[SYS]</span><span class="se">\n</span><span class="s2">You are a helpful AI assistant.</span><span class="se">\n</span><span class="s2">[/SYS]</span><span class="se">\n\n</span><span class="s2">[Question]</span><span class="se">\n</span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="se">\n</span><span class="s2">[/Question]</span><span class="se">\n\n</span><span class="s2">[Answer]</span><span class="se">\n</span><span class="s2">"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MakePrompt</span><span class="p">(</span><span class="s2">"Why is the sky blue?"</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Write a function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Chat</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">answer_length</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">Undiffuse</span><span class="p">,</span> <span class="n">show</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">answer</span>
+</pre></div>
+</div>
+<p>which</p>
+<ol class="arabic simple">
+<li><p>Turns <code class="docutils literal notranslate"><span class="pre">MakePrompt(question)</span></code> into tokens</p></li>
+<li><p>Sticks <code class="docutils literal notranslate"><span class="pre">answer_length</span></code> masks on the end of it.  (<code class="docutils literal notranslate"><span class="pre">torch.cat([a,</span> <span class="pre">b])</span></code> sticks two tensors together and <code class="docutils literal notranslate"><span class="pre">torch.full((n,),</span> <span class="pre">BERT_MASK)</span></code> gives you <code class="docutils literal notranslate"><span class="pre">n</span></code> masks.)</p></li>
+<li><p>Undiffuses from <span class="math notranslate nohighlight">\(t=T\)</span> to <span class="math notranslate nohighlight">\(t=0\)</span> using <code class="docutils literal notranslate"><span class="pre">step(x,</span> <span class="pre">t,</span> <span class="pre">GuessBERT,</span> <span class="pre">BERT_MASK)</span></code></p></li>
+<li><p>Returns the text of the answer (i.e. only the tokens after the prompt)</p></li>
+</ol>
+<p>If <code class="docutils literal notranslate"><span class="pre">show=True</span></code> it should also print out the answer-so-far every few steps so that you can watch it being written.  When you are printing things out it looks nicer if you do <code class="docutils literal notranslate"><span class="pre">Text(x).replace(&quot;[MASK]&quot;,</span> <span class="pre">&quot;_&quot;).replace(&quot;[PAD]&quot;,</span> <span class="pre">&quot;·&quot;)</span></code>.</p>
+<p>There is one thing which will look odd.  We have to decide how long the answer is <em>before</em> we start (we need to know how many masks to put down).  But the network doesn’t have to use all of the space.  When it is done it writes <code class="docutils literal notranslate"><span class="pre">[/Answer]</span></code> and then fills whatever is left over with a special padding token <code class="docutils literal notranslate"><span class="pre">[PAD]</span></code>.  You should cut these off of what you return.  This will do it:  <code class="docutils literal notranslate"><span class="pre">answer.replace(&quot;[PAD]&quot;,</span> <span class="pre">&quot;&quot;).split(&quot;[/Answer&quot;)[0].strip()</span></code></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Ask your model <code class="docutils literal notranslate"><span class="pre">Why</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">sky</span> <span class="pre">blue?</span></code> with <code class="docutils literal notranslate"><span class="pre">show=True</span></code> and watch the answer appear.  Is it writing the answer from left to right?</p></li>
+<li><p>Ask it three more questions of your own.</p></li>
+<li><p>Ask it the same question three times.  Do you get the same answer?</p></li>
+</ul>
+<p>Don’t expect too much.  This is a small model, and with this first (completely faithful) way of undiffusing its answers will be sloppy:  odd word choices, sentences that wander off, and plenty of things which aren’t true.  But it should be writing English sentences which are about the thing you asked it.  We will clean things up in the next two sections.</p>
+</div>
+</section>
+<section id="being-greedy-with-a-real-model">
+<h3>Being greedy with a real model<a class="headerlink" href="#being-greedy-with-a-real-model" title="Link to this heading">#</a></h3>
+<p>You probably found that the answers were a bit rough around the edges:  a repeated word here, a sentence that wanders off there.  Our network is far from a perfect guesser.  And the stochastic undiffusion (faithfully!) samples from the network’s guesses, including the 2% of the time that the guess is something silly.  One silly token in an answer is enough to make it look bad and (worse) once it has been written it never gets erased so all the later guesses have to work around it.</p>
+<p>This is where your greedy undiffusion earns its keep.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Your <code class="docutils literal notranslate"><span class="pre">Chat</span></code> takes a <code class="docutils literal notranslate"><span class="pre">step</span></code> argument.  Use it to answer questions with <code class="docutils literal notranslate"><span class="pre">UndiffuseGreedy</span></code> instead.</p>
+<ul class="simple">
+<li><p>Ask the same questions that you asked above.  How do the answers compare?</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">show=True</span></code> on one of them.  What gets written first now?</p></li>
+<li><p>Ask the same question three times.  Do you get the same answer?  Why?</p></li>
+<li><p><strong>Fewer steps.</strong>  The appeal of diffusion for text is that you could write 64 tokens in fewer than 64 steps (a model that writes left to right has no choice but to take 64).  For one question, get the answer from both of your undiffusers using <span class="math notranslate nohighlight">\(T=64, 32, 16, 4,\)</span> and <span class="math notranslate nohighlight">\(1\)</span>.  How few steps can you get away with?  What do the mistakes look like when <span class="math notranslate nohighlight">\(T\)</span> is too small, and how does that connect to <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty</span></code>?</p></li>
+</ul>
+</div>
+</section>
+<section id="temperature">
+<h3>Temperature<a class="headerlink" href="#temperature" title="Link to this heading">#</a></h3>
+<p>We now have two extremes.  The stochastic undiffusion gives varied answers that are a bit sloppy and the greedy one gives a clean answer but always the same one.  It would be nice to have a knob that goes between them, and a physicist knows exactly what that knob should be called.</p>
+<p>Think of the guess <span class="math notranslate nohighlight">\(p(v)\)</span> for a token <span class="math notranslate nohighlight">\(v\)</span> as a Boltzmann distribution <span class="math notranslate nohighlight">\(p(v) \propto \exp[-E(v)]\)</span> at temperature one, where the “energy” of a token is <span class="math notranslate nohighlight">\(E(v) = -\log p(v)\)</span>.  Then the same system at temperature <span class="math notranslate nohighlight">\(\tau\)</span> has the distribution</p>
+<div class="math notranslate nohighlight">
+\[p_\tau(v) \propto \exp[-E(v)/\tau] = p(v)^{1/\tau}\]</div>
+<p>At <span class="math notranslate nohighlight">\(\tau=1\)</span> nothing changes.  As <span class="math notranslate nohighlight">\(\tau \rightarrow 0\)</span> the system freezes into its ground state - the most probable token.  For <span class="math notranslate nohighlight">\(\tau &gt; 1\)</span> things get more random than the network intended.</p>
+<p>Add an extra argument <code class="docutils literal notranslate"><span class="pre">temperature=1.0</span></code> to the end of your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code>.  After you get <code class="docutils literal notranslate"><span class="pre">p</span></code> from the guesser, replace it by <code class="docutils literal notranslate"><span class="pre">p**(1/temperature)</span></code> (normalized so that each row sums to one again) before you sample from it.</p>
+<p>To use this with your <code class="docutils literal notranslate"><span class="pre">Chat</span></code> you can do <code class="docutils literal notranslate"><span class="pre">step=lambda</span> <span class="pre">x,</span> <span class="pre">t,</span> <span class="pre">guess,</span> <span class="pre">mask:</span> <span class="pre">Undiffuse(x,</span> <span class="pre">t,</span> <span class="pre">guess,</span> <span class="pre">mask,</span> <span class="pre">temperature=0.5)</span></code>.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Ask the same question at temperatures of 0.2, 0.5, 1.0 and 1.5 (a few times each).  What do you see?  What temperature would you use?</p>
+</div>
+</section>
+<section id="talking-to-it">
+<h3>Talking to it<a class="headerlink" href="#talking-to-it" title="Link to this heading">#</a></h3>
+<p>You now have everything you need to sit down and have a conversation with your diffusion model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: type a question, get an answer. Enter an empty line to stop.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ChatLoop</span><span class="p">(</span><span class="o">**</span><span class="n">settings</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">question</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"You: "</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">""</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Model:"</span><span class="p">,</span> <span class="n">Chat</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="o">**</span><span class="n">settings</span><span class="p">),</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># ChatLoop(step=UndiffuseGreedy)        # &lt;-- uncomment me (once you've written Chat)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Have a conversation with your model using your favorite settings of <code class="docutils literal notranslate"><span class="pre">step</span></code>, <code class="docutils literal notranslate"><span class="pre">T</span></code> and <code class="docutils literal notranslate"><span class="pre">answer_length</span></code>.  Include in what you hand in</p>
+<ul class="simple">
+<li><p>a question it answers well</p></li>
+<li><p>a question where it confidently tells you something false</p></li>
+<li><p>a question whose answer needs more than 64 tokens (what should you change?)</p></li>
+</ul>
+</div>
+<div class="dropdown admonition">
+<p class="admonition-title">A bigger model (optional)</p>
+<p>Nothing about your code is specific to this network.  Any network that takes in a sentence with masks and returns guesses for <span class="math notranslate nohighlight">\(x_0\)</span> will work with your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code>, <code class="docutils literal notranslate"><span class="pre">UndiffuseGreedy</span></code> and <code class="docutils literal notranslate"><span class="pre">Chat</span></code>.  If you want better answers, here is a <a class="reference external" href="https://huggingface.co/dllm-hub/Qwen3-0.6B-diffusion-mdlm-v0.1">somewhat larger network</a> (600 million parameters, another 1.5 GB download) which you can swap in.  It needs a recent version of <code class="docutils literal notranslate"><span class="pre">transformers</span></code> (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">transformers</span></code> if the import fails).  You will need to re-run your <code class="docutils literal notranslate"><span class="pre">Chat</span></code> after running this.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Qwen3ForCausalLM</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"dllm-hub/Qwen3-0.6B-diffusion-mdlm-v0.1"</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="n">qwen</span> <span class="o">=</span> <span class="n">Qwen3ForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">BERT_MASK</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">mask_token_id</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GuessBERT</span><span class="p">(</span><span class="n">x_t</span><span class="p">):</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span>
+    <span class="n">see_everything</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>   <span class="c1"># let every position look at every other position</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">qwen</span><span class="p">(</span><span class="n">x_t</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">attention_mask</span><span class="o">=</span><span class="n">see_everything</span><span class="p">)</span><span class="o">.</span><span class="n">logits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">logits</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MakePrompt</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s2">"&lt;|im_start|&gt;system</span><span class="se">\n</span><span class="s2">You are a helpful AI assistant.&lt;|im_end|&gt;</span><span class="se">\n</span><span class="s2">&lt;|im_start|&gt;user</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">question</span> <span class="o">+</span>
+            <span class="s2">"&lt;|im_end|&gt;</span><span class="se">\n</span><span class="s2">&lt;|im_start|&gt;assistant</span><span class="se">\n</span><span class="s2">&lt;think&gt;</span><span class="se">\n\n</span><span class="s2">&lt;/think&gt;</span><span class="se">\n\n</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This network marks the end of its answer with <code class="docutils literal notranslate"><span class="pre">&lt;|im_end|&gt;</span></code> instead of <code class="docutils literal notranslate"><span class="pre">[/Answer]</span></code> so you will have to change that in your <code class="docutils literal notranslate"><span class="pre">Chat</span></code>.</p>
+<p>If you have a big GPU, the same code runs LLaDA (<code class="docutils literal notranslate"><span class="pre">GSAI-ML/LLaDA-8B-Instruct</span></code>), an 8 billion parameter masked diffusion model whose answers are competitive with the left-to-right models of the same size.</p>
+</div>
+</section>
+</section>
+<section id="training">
+<h2>Training<a class="headerlink" href="#training" title="Link to this heading">#</a></h2>
+<p>So far someone else has trained the network for us.  Now, we’d like to train our own.</p>
+<p>Last time the training loop was</p>
+<ol class="arabic simple">
+<li><p>Pick a random <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p>Get the noisy data from your <code class="docutils literal notranslate"><span class="pre">ForwardDiffusionFast</span></code> function</p></li>
+<li><p>Have your network guess the noise.  Using a loss function, modify your network to match the noise more closely.</p></li>
+</ol>
+<p>It is going to be exactly the same here:</p>
+<ol class="arabic simple">
+<li><p>Pick a random <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p>Mask each token of <span class="math notranslate nohighlight">\(x_0\)</span> with probability <span class="math notranslate nohighlight">\(t/T\)</span> (this is your <code class="docutils literal notranslate"><span class="pre">ForwardMaskFast</span></code>)</p></li>
+<li><p>Have your network guess <span class="math notranslate nohighlight">\(x_0\)</span>.  Using a loss function, modify your network to make the correct tokens more probable.</p></li>
+</ol>
+<p>The only thing we need to figure out is the loss function.  Last time the network’s guess was a number and we used the mean squared error.  This time the network’s guess is a list of probabilities and what we want is for the probability <span class="math notranslate nohighlight">\(p_\theta(x_0^i | x_t)\)</span> that it assigns to the correct token <span class="math notranslate nohighlight">\(x_0^i\)</span> to be large.  The standard way to say “make this probability large” is to minimize <span class="math notranslate nohighlight">\(-\log p_\theta(x_0^i | x_t)\)</span> (this is called the <em>cross entropy</em>).  It is zero if the network gave the right answer a probability of one and gets large as that probability gets small.</p>
+<p>Putting it together, the loss for one sentence is</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L} = \frac{T}{t} \sum_{i \textrm{ masked}} -\log p_\theta(x_0^i | x_t)\]</div>
+<p>There are two things to notice.  The sum is only over the positions which are masked (there is nothing to learn from a token that you can see).  And there is a weight of <span class="math notranslate nohighlight">\(T/t\)</span> out front.  At small <span class="math notranslate nohighlight">\(t\)</span> very few tokens are masked so there are very few terms in the sum.  The weight makes up for it so that every <span class="math notranslate nohighlight">\(t\)</span> ends up counting about the same.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Where does the loss come from?</p>
+<p>Here is a sketch.  We’d like our undiffusion to produce the real sentences with high probability, which means we’d like each step of our undiffusion (which uses the network’s guess) to look as much as possible like the true reverse step <span class="math notranslate nohighlight">\(p(x_{t-1}|x_t,x_0)\)</span> (which knows <span class="math notranslate nohighlight">\(x_0\)</span>).</p>
+<p>Consider one masked token at step <span class="math notranslate nohighlight">\(t\)</span>.  The true reverse step unmasks it into <span class="math notranslate nohighlight">\(x_0^i\)</span> with probability <span class="math notranslate nohighlight">\(1/t\)</span>.  Our undiffusion step unmasks it with probability <span class="math notranslate nohighlight">\(1/t\)</span> into a token sampled from the network’s guess.  The mismatch between these two (measured by the KL divergence, the standard way to compare two probability distributions) works out to</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{t}\left(-\log p_\theta(x_0^i|x_t)\right)\]</div>
+<p>Adding this up over all the masked tokens and over all <span class="math notranslate nohighlight">\(T\)</span> steps gives <span class="math notranslate nohighlight">\(\sum_{t=1}^T \frac{1}{t}\sum_{i \textrm{ masked}} -\log p_\theta(x_0^i | x_t)\)</span>.  Rather than doing the sum over <span class="math notranslate nohighlight">\(t\)</span>, we pick one <span class="math notranslate nohighlight">\(t\)</span> at random and multiply by <span class="math notranslate nohighlight">\(T\)</span> to make up for it.  That’s our loss.</p>
+<p>It is worth comparing with the continuous diffusion page where the same argument (compare the true reverse step to the one the network would take) gave a gaussian mismatch, which is why you ended up with a mean squared error.</p>
+<p>The total has a nice meaning:  averaged over sentences, <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> is an upper bound on <span class="math notranslate nohighlight">\(-\log p(x_0)\)</span>, i.e. on how surprised your model is by real sentences.  The best any model can possibly do is the <em>entropy</em> of <span class="math notranslate nohighlight">\(p_{init}\)</span>.</p>
+</div>
+<p>Here is the network we are going to train.  It is a small transformer - the same kind of network as the one you were just chatting with but about 300 times smaller.  As before we aren’t going to worry about what’s inside.  (If you’d like to know, the extra credit page <a class="reference internal" href="Transformer.html"><span class="std std-doc">Building a Transformer from Scratch</span></a> has you build this network yourself one piece at a time.)  What you need to know is:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">TinyDenoiser(vocab_size)</span></code> makes a new (untrained) network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">net(x)</span></code> takes a tensor of integers of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L)</span></code> - i.e. a whole batch of sentences at once - and returns a tensor of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L,</span> <span class="pre">vocab_size)</span></code></p></li>
+<li><p>What it returns are not probabilities but <strong>logits</strong>: you get the probabilities by doing a softmax (i.e. <span class="math notranslate nohighlight">\(p(v) \propto \exp[\textrm{logit}(v)]\)</span>) over the last index.  So a logit is just minus an energy.</p></li>
+</ul>
+<p>Notice that (unlike last time) we never tell the network what <span class="math notranslate nohighlight">\(t\)</span> is.  It doesn’t need it:  it can see how much of the sentence is masked.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: a small transformer which takes tokens (batch, L) and returns logits (batch, L, vocab_size)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Rotate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Tell attention where each token sits by rotating pairs of features by an angle proportional to position."""</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">frequency</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="mi">10000</span> <span class="o">**</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="o">/</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">frequency</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x1</span> <span class="o">*</span> <span class="n">angle</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span> <span class="o">-</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">angle</span><span class="o">.</span><span class="n">sin</span><span class="p">(),</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">angle</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">*</span> <span class="n">angle</span><span class="o">.</span><span class="n">cos</span><span class="p">()],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Block</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">heads</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heads</span> <span class="o">=</span> <span class="n">heads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">B</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">heads</span><span class="p">,</span> <span class="n">D</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">heads</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="c1"># every position looks at every other position (a left-to-right model would only look left)</span>
+        <span class="n">attention</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">scaled_dot_product_attention</span><span class="p">(</span><span class="n">Rotate</span><span class="p">(</span><span class="n">q</span><span class="p">),</span> <span class="n">Rotate</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">attention</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TinyDenoiser</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">heads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">64</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_length</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">Block</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">heads</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">layers</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">)):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">block</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MakeGuesser</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">forbidden</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">"""Wrap a network as a guessing function for Undiffuse: x_t of shape (L,) -&gt; probabilities (L, vocab_size).</span>
+<span class="sd">    `forbidden` is a list of tokens the guess is never allowed to be."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Guess</span><span class="p">(</span><span class="n">x_t</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_t</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="o">.</span><span class="n">device</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">logits</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">forbidden</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">return</span> <span class="n">logits</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Guess</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now write the loss function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">DiffusionLoss</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+<p>Here <code class="docutils literal notranslate"><span class="pre">x_0</span></code> is a batch of sentences of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L)</span></code>.  You should</p>
+<ol class="arabic simple">
+<li><p>Pick a random <span class="math notranslate nohighlight">\(t\)</span> between 1 and <span class="math notranslate nohighlight">\(T\)</span> for each sentence: <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">torch.randint(1,</span> <span class="pre">T</span> <span class="pre">+</span> <span class="pre">1,</span> <span class="pre">(batch,</span> <span class="pre">1),</span> <span class="pre">device=x_0.device)</span></code></p></li>
+<li><p>Decide what to mask: <code class="docutils literal notranslate"><span class="pre">masked</span> <span class="pre">=</span> <span class="pre">torch.rand(batch,</span> <span class="pre">L,</span> <span class="pre">device=x_0.device)</span> <span class="pre">&lt;</span> <span class="pre">t</span> <span class="pre">/</span> <span class="pre">T</span></code> (this is <code class="docutils literal notranslate"><span class="pre">ForwardMaskFast</span></code> for the whole batch at once: row <code class="docutils literal notranslate"><span class="pre">b</span></code> gets masked with probability <code class="docutils literal notranslate"><span class="pre">t[b]/T</span></code>)</p></li>
+<li><p>Make <span class="math notranslate nohighlight">\(x_t\)</span>: <code class="docutils literal notranslate"><span class="pre">x_t</span> <span class="pre">=</span> <span class="pre">torch.where(masked,</span> <span class="pre">mask,</span> <span class="pre">x_0)</span></code></p></li>
+<li><p>Run the network: <code class="docutils literal notranslate"><span class="pre">logits</span> <span class="pre">=</span> <span class="pre">net(x_t)</span></code></p></li>
+<li><p>Get <span class="math notranslate nohighlight">\(-\log p_\theta(x_0^i | x_t)\)</span> at every position.  Pytorch will do the softmax, the log, and the picking out of the correct token for you: <code class="docutils literal notranslate"><span class="pre">F.cross_entropy(logits.transpose(1,</span> <span class="pre">2),</span> <span class="pre">x_0,</span> <span class="pre">reduction=&quot;none&quot;)</span></code> returns a tensor of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L)</span></code>.</p></li>
+<li><p>Zero out the positions that weren’t masked, multiply by the weight <span class="math notranslate nohighlight">\(T/t\)</span>, sum over the positions in each sentence, and average over the batch.</p></li>
+</ol>
+<section id="two-sentences-again">
+<h3>Two sentences (again)<a class="headerlink" href="#two-sentences-again" title="Link to this heading">#</a></h3>
+<p>Before we go after real text, let’s go back to the place where we know what the right answer is:  the distribution with <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code> 80% of the time and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">empty</span></code> 20% of the time.</p>
+<p>Here is the general framework for the optimization (it is the same as last time).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">TinyDenoiser</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">heads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1500</span><span class="p">):</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">SamplePInit</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">64</span><span class="p">)])</span>   <span class="c1"># a batch of 64 sentences</span>
+  <span class="n">loss</span> <span class="o">=</span> <span class="n">DiffusionLoss</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">MASK</span><span class="p">)</span>
+  <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">loss.item()</span></code> gives you the loss.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train your network.</p>
+<ul class="simple">
+<li><p>Plot the loss as a function of training step.  You may have to do a window averaging over approximately 100 steps to generate this plot.  The best that any guesser can possibly do is the entropy of our distribution, <span class="math notranslate nohighlight">\(-0.8\log 0.8 - 0.2 \log 0.2 = 0.50\)</span>.  Draw this as a horizontal line on your plot.  How close do you get?</p></li>
+<li><p>Make your network into a guesser with <code class="docutils literal notranslate"><span class="pre">GuessNet</span> <span class="pre">=</span> <span class="pre">MakeGuesser(net)</span></code>.  Compare <code class="docutils literal notranslate"><span class="pre">GuessNet(x_t)</span></code> with your exact <code class="docutils literal notranslate"><span class="pre">GuessX0(x_t)</span></code> for <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span></code>, for <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">alive</span></code> and for <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">empty</span></code> by printing out the probability each assigns to <code class="docutils literal notranslate"><span class="pre">cat</span></code> and to <code class="docutils literal notranslate"><span class="pre">box</span></code> at position 2.  Has the network learned Bayes theorem?  (Only compare at positions which are masked:  the network never gets trained on what to say at a position it can already see, so its guesses there are meaningless.  Your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> never uses them.)</p></li>
+<li><p>Now you can use <code class="docutils literal notranslate"><span class="pre">GuessNet</span></code> in your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> in place of <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code>.  Go ahead and make this replacement and then generate 1000 sentences (with <span class="math notranslate nohighlight">\(T=20\)</span>) and make the bar chart of what you get.</p></li>
+</ul>
+</div>
+</section>
+<section id="a-tiny-corpus">
+<h3>A tiny corpus<a class="headerlink" href="#a-tiny-corpus" title="Link to this heading">#</a></h3>
+<p>Now for some real text.  We are going to train on a small piece of <a class="reference external" href="https://huggingface.co/datasets/roneneldan/TinyStories"><em>TinyStories</em></a>, which is a collection of very short stories written using only words that a three year old would know.  This is about the simplest English there is which means a small network has some chance of learning it in a few minutes.</p>
+<p>The following code downloads the first 4 MB of it (about 5000 stories), chops it into words, and builds a vocabulary out of the 2000 most common ones.  It gives you</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">story_vocab</span></code>:  the vocabulary.  As before the last entry is the mask <code class="docutils literal notranslate"><span class="pre">_</span></code>.  Any word not among the 2000 most common is replaced by <code class="docutils literal notranslate"><span class="pre">&lt;unk&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STORY_MASK</span></code> and <code class="docutils literal notranslate"><span class="pre">STORY_UNK</span></code>: the integers for those two tokens</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GetBatch(batch,</span> <span class="pre">L)</span></code>: returns <code class="docutils literal notranslate"><span class="pre">batch</span></code> random chunks of text each <code class="docutils literal notranslate"><span class="pre">L</span></code> tokens long as a tensor of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L)</span></code>.  This is our <code class="docutils literal notranslate"><span class="pre">SamplePInit</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">StoryTokens(text)</span></code> and <code class="docutils literal notranslate"><span class="pre">StoryText(x)</span></code>: go back and forth between text and tokens</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: a tiny corpus</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt"</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Range"</span><span class="p">:</span> <span class="s2">"bytes=0-3999999"</span><span class="p">})</span><span class="o">.</span><span class="n">content</span><span class="p">[:</span><span class="mi">4_000_000</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[a-z']+|[.,!?</span><span class="se">\"</span><span class="s2">]"</span><span class="p">,</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"&lt;|endoftext|&gt;"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">))</span>
+
+<span class="n">story_vocab</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">2000</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"&lt;unk&gt;"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">]</span>
+<span class="n">STORY_UNK</span><span class="p">,</span> <span class="n">STORY_MASK</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StoryTokens</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">STORY_UNK</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[a-z']+|[.,!?</span><span class="se">\"</span><span class="s2">_]"</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StoryText</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">STORY_UNK</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetBatch</span><span class="p">(</span><span class="n">batch</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="p">(</span><span class="n">batch</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">corpus</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">s</span> <span class="o">+</span> <span class="n">L</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">start</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens of text, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens in the vocabulary"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">StoryText</span><span class="p">(</span><span class="n">GetBatch</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now train a network on it.  This is the same loop that you just wrote with three changes:</p>
+<ul class="simple">
+<li><p>The network should be the default size:  <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">TinyDenoiser(len(story_vocab)).to(device)</span></code></p></li>
+<li><p>Your data is <code class="docutils literal notranslate"><span class="pre">x_0</span> <span class="pre">=</span> <span class="pre">GetBatch().to(device)</span></code> and your mask is <code class="docutils literal notranslate"><span class="pre">STORY_MASK</span></code></p></li>
+<li><p>Use 5000 steps.  This takes a few minutes on a GPU.  (On a laptop CPU it is something like ten times slower.  Use the free GPU on Google Colab if you can.  Otherwise you can get away with 1500 steps, which takes about ten minutes, but your stories will be rougher.)</p></li>
+</ul>
+<p>It is worth printing out the loss every few hundred steps so that you know it’s working.</p>
+<p>Since each sentence has <span class="math notranslate nohighlight">\(L=32\)</span> tokens in it, a more useful number to look at is the loss per token, <span class="math notranslate nohighlight">\(\mathcal{L}/L\)</span>.  A network which has no idea and guesses all 2002 tokens with equal probability would get <span class="math notranslate nohighlight">\(\log 2002 = 7.6\)</span>.  A network which has learned which words are common, but nothing about what order they go in, gets about 5.4.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Before you train, make a guesser for your <em>untrained</em> network and generate a story with it so that you can see where we are starting from:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GuessStory</span> <span class="o">=</span> <span class="n">MakeGuesser</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">forbidden</span><span class="o">=</span><span class="p">[</span><span class="n">STORY_MASK</span><span class="p">,</span> <span class="n">STORY_UNK</span><span class="p">])</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">32</span><span class="p">,),</span> <span class="n">STORY_MASK</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Undiffuse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">GuessStory</span><span class="p">,</span> <span class="n">STORY_MASK</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">StoryText</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Then train your network.</p>
+<ul class="simple">
+<li><p>Plot the loss per token as a function of training step (again with a window average).  Draw horizontal lines at 7.6 and 5.4.</p></li>
+<li><p>Generate three stories each using</p>
+<ul>
+<li><p>the stochastic undiffusion with <span class="math notranslate nohighlight">\(T=32\)</span></p></li>
+<li><p>the stochastic undiffusion with <span class="math notranslate nohighlight">\(T=2\)</span></p></li>
+<li><p>the stochastic undiffusion with <span class="math notranslate nohighlight">\(T=32\)</span> and a temperature of 0.7</p></li>
+<li><p>the greedy undiffusion with <span class="math notranslate nohighlight">\(T=32\)</span></p></li>
+</ul>
+</li>
+</ul>
+<p>Which settings give the best stories?  What goes wrong with the others?  (You have seen each of these failures before.)</p>
+</div>
+</section>
+<section id="prompts">
+<h3>Prompts<a class="headerlink" href="#prompts" title="Link to this heading">#</a></h3>
+<p>Finally, let’s give our own model a prompt.  As you saw when you were chatting, there isn’t anything to it:  the prompt is just the part of the sentence that starts out unmasked.</p>
+<p>There is something here that a model that writes left to right can’t do.  Nothing says that the unmasked part has to be at the beginning.  We can give our model the beginning <em>and</em> the end of a story and ask it to fill in the middle, or give it a few words scattered around and have it write a story around them.</p>
+<p><code class="docutils literal notranslate"><span class="pre">StoryTokens</span></code> turns a <code class="docutils literal notranslate"><span class="pre">_</span></code> into a mask so you can write things like</p>
+<p><code class="docutils literal notranslate"><span class="pre">StoryTokens(&quot;once</span> <span class="pre">upon</span> <span class="pre">a</span> <span class="pre">time</span> <span class="pre">,</span> <span class="pre">there</span> <span class="pre">was</span> <span class="pre">a</span> <span class="pre">little</span> <span class="pre">dog</span> <span class="pre">named</span> <span class="pre">_</span> <span class="pre">.</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">and</span> <span class="pre">they</span> <span class="pre">were</span> <span class="pre">all</span> <span class="pre">happy</span> <span class="pre">.&quot;)</span></code></p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Using your trained network (and whichever of your undiffusers you like the best), generate three stories for each of the following.</p>
+<ul class="simple">
+<li><p>A story which starts <code class="docutils literal notranslate"><span class="pre">once</span> <span class="pre">upon</span> <span class="pre">a</span> <span class="pre">time</span> <span class="pre">,</span> <span class="pre">there</span> <span class="pre">was</span> <span class="pre">a</span> <span class="pre">little</span> <span class="pre">dog</span> <span class="pre">named</span></code> (with the rest of the 32 tokens masked)</p></li>
+<li><p>A story which starts <code class="docutils literal notranslate"><span class="pre">one</span> <span class="pre">day</span> <span class="pre">,</span> <span class="pre">lily</span> <span class="pre">went</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">park</span> <span class="pre">.</span></code> and ends <code class="docutils literal notranslate"><span class="pre">and</span> <span class="pre">they</span> <span class="pre">were</span> <span class="pre">all</span> <span class="pre">happy</span> <span class="pre">.</span></code></p></li>
+<li><p>A story which has the words <code class="docutils literal notranslate"><span class="pre">dragon</span></code> and <code class="docutils literal notranslate"><span class="pre">cake</span></code> somewhere in the middle of it (and everything else masked)</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="where-the-chat-model-came-from">
+<h2>Where the Chat Model Came From<a class="headerlink" href="#where-the-chat-model-came-from" title="Link to this heading">#</a></h2>
+<p>You have now built every piece of a masked diffusion language model:  the forward process, the undiffusion (two ways), and the training.  The model you chatted with in the middle of this page was built out of exactly these pieces.  There are only three differences between it and the model you just trained.</p>
+<ul class="simple">
+<li><p><strong>It is bigger and was trained for longer on more text.</strong>  It has 400 million parameters instead of 1 million and its vocabulary has 50,000 tokens instead of 2000.</p></li>
+<li><p><strong>It didn’t start from scratch.</strong>  It started from a network (BERT) which had already been trained on a large amount of text to fill in blanks when about a third of the tokens were masked.  You now know what that is:  it’s your training loop with <span class="math notranslate nohighlight">\(t/T\)</span> stuck at one value.  Training it at <em>every</em> masking fraction is what turns something which can fill in a few blanks into something which can write on a blank page.</p></li>
+<li><p><strong>It was trained on questions and answers, and only the answers were masked.</strong>  Each training example was a question followed by its answer, written with the <code class="docutils literal notranslate"><span class="pre">[Question]</span></code> and <code class="docutils literal notranslate"><span class="pre">[Answer]</span></code> markers you saw.  In step 2 of the training loop, the tokens of the question were never masked.  That’s it.  The network learned to guess masked answers given visible questions, which is exactly the situation you put it in when you wrote <code class="docutils literal notranslate"><span class="pre">Chat</span></code>.</p></li>
+</ul>
+<p>It is worth putting the two kinds of diffusion side by side.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Continuous diffusion (the earlier page)</p></th>
+<th class="head"><p>Masked diffusion (this page)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>data <span class="math notranslate nohighlight">\(x_0\)</span></p></td>
+<td><p>a number</p></td>
+<td><p>a list of tokens</p></td>
+</tr>
+<tr class="row-odd"><td><p>noise</p></td>
+<td><p>add a gaussian</p></td>
+<td><p>replace tokens with a mask</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\overline{\alpha_t}\)</span></p></td>
+<td><p>how much of <span class="math notranslate nohighlight">\(x_0\)</span> is left in <span class="math notranslate nohighlight">\(x_t\)</span></p></td>
+<td><p>probability a token is still unmasked</p></td>
+</tr>
+<tr class="row-odd"><td><p>jump to step <span class="math notranslate nohighlight">\(t\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\sqrt{\overline{\alpha_t}} x_0 + \sqrt{1-\overline{\alpha_t}} z\)</span></p></td>
+<td><p>mask each token with probability <span class="math notranslate nohighlight">\(1-\overline{\alpha_t}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>where the forward process ends</p></td>
+<td><p>a unit gaussian</p></td>
+<td><p>all masks</p></td>
+</tr>
+<tr class="row-odd"><td><p>what the network guesses</p></td>
+<td><p>the noise <span class="math notranslate nohighlight">\(z\)</span> (equivalently <span class="math notranslate nohighlight">\(x_0\)</span>)</p></td>
+<td><p>probabilities for <span class="math notranslate nohighlight">\(x_0\)</span> at every position</p></td>
+</tr>
+<tr class="row-even"><td><p>undiffusion step</p></td>
+<td><p>gaussian around <span class="math notranslate nohighlight">\(\tilde{\mu}_t\)</span></p></td>
+<td><p>unmask each masked token with probability <span class="math notranslate nohighlight">\(1/t\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>loss</p></td>
+<td><p>mean squared error on the noise</p></td>
+<td><p>(weighted) <span class="math notranslate nohighlight">\(-\log p\)</span> of the masked tokens</p></td>
+</tr>
+<tr class="row-even"><td><p>prompt</p></td>
+<td><p>an extra input to the network</p></td>
+<td><p>the part of <span class="math notranslate nohighlight">\(x_t\)</span> that starts out unmasked</p></td>
+</tr>
+<tr class="row-odd"><td><p>too few steps</p></td>
+<td><p>wrong distribution</p></td>
+<td><p>tokens that don’t fit together</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="dropdown admonition">
+<p class="admonition-title">Further reading</p>
+<ul class="simple">
+<li><p>Austin et al., <em>Structured Denoising Diffusion Models in Discrete State-Spaces</em> (2021).  The paper that introduced masking (“absorbing”) noise as one of several ways to do diffusion on discrete things.</p></li>
+<li><p>Sahoo et al., <em>Simple and Effective Masked Diffusion Language Models</em> (2024).  Shows that the loss simplifies to the weighted cross entropy that you used.</p></li>
+<li><p>Nie et al., <em>Large Language Diffusion Models</em> (2025).  LLaDA:  an 8 billion parameter masked diffusion model trained from scratch.  The confidence-based unmasking in your greedy undiffusion is what they call “low-confidence remasking.”</p></li>
+<li><p>Zhou et al., <em>dLLM: Simple Diffusion Language Modeling</em> (2025).  The project which trained the ModernBERT chat model that you used.</p></li>
+<li><p>Eldan and Li, <em>TinyStories: How Small Can Language Models Be and Still Speak Coherent English?</em> (2023).  The stories you trained on.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-set-up">Getting Set Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-for-words">Noise for Words</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-forward-process">The forward process</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#faster-masking">Faster masking</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#undiffusing">Undiffusing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences">Two sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#being-greedy">Being greedy</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-real-language-model">A Real Language Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tokens-and-blanks">Tokens and blanks</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-it-to-answer-questions">Getting it to answer questions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#being-greedy-with-a-real-model">Being greedy with a real model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature">Temperature</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#talking-to-it">Talking to it</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training">Training</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences-again">Two sentences (again)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-tiny-corpus">A tiny corpus</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prompts">Prompts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-the-chat-model-came-from">Where the Chat Model Came From</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

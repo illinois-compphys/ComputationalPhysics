@@ -1,0 +1,1197 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Building a Transformer from Scratch &#8212; Computing in Physics (Physics 446)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ML/Transformer';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../Overview.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Computing in Physics (Physics 446)</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Setting up</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../GettingStarted.html">Getting Started</a></li>
+
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Cellular Automata</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/CellularAutomata.html">Cellular Automata</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/Sand.html">Sand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../CellularAutomata/OtherAutomata.html">Other Interesting Automata</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../QC/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/0-DiracNotation.html">Dirac Notation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/1a-QuantumComputingSimulator.html">QC Simulators</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/SimulatorS.html">Simulator S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/1b-QuantumComputingSimulator.html">Simulator M-(abcd)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Measuring.html">Measuring and Input</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/NonAtomicGates.html">Non-atomic gates</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../QC/PhaseEstimation.html">Phase estimation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/QFT.html">Quantum Fourier Transform</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Shor-Overview.html">Shor’s Algorithm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Classical.html">Shor’s Algorithm (classically)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-Quantum.html">Quantum Matrix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ModularMultiplication.html">Modular Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Shor-QuantumCircuit.html">Shor’s Algorithm</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Quantum Computing (extensions)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QC/Gates.html">Gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ClassicalGates.html">Classical Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/ControlledGates.html">Controlled Gates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QC/Universal.html">Gates for any Unitary</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../QC/BQPinPSPACE.html">BQP in PSPACE</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ising Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/IsingModel.html">Simulating an Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/Measure.html">Measuring the Ising Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/RG.html">The Renormalization Group</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Ising/SimulatedAnnealing.html">Extra Credit: Simulated Annealing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Ising/ProteinFolding.html">Protein Folding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Ising/ParallelTempering.html">Extra Credit: Parallel Tempering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Machine Learning</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hopfield.html">Hopfield Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RBM.html">Restricted Boltzmann Machines (Extra Credit)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Diffusion.html">Generative Diffusion Models</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Topological Insulators</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../TI/Overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/Lattice.html">Lattices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/TightBinding.html">Tight Binding Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TI/ChernInsulators.html">Topological Insulators</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Building a Transformer from Scratch</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-set-up">Getting Set Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-plan">The Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-little-pytorch">A Little Pytorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-words-to-vectors">Step 1: Words to Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-a-network-where-nobody-talks">Step 2: A Network Where Nobody Talks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#knowing-where-you-are">Knowing where you are</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-attention">Step 3: Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-head">A head</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-heads">Many heads</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-the-block">Step 4: The Block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-the-whole-thing">Step 5: The Whole Thing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-your-transformer">Using Your Transformer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences">Two sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stories">Stories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flipping-one-switch-writing-left-to-right">Flipping one switch: writing left to right</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-built">What You Built</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pylab</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="building-a-transformer-from-scratch">
+<h1>Building a Transformer from Scratch<a class="headerlink" href="#building-a-transformer-from-scratch" title="Link to this heading">#</a></h1>
+<div class="tip admonition">
+<p class="admonition-title">Extra Credit</p>
+<p>This page is <strong>extra credit</strong> for the machine learning unit.  It builds directly on <a class="reference internal" href="MaskedDiffusion.html"><span class="std std-doc">Masked Diffusion</span></a>, so finish that page first.</p>
+</div>
+<p>On the <a class="reference internal" href="MaskedDiffusion.html"><span class="std std-doc">masked diffusion page</span></a> we handed you a neural network called <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> and told you not to worry about what was inside of it.  All you needed to know was that it took in a sentence with some masks in it and returned a guess for every position.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> is a <strong>transformer</strong>.  So is the ModernBERT network that you chatted with, and so are the networks behind chatGPT and Claude.  Our goal on this page is to open the box.  You are going to build a transformer yourself, one piece at a time, and at each step we will check what the new piece buys you.  By the end you will</p>
+<ul class="simple">
+<li><p>have your own transformer which you can drop into the training loop that you wrote on the masked diffusion page in place of <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code></p></li>
+<li><p>train it on stories and have it write (using your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code>)</p></li>
+<li><p>change one line of it and turn it into a model which writes left to right the way that chatGPT does</p></li>
+</ul>
+<p>We are not going to assume that you know much pytorch.  Whenever we need something new from it we will show it to you first.</p>
+<section id="getting-set-up">
+<h2>Getting Set Up<a class="headerlink" href="#getting-set-up" title="Link to this heading">#</a></h2>
+<p><strong>Packages.</strong>  You need <code class="docutils literal notranslate"><span class="pre">torch</span></code>, <code class="docutils literal notranslate"><span class="pre">requests</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>.  On <a class="reference external" href="https://colab.research.google.com">Google Colab</a> all of these are already installed.  On your own machine run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">torch</span> <span class="pre">requests</span> <span class="pre">numpy</span> <span class="pre">matplotlib</span></code>.</p>
+<p><strong>Downloads.</strong>  The only thing that gets downloaded is the same 4 MB piece of <a class="reference external" href="https://huggingface.co/datasets/roneneldan/TinyStories">TinyStories</a> that you used before.  The code we give you fetches it.  (There is no pre-trained network on this page.  You are building the network.)</p>
+<p><strong>Hardware.</strong>  Everything up to <em>Stories</em> runs in a few seconds on any laptop.  The two training runs on stories at the end take a few minutes each on a GPU (on Google Colab select <code class="docutils literal notranslate"><span class="pre">Runtime</span> <span class="pre">&gt;</span> <span class="pre">Change</span> <span class="pre">runtime</span> <span class="pre">type</span> <span class="pre">&gt;</span> <span class="pre">T4</span> <span class="pre">GPU</span></code>) and something like ten times longer without one.</p>
+<p><strong>Things to bring with you.</strong>  Copy the following from your masked diffusion notebook into this one:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> (and <code class="docutils literal notranslate"><span class="pre">UndiffuseGreedy</span></code> and your version with a temperature, if you’d like to use them)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DiffusionLoss</span></code></p></li>
+<li><p>your two-sentence <code class="docutils literal notranslate"><span class="pre">SamplePInit</span></code> and <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code> (the ones where <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code> has probability 0.8 and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">empty</span></code> has probability 0.2)</p></li>
+</ul>
+<p>Here is the rest of what you need from that page.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: the same vocabulary, device and MakeGuesser as on the masked diffusion page</span>
+<span class="n">vocab</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"the"</span><span class="p">,</span> <span class="s2">"cat"</span><span class="p">,</span> <span class="s2">"box"</span><span class="p">,</span> <span class="s2">"is"</span><span class="p">,</span> <span class="s2">"alive"</span><span class="p">,</span> <span class="s2">"empty"</span><span class="p">,</span> <span class="s2">"nobody"</span><span class="p">,</span> <span class="s2">"knows"</span><span class="p">,</span> <span class="s2">"if"</span><span class="p">,</span> <span class="s2">"or"</span><span class="p">,</span> <span class="s2">"until"</span><span class="p">,</span> <span class="s2">"somebody"</span><span class="p">,</span> <span class="s2">"looks"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">]</span>
+<span class="n">MASK</span> <span class="o">=</span> <span class="mi">13</span>   <span class="c1"># the index of "_"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Encode</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">vocab</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">sentence</span><span class="o">.</span><span class="n">split</span><span class="p">()])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">Decode</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">vocab</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"mps"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">mps</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">MakeGuesser</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">forbidden</span><span class="o">=</span><span class="p">()):</span>
+<span class="w">    </span><span class="sd">"""Wrap a network as a guessing function for Undiffuse: x_t of shape (L,) -&gt; probabilities (L, vocab_size).</span>
+<span class="sd">    `forbidden` is a list of tokens the guess is never allowed to be."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Guess</span><span class="p">(</span><span class="n">x_t</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">logits</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_t</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="o">.</span><span class="n">device</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">logits</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">forbidden</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">return</span> <span class="n">logits</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Guess</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>The rules.</strong>  You are allowed to use the basic building blocks of pytorch:  <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.Embedding</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.LayerNorm</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.GELU</span></code>, the optimizers, and the automatic differentiation (<code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code>).  You are <em>not</em> allowed to use the pieces of pytorch which already are a transformer:  <code class="docutils literal notranslate"><span class="pre">nn.MultiheadAttention</span></code>, <code class="docutils literal notranslate"><span class="pre">nn.TransformerEncoder</span></code> (and its relatives) and <code class="docutils literal notranslate"><span class="pre">F.scaled_dot_product_attention</span></code>.  (We will use the last one once, to check your answer.)</p>
+</section>
+<section id="the-plan">
+<h2>The Plan<a class="headerlink" href="#the-plan" title="Link to this heading">#</a></h2>
+<p>Let’s remind ourselves what the network has to do.  It is handed a batch of sentences, which is a tensor of integers of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L)</span></code>.  It has to return a tensor of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L,</span> <span class="pre">vocab_size)</span></code>:  for every position of every sentence, one number (a <strong>logit</strong>) for every token in the vocabulary.  The softmax of those logits is the network’s guess for what the token at that position is.  Remember that a logit is just minus an energy.</p>
+<p>A transformer does this in three stages.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tokens</span>                  <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>               <span class="n">integers</span>
+   <span class="o">|</span>
+   <span class="o">|</span>  <span class="mf">1.</span> <span class="n">embed</span><span class="p">:</span>   <span class="n">turn</span> <span class="n">every</span> <span class="n">token</span> <span class="n">into</span> <span class="n">a</span> <span class="n">vector</span> <span class="n">of</span> <span class="n">d</span> <span class="n">numbers</span>
+   <span class="n">v</span>
+<span class="n">vectors</span>                 <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+   <span class="o">|</span>
+   <span class="o">|</span>  <span class="mf">2.</span> <span class="n">blocks</span><span class="p">:</span>  <span class="n">the</span> <span class="n">vectors</span> <span class="n">at</span> <span class="n">different</span> <span class="n">positions</span> <span class="n">talk</span> <span class="n">to</span> <span class="n">each</span> <span class="n">other</span> <span class="p">(</span><span class="n">attention</span><span class="p">)</span>
+   <span class="o">|</span>              <span class="ow">and</span> <span class="n">then</span> <span class="n">each</span> <span class="n">one</span> <span class="n">thinks</span> <span class="n">about</span> <span class="n">what</span> <span class="n">it</span> <span class="n">heard</span> <span class="p">(</span><span class="n">a</span> <span class="n">small</span> <span class="n">ordinary</span> <span class="n">neural</span> <span class="n">network</span><span class="p">)</span><span class="o">.</span>
+   <span class="o">|</span>              <span class="n">Repeat</span> <span class="n">this</span> <span class="n">a</span> <span class="n">few</span> <span class="n">times</span><span class="o">.</span>
+   <span class="n">v</span>
+<span class="n">vectors</span>                 <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+   <span class="o">|</span>
+   <span class="o">|</span>  <span class="mf">3.</span> <span class="n">output</span><span class="p">:</span>  <span class="n">turn</span> <span class="n">every</span> <span class="n">vector</span> <span class="n">into</span> <span class="n">vocab_size</span> <span class="n">logits</span>
+   <span class="n">v</span>
+<span class="n">logits</span>                  <span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The picture to have in your head is a chain of <span class="math notranslate nohighlight">\(L\)</span> sites.  On every site there sits a vector of <span class="math notranslate nohighlight">\(d\)</span> numbers which is everything that the network currently “knows” at that position.  Stages 1 and 3 work on every site separately.  The only place where one site can find out anything about another is the attention in stage 2.</p>
+<p>We are going to build this in the order 1, 3, 2.  That is, we will first build the network with nothing in the middle (which is very easy) and see exactly what it can’t do.  That will tell us what the middle is for.</p>
+</section>
+<section id="a-little-pytorch">
+<h2>A Little Pytorch<a class="headerlink" href="#a-little-pytorch" title="Link to this heading">#</a></h2>
+<p>Before we start, here is the small amount of pytorch that we are going to need.  Run each of these cells and make sure the output is what you expect.  There is nothing to hand in for this section.</p>
+<p><strong>Shapes.</strong>  A tensor is an array of numbers and its <code class="docutils literal notranslate"><span class="pre">shape</span></code> tells you how many indices it has and how big each one is.  Nearly every bug you will have on this page is going to be a shape that isn’t what you thought it was, so get used to printing them.  Our convention is going to be that the vectors sitting on our sites are stored as a tensor of shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L,</span> <span class="pre">d)</span></code>:  which sentence, which position, which component of the vector.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>        <span class="c1"># 2 sentences, 5 positions, a vector of 8 random numbers at each position</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>               <span class="c1"># the first sentence: (5, 8)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>            <span class="c1"># the vector at position 3 of the first sentence: (8,)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>          <span class="c1"># "..." means "all the indices I didn't mention": the first component everywhere, (2, 5)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>A linear layer.</strong>  <code class="docutils literal notranslate"><span class="pre">nn.Linear(8,</span> <span class="pre">3)</span></code> is a matrix <span class="math notranslate nohighlight">\(W\)</span> (of shape 3 x 8) and a vector <span class="math notranslate nohighlight">\(b\)</span> (of length 3) which pytorch will later be able to train.  When you call it on a vector <span class="math notranslate nohighlight">\(x\)</span> of length 8 it returns <span class="math notranslate nohighlight">\(Wx+b\)</span>, which has length 3.  The important thing is that if you hand it a tensor with more indices it does this to the <strong>last index</strong> and leaves all the others alone.  So we can apply the same matrix at every position of every sentence with one call.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="n">layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>                                   <span class="c1"># (2, 5, 8) -&gt; (2, 5, 3)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">layer</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>             <span class="c1"># the matrix W and the vector b</span>
+<span class="n">no_bias</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                   <span class="c1"># just the matrix</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">no_bias</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span> <span class="o">@</span> <span class="n">no_bias</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">T</span><span class="p">))</span> <span class="c1"># ...so this is the same as multiplying by it</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Matrix multiplication.</strong>  <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">&#64;</span> <span class="pre">b</span></code> multiplies matrices.  If <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> have more than two indices it treats the <strong>last two</strong> as the matrix and does a separate multiplication for each value of the others.  <code class="docutils literal notranslate"><span class="pre">a.transpose(-2,</span> <span class="pre">-1)</span></code> swaps the last two indices - i.e. it is the transpose of each of those matrices.  (Negative numbers count indices from the end: <code class="docutils literal notranslate"><span class="pre">-1</span></code> is the last index and <code class="docutils literal notranslate"><span class="pre">-2</span></code> is the one before it.)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>              <span class="c1"># (2, 8, 5)</span>
+<span class="n">dots</span> <span class="o">=</span> <span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>                <span class="c1"># (2, 5, 8) @ (2, 8, 5) -&gt; (2, 5, 5)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dots</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># dots[s, i, j] is the dot product of the vector at position i of a with the vector at position j of b (in sentence s)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dots</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Softmax.</strong>  <code class="docutils literal notranslate"><span class="pre">torch.softmax(a,</span> <span class="pre">dim=-1)</span></code> turns numbers into probabilities:  it exponentiates everything and then divides by the sum over the last index, <span class="math notranslate nohighlight">\(p_j = e^{a_j}/\sum_{j'} e^{a_{j'}}\)</span>.  In other words, it is a Boltzmann distribution where <span class="math notranslate nohighlight">\(-a_j\)</span> is the energy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dots</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>                 <span class="c1"># still (2, 5, 5)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>           <span class="c1"># every row adds up to one</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Making your own network.</strong>  In pytorch a neural network is a <code class="docutils literal notranslate"><span class="pre">class</span></code> that has two functions in it.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__</span></code> is run once, when you make the network.  This is where you create all of the pieces which have trainable numbers in them (like <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code>) and store them as <code class="docutils literal notranslate"><span class="pre">self.something</span></code>.  The first line always has to be <code class="docutils literal notranslate"><span class="pre">super().__init__()</span></code>, which is what lets pytorch keep track of those pieces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forward</span></code> is what happens when you call the network on some input.</p></li>
+</ul>
+<p>Here is a network with one linear layer in it.  Notice that we never call <code class="docutils literal notranslate"><span class="pre">forward</span></code> ourselves.  Writing <code class="docutils literal notranslate"><span class="pre">net(x)</span></code> does it for us.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Example</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_in</span><span class="p">,</span> <span class="n">d_out</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>                      <span class="c1"># always the first line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_in</span><span class="p">,</span> <span class="n">d_out</span><span class="p">)</span>     <span class="c1"># create the trainable pieces here...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                    <span class="c1"># ...and use them here</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Example</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>                                      <span class="c1"># calls net.forward(x)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">()))</span>          <span class="c1"># how many trainable numbers: 3*8 + 3 = 27</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>That last line is worth remembering.  <code class="docutils literal notranslate"><span class="pre">net.parameters()</span></code> is a list of every trainable tensor that pytorch found inside your network and it is what you hand to the optimizer.  If a piece of your network doesn’t show up in that count, pytorch doesn’t know about it and it isn’t going to get trained.</p>
+</section>
+<section id="step-1-words-to-vectors">
+<h2>Step 1: Words to Vectors<a class="headerlink" href="#step-1-words-to-vectors" title="Link to this heading">#</a></h2>
+<p>The first thing we have to do is turn a token (an integer) into a vector of <span class="math notranslate nohighlight">\(d\)</span> numbers.  There is no clever way to do this.  We just keep a table with one row for each token in the vocabulary and look up the row we want.  This is called an <strong>embedding</strong>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">table</span></code> is a tensor of shape <code class="docutils literal notranslate"><span class="pre">(len(vocab),</span> <span class="pre">d)</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> is a tensor of integers, then <code class="docutils literal notranslate"><span class="pre">table[x]</span></code> looks up all of the rows at once:  where <code class="docutils literal notranslate"><span class="pre">x</span></code> had an integer there is now a vector.</p>
+<p>Pytorch’s <code class="docutils literal notranslate"><span class="pre">nn.Embedding(len(vocab),</span> <span class="pre">d)</span></code> is exactly this.  It holds a table (it is called <code class="docutils literal notranslate"><span class="pre">.weight</span></code>) which starts out random and it looks things up when you call it.  The only difference from doing it yourself is that pytorch knows that the table is something it is allowed to train.  The network will get to decide what vector each word should have.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Make a random table <code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">=</span> <span class="pre">torch.randn(len(vocab),</span> <span class="pre">8)</span></code> and let <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">Encode(&quot;the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">box&quot;)</span></code>.  Print the shape of <code class="docutils literal notranslate"><span class="pre">table[x]</span></code>.  Which rows of it are identical?  Why?</p></li>
+<li><p>Make an <code class="docutils literal notranslate"><span class="pre">embed</span> <span class="pre">=</span> <span class="pre">nn.Embedding(len(vocab),</span> <span class="pre">8)</span></code> and verify (using <code class="docutils literal notranslate"><span class="pre">torch.allclose</span></code>) that <code class="docutils literal notranslate"><span class="pre">embed(x)</span></code> is the same thing as <code class="docutils literal notranslate"><span class="pre">embed.weight[x]</span></code>.</p></li>
+<li><p>What is the shape of <code class="docutils literal notranslate"><span class="pre">embed(x)</span></code> if <code class="docutils literal notranslate"><span class="pre">x</span></code> is a batch of 64 sentences of 4 tokens each?  Check your answer.  (<code class="docutils literal notranslate"><span class="pre">torch.stack([SamplePInit()</span> <span class="pre">for</span> <span class="pre">b</span> <span class="pre">in</span> <span class="pre">range(64)])</span></code> will make you such a batch.)</p></li>
+</ul>
+</div>
+</section>
+<section id="step-2-a-network-where-nobody-talks">
+<h2>Step 2: A Network Where Nobody Talks<a class="headerlink" href="#step-2-a-network-where-nobody-talks" title="Link to this heading">#</a></h2>
+<p>We can already make a network which has the right inputs and outputs.  Embed each token into a vector (stage 1) and then use a linear layer to turn that vector into <code class="docutils literal notranslate"><span class="pre">len(vocab)</span></code> logits (stage 3).  There is nothing in the middle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: the simplest network with the right shape. Each position makes its guess all on its own.</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">NoTalking</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>     <span class="c1"># stage 1: a table with one vector for each token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>          <span class="c1"># stage 3: a vector -&gt; one logit for each token</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>                              <span class="c1"># x:  (batch, L) integers</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                              <span class="c1"># h:  (batch, L, dim)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>                             <span class="c1">#     (batch, L, vocab_size)</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">NoTalking</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+<span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">SamplePInit</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">64</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x_0</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">"-&gt;"</span><span class="p">,</span> <span class="n">net</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s see how well this does on our two sentences.  Here is the training loop from the masked diffusion page.  Nothing in it has changed except the first line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">net</span> <span class="o">=</span> <span class="n">NoTalking</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1500</span><span class="p">):</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+  <span class="n">x_0</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">SamplePInit</span><span class="p">()</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">64</span><span class="p">)])</span>   <span class="c1"># a batch of 64 sentences</span>
+  <span class="n">loss</span> <span class="o">=</span> <span class="n">DiffusionLoss</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">x_0</span><span class="p">,</span> <span class="n">MASK</span><span class="p">)</span>
+  <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+  <span class="n">opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+  <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>We are going to be training quite a few different networks this way, so it is worth putting this loop into a function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">TrainTwoSentences(net,</span> <span class="pre">steps=1500)</span></code> which returns the list of losses.</p>
+<p>Recall that the best that any guesser can do on this problem is a loss of 0.50 (the entropy of our distribution).</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train a <code class="docutils literal notranslate"><span class="pre">NoTalking</span></code> network.</p>
+<ul class="simple">
+<li><p>Plot the loss as a function of training step (with a window average over about 100 steps as before).  Draw a horizontal line at 0.50.  Where does your loss end up?</p></li>
+<li><p>Make it into a guesser with <code class="docutils literal notranslate"><span class="pre">GuessNet</span> <span class="pre">=</span> <span class="pre">MakeGuesser(net)</span></code>.  For each of <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">alive</span></code> and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">empty</span></code> print out the four most probable tokens at position 2 and their probabilities.  (<code class="docutils literal notranslate"><span class="pre">p[1].topk(4)</span></code> gives you the <code class="docutils literal notranslate"><span class="pre">.values</span></code> and the <code class="docutils literal notranslate"><span class="pre">.indices</span></code> of the four largest entries of <code class="docutils literal notranslate"><span class="pre">p[1]</span></code>.)</p></li>
+<li><p>Explain what you see.  Why is the guess the same for all three?  Where do the numbers come from?</p></li>
+</ul>
+</div>
+<p>You should have found that your network did really badly.  Its loss gets stuck around 6.5 and at a masked position it always makes the same guess:  <code class="docutils literal notranslate"><span class="pre">the</span></code> or <code class="docutils literal notranslate"><span class="pre">is</span></code> about 25% of the time, <code class="docutils literal notranslate"><span class="pre">cat</span></code> or <code class="docutils literal notranslate"><span class="pre">alive</span></code> about 20% of the time and <code class="docutils literal notranslate"><span class="pre">box</span></code> or <code class="docutils literal notranslate"><span class="pre">empty</span></code> about 5% of the time.</p>
+<p>Think about what this network gets to see when it is making its guess at a masked position.  The vector on that site is the embedding of the mask token.  It is the same vector whether the mask is at position 1 or at position 4, and it is the same vector no matter what the rest of the sentence is.  So the network has to give the same answer every time, and the best single answer is how often each word shows up <em>anywhere</em> in a sentence.</p>
+<p>There are two things this network is missing:</p>
+<ol class="arabic simple">
+<li><p><strong>It doesn’t know where it is.</strong>  If it knew that it was at position 1 it could say <code class="docutils literal notranslate"><span class="pre">the</span></code> every time.</p></li>
+<li><p><strong>It doesn’t know what the other words are.</strong>  If it knew that position 4 was <code class="docutils literal notranslate"><span class="pre">alive</span></code> it could say <code class="docutils literal notranslate"><span class="pre">cat</span></code>.</p></li>
+</ol>
+<p>Let’s fix them one at a time.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Where does 6.5 come from?</p>
+<p>The best this network can do at a masked position is to guess the frequencies <span class="math notranslate nohighlight">\(p(v)\)</span> of the words.  Each time it does, it pays (on average) the entropy of that distribution</p>
+<div class="math notranslate nohighlight">
+\[-\sum_v p(v) \log p(v) = -2(0.25 \log 0.25) -2(0.2 \log 0.2) - 2(0.05\log 0.05) = 1.64\]</div>
+<p>Our loss was <span class="math notranslate nohighlight">\(\frac{T}{t}\sum_{i \textrm{ masked}} -\log p_\theta(x_0^i|x_t)\)</span>.  On average <span class="math notranslate nohighlight">\(4t/T\)</span> of the four positions are masked so the <span class="math notranslate nohighlight">\(T/t\)</span> cancels and the loss is four times the cost of one position:  <span class="math notranslate nohighlight">\(4 \times 1.64 = 6.55\)</span>.</p>
+</div>
+<section id="knowing-where-you-are">
+<h3>Knowing where you are<a class="headerlink" href="#knowing-where-you-are" title="Link to this heading">#</a></h3>
+<p>To tell the network where it is we are going to use exactly the same trick that we used for telling it what token it has.  We keep a second table.  This one has a row for each <em>position</em> (instead of each token) and we <strong>add</strong> the vector for the position to the vector for the token.</p>
+<div class="math notranslate nohighlight">
+\[h_i = \textrm{embed}[x_i] + \textrm{position}[i]\]</div>
+<p>Now the vector sitting on site <span class="math notranslate nohighlight">\(i\)</span> carries both pieces of information:  the mask at position 1 and the mask at position 4 are different vectors.  Again, the network gets to learn what the position vectors should be.</p>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">WithPosition(nn.Module)</span></code> which is <code class="docutils literal notranslate"><span class="pre">NoTalking</span></code> with this added.  You will need to</p>
+<ul class="simple">
+<li><p>add an argument <code class="docutils literal notranslate"><span class="pre">max_length=64</span></code> to <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and make a second table there:  <code class="docutils literal notranslate"><span class="pre">self.position</span> <span class="pre">=</span> <span class="pre">nn.Embedding(max_length,</span> <span class="pre">dim)</span></code>.  (<code class="docutils literal notranslate"><span class="pre">max_length</span></code> is the longest sentence that the network will ever be able to deal with.)</p></li>
+<li><p>in <code class="docutils literal notranslate"><span class="pre">forward</span></code>, make the list of positions <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">...,</span> <span class="pre">L-1</span></code> with <code class="docutils literal notranslate"><span class="pre">torch.arange(x.shape[-1],</span> <span class="pre">device=x.device)</span></code>, look them up in your new table, and add the result to <code class="docutils literal notranslate"><span class="pre">self.embed(x)</span></code></p></li>
+</ul>
+<p>Two things about that last step.  First, the <code class="docutils literal notranslate"><span class="pre">device=x.device</span></code> makes sure that if <code class="docutils literal notranslate"><span class="pre">x</span></code> is living on a GPU then your list of positions is too.  It doesn’t matter yet but it will when we get to the stories, and forgetting it is the most common bug on this page.  Second, your token vectors have shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L,</span> <span class="pre">dim)</span></code> and your position vectors have shape <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">dim)</span></code>.  When you add two tensors like this, pytorch lines the shapes up from the right and adds the smaller one to every sentence in the batch, which is exactly what we want.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train a <code class="docutils literal notranslate"><span class="pre">WithPosition</span></code> network on the two sentences.</p>
+<ul class="simple">
+<li><p>Add its loss to your plot.  Where does it end up now?</p></li>
+<li><p>Print out its guesses at position 2 for the same three sentences as before.</p></li>
+<li><p>Use your <code class="docutils literal notranslate"><span class="pre">Undiffuse</span></code> with this network as the guesser to generate 1000 sentences with <span class="math notranslate nohighlight">\(T=20\)</span> and make the bar chart of what you get (the one from the masked diffusion page, with the four bars for <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive</span></code>, <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">empty</span></code>, <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty</span></code>, <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">box</span> <span class="pre">is</span> <span class="pre">alive</span></code>).  What fraction of your sentences are nonsense?  If your network guesses <code class="docutils literal notranslate"><span class="pre">cat</span></code> with probability <span class="math notranslate nohighlight">\(p\)</span> at position 2 and <code class="docutils literal notranslate"><span class="pre">alive</span></code> with probability <span class="math notranslate nohighlight">\(p\)</span> at position 4, what fraction would you predict?  (Compare this with what the exact guesser gave you with <span class="math notranslate nohighlight">\(T=1\)</span> on the masked diffusion page.)</p></li>
+<li><p>On the masked diffusion page the cure for nonsense sentences was to use more steps.  Try <span class="math notranslate nohighlight">\(T=100\)</span>.  Does it help?  Why not?</p></li>
+</ul>
+</div>
+<p>Much better.  Your loss should now be about 1.0, positions 1 and 3 are always right, and at position 2 your network says <code class="docutils literal notranslate"><span class="pre">cat</span></code> 80% of the time and <code class="docutils literal notranslate"><span class="pre">box</span></code> 20% of the time.</p>
+<p>But it says that no matter what.  Even when the sentence in front of it is <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">empty</span></code>, it still thinks the cat is the better bet.  And so somewhere between a quarter and a third of the sentences it writes are nonsense, and (unlike on the masked diffusion page) taking more steps doesn’t fix it.  Undiffusing slowly only helps if your guess changes after a word has been written down.  The sites of this network don’t talk to each other so there is no way for the guess at position 2 to find out what got written at position 4.</p>
+<p>This network has learned everything that you can learn about each position separately.  The whole gap between its loss of 1.0 and the best possible loss of 0.50 is the cost of not knowing what the other words are.  To close that gap, the sites have to talk.</p>
+</section>
+</section>
+<section id="step-3-attention">
+<h2>Step 3: Attention<a class="headerlink" href="#step-3-attention" title="Link to this heading">#</a></h2>
+<p>We need a way for the vector on site <span class="math notranslate nohighlight">\(i\)</span> to collect information from the vectors on the other sites.  The simplest thing you could imagine is to replace each vector with the average of all of them.  That gets information from everywhere, but an unweighted average treats every site the same and what we want is for position 2 to be able to listen to position 4 in particular.</p>
+<p>So we are going to do a <em>weighted</em> average, and we are going to let each site choose its own weights depending on what is sitting on all of the sites.  This is called <strong>attention</strong> and here is how it works.  From the vector <span class="math notranslate nohighlight">\(x_i\)</span> on each site we make three new vectors, each by multiplying by a matrix (that the network will learn):</p>
+<ul class="simple">
+<li><p>a <strong>query</strong> <span class="math notranslate nohighlight">\(q_i = Q x_i\)</span>.  This is site <span class="math notranslate nohighlight">\(i\)</span> describing what it is looking for.</p></li>
+<li><p>a <strong>key</strong> <span class="math notranslate nohighlight">\(k_i = K x_i\)</span>.  This is site <span class="math notranslate nohighlight">\(i\)</span> describing what it has to offer.</p></li>
+<li><p>a <strong>value</strong> <span class="math notranslate nohighlight">\(v_i = V x_i\)</span>.  This is what site <span class="math notranslate nohighlight">\(i\)</span> will actually say to anybody who listens.</p></li>
+</ul>
+<p>Site <span class="math notranslate nohighlight">\(i\)</span> decides how much to listen to site <span class="math notranslate nohighlight">\(j\)</span> by how well its query matches <span class="math notranslate nohighlight">\(j\)</span>’s key.  We measure the match with a dot product, and a physicist would turn this into an energy</p>
+<div class="math notranslate nohighlight">
+\[E_{ij} = -\frac{q_i \cdot k_j}{\sqrt{d}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(d\)</span> is the length of the query and key vectors.  A good match is a low energy.  The weights are then the Boltzmann distribution for these energies</p>
+<div class="math notranslate nohighlight">
+\[w_{ij} = \frac{e^{-E_{ij}}}{\sum_{j'} e^{-E_{ij'}}}\]</div>
+<p>(i.e. a softmax over <span class="math notranslate nohighlight">\(j\)</span>) and what site <span class="math notranslate nohighlight">\(i\)</span> hears is the average of the values using these weights</p>
+<div class="math notranslate nohighlight">
+\[o_i = \sum_j w_{ij} v_j\]</div>
+<p>That is all attention is:  each site computes a thermal average over all of the sites of what they have to say, where the energies come from how well queries match keys.  If one match is much better than the others then site <span class="math notranslate nohighlight">\(i\)</span> listens (nearly) only to that one site.  If all of the matches are about the same you get back the unweighted average.</p>
+<p>The <span class="math notranslate nohighlight">\(\sqrt{d}\)</span> is there to set the temperature.  The dot product of two random vectors of length <span class="math notranslate nohighlight">\(d\)</span> has a typical size which grows like <span class="math notranslate nohighlight">\(\sqrt{d}\)</span>.  If we didn’t divide by it, bigger vectors would mean bigger energies, which is the same thing as a lower temperature, and at low temperature the Boltzmann distribution freezes onto a single site before the network has learned anything.</p>
+<p>Write a function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+  <span class="c1"># do stuff</span>
+  <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">weights</span>
+</pre></div>
+</div>
+<p>which takes the queries, keys and values (each a tensor of shape <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">d)</span></code>) and returns both the outputs <span class="math notranslate nohighlight">\(o_i\)</span> (of shape <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">d)</span></code>) and the weights <span class="math notranslate nohighlight">\(w_{ij}\)</span> (of shape <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">L)</span></code>).  It should only take about four lines:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">q</span> <span class="pre">&#64;</span> <span class="pre">k.transpose(-2,</span> <span class="pre">-1)</span></code> gives you the <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">L)</span></code> matrix of all the dot products <span class="math notranslate nohighlight">\(q_i \cdot k_j\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">q.shape[-1]</span></code> is <span class="math notranslate nohighlight">\(d\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.softmax(...,</span> <span class="pre">dim=-1)</span></code> does the Boltzmann distribution over <span class="math notranslate nohighlight">\(j\)</span> (the last index)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weights</span> <span class="pre">&#64;</span> <span class="pre">v</span></code> does the sum over <span class="math notranslate nohighlight">\(j\)</span></p></li>
+</ul>
+<p>If you write it using <code class="docutils literal notranslate"><span class="pre">-1</span></code> and <code class="docutils literal notranslate"><span class="pre">-2</span></code> like this (instead of <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code>) it will also work without any changes on a whole batch of sentences, where everything has shape <code class="docutils literal notranslate"><span class="pre">(batch,</span> <span class="pre">L,</span> <span class="pre">d)</span></code>.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Test your <code class="docutils literal notranslate"><span class="pre">Attention</span></code> using random queries, keys and values <code class="docutils literal notranslate"><span class="pre">q,</span> <span class="pre">k,</span> <span class="pre">v</span> <span class="pre">=</span> <span class="pre">torch.randn(3,</span> <span class="pre">5,</span> <span class="pre">8)</span></code> (this makes three tensors of shape <code class="docutils literal notranslate"><span class="pre">(5,</span> <span class="pre">8)</span></code>).</p>
+<ul class="simple">
+<li><p>Verify that every row of your weights adds up to one.</p></li>
+<li><p>Verify that your output agrees with pytorch’s: <code class="docutils literal notranslate"><span class="pre">torch.allclose(out,</span> <span class="pre">F.scaled_dot_product_attention(q,</span> <span class="pre">k,</span> <span class="pre">v),</span> <span class="pre">atol=1e-6)</span></code></p></li>
+<li><p>Verify that your function also works on a batch: with <code class="docutils literal notranslate"><span class="pre">q,</span> <span class="pre">k,</span> <span class="pre">v</span> <span class="pre">=</span> <span class="pre">torch.randn(3,</span> <span class="pre">64,</span> <span class="pre">5,</span> <span class="pre">8)</span></code> the output should have shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">8)</span></code> and the weights <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">5)</span></code>.</p></li>
+<li><p><strong>Temperature.</strong>  Plot the matrix of weights (with <code class="docutils literal notranslate"><span class="pre">plt.matshow(weights,</span> <span class="pre">vmin=0,</span> <span class="pre">vmax=1)</span></code>) for <code class="docutils literal notranslate"><span class="pre">Attention(q,</span> <span class="pre">k,</span> <span class="pre">v)</span></code>, for <code class="docutils literal notranslate"><span class="pre">Attention(10</span> <span class="pre">*</span> <span class="pre">q,</span> <span class="pre">k,</span> <span class="pre">v)</span></code> and for <code class="docutils literal notranslate"><span class="pre">Attention(0.1</span> <span class="pre">*</span> <span class="pre">q,</span> <span class="pre">k,</span> <span class="pre">v)</span></code>.  Multiplying the queries by a number multiplies all of the energies by it.  Which of these is hot and which is cold?</p></li>
+<li><p><strong>Shuffling.</strong>  Pick a random reordering of the five sites with <code class="docutils literal notranslate"><span class="pre">perm</span> <span class="pre">=</span> <span class="pre">torch.randperm(5)</span></code> and compare <code class="docutils literal notranslate"><span class="pre">Attention(q[perm],</span> <span class="pre">k[perm],</span> <span class="pre">v[perm])</span></code> to your original output.  You should find that the new output is just the old output reordered in the same way (i.e. it is <code class="docutils literal notranslate"><span class="pre">out[perm]</span></code>).  Attention has no idea what order the sites are in!  This is why we needed to put the position into the vectors ourselves.</p></li>
+</ul>
+</div>
+<section id="a-head">
+<h3>A head<a class="headerlink" href="#a-head" title="Link to this heading">#</a></h3>
+<p>Now we need to package this up with the three matrices <span class="math notranslate nohighlight">\(Q\)</span>, <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(V\)</span> so that pytorch can train them.  One set of these three matrices along with the attention that uses them is called a <strong>head</strong>.</p>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">Head(nn.Module)</span></code>.  Here is its skeleton:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Head</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Q</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">head_dim</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># make self.K and self.V the same way</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># 1. make q, k and v by applying self.Q, self.K and self.V to x</span>
+        <span class="c1"># 2. call your Attention on them</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>     <span class="c1"># remember the weights so that we can look at them later</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>The vectors coming in have length <code class="docutils literal notranslate"><span class="pre">dim</span></code>.  The queries, keys, values (and so the output) have length <code class="docutils literal notranslate"><span class="pre">head_dim</span></code>, which doesn’t have to be the same.  You’ll see why in a second.  (The <code class="docutils literal notranslate"><span class="pre">.detach()</span></code> tells pytorch that this saved copy of the weights is just for us to look at and isn’t part of anything it needs to differentiate.)</p>
+</section>
+<section id="many-heads">
+<h3>Many heads<a class="headerlink" href="#many-heads" title="Link to this heading">#</a></h3>
+<p>A head produces one set of weights, so on each site it can pay attention to one kind of thing.  But there might be several different things worth looking for at the same time (in real text: the subject of the sentence, the previous word, whether we are inside quotation marks, …).  So transformers use several heads side by side, each with its own <span class="math notranslate nohighlight">\(Q\)</span>, <span class="math notranslate nohighlight">\(K\)</span> and <span class="math notranslate nohighlight">\(V\)</span>, and stick their outputs together.</p>
+<p>To keep the total size of things fixed, if there are <code class="docutils literal notranslate"><span class="pre">heads</span></code> heads we give each of them a <code class="docutils literal notranslate"><span class="pre">head_dim</span></code> of <code class="docutils literal notranslate"><span class="pre">dim</span> <span class="pre">//</span> <span class="pre">heads</span></code> (the <code class="docutils literal notranslate"><span class="pre">//</span></code> is division which rounds down to an integer).  When we stick the <code class="docutils literal notranslate"><span class="pre">heads</span></code> outputs of length <code class="docutils literal notranslate"><span class="pre">dim</span> <span class="pre">//</span> <span class="pre">heads</span></code> end to end we are back to a vector of length <code class="docutils literal notranslate"><span class="pre">dim</span></code>.  Finally we apply one more linear layer to the result to mix together what the different heads found.</p>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">MultiHead(nn.Module)</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MultiHead</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">heads</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heads</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">Head</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span> <span class="o">//</span> <span class="n">heads</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">heads</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mix</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># 1. make a (python) list of the output of each head: [head(x) for head in self.heads]</span>
+        <span class="c1"># 2. stick them together along the last index with torch.cat(that_list, dim=-1)</span>
+        <span class="c1"># 3. apply self.mix</span>
+</pre></div>
+</div>
+<p>There is one new piece of pytorch here.  <code class="docutils literal notranslate"><span class="pre">nn.ModuleList</span></code> is a list which pytorch knows about.  If you were to store your heads in an ordinary python list, pytorch wouldn’t find them, their matrices wouldn’t show up in <code class="docutils literal notranslate"><span class="pre">net.parameters()</span></code>, and they would silently never get trained.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">torch.randn(64,</span> <span class="pre">5,</span> <span class="pre">32)</span></code> (a batch of 64 sentences with 5 positions and vectors of length 32).</p>
+<ul class="simple">
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">head</span> <span class="pre">=</span> <span class="pre">Head(32,</span> <span class="pre">8)</span></code>.  Verify that <code class="docutils literal notranslate"><span class="pre">head(x)</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">8)</span></code> and that <code class="docutils literal notranslate"><span class="pre">head.weights</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">5)</span></code>.</p></li>
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">multi</span> <span class="pre">=</span> <span class="pre">MultiHead(32,</span> <span class="pre">4)</span></code>.  Verify that <code class="docutils literal notranslate"><span class="pre">multi(x)</span></code> has shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">32)</span></code>.</p></li>
+<li><p>Count the number of trainable parameters in <code class="docutils literal notranslate"><span class="pre">multi</span></code> using <code class="docutils literal notranslate"><span class="pre">sum(p.numel()</span> <span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">multi.parameters())</span></code>.  Work out (with pencil and paper) what this number should be and check that you get it.</p></li>
+<li><p>Change your <code class="docutils literal notranslate"><span class="pre">nn.ModuleList([...])</span></code> to just <code class="docutils literal notranslate"><span class="pre">[...]</span></code> and count the parameters again.  (Then change it back!)</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="step-4-the-block">
+<h2>Step 4: The Block<a class="headerlink" href="#step-4-the-block" title="Link to this heading">#</a></h2>
+<p>Attention is how sites talk.  Once a site has heard from the others it needs to do something with what it heard, and for that we use the most ordinary kind of neural network (the kind you used for continuous diffusion):  a linear layer which makes the vector four times bigger, a nonlinear function, and a linear layer which brings it back down.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mlp</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">nn.Sequential</span></code> just means “do these one after another” and <code class="docutils literal notranslate"><span class="pre">nn.GELU</span></code> is a smooth function which is close to zero for negative numbers and close to <span class="math notranslate nohighlight">\(x\)</span> for positive ones.  Remember that a linear layer acts on the last index, so this network is applied to the vector on each site separately.  Nobody talks during this part.</p>
+<p>One round of talking (attention) followed by one round of thinking (the <code class="docutils literal notranslate"><span class="pre">mlp</span></code>) is called a <strong>block</strong>.  There are two more ingredients in it which aren’t deep but which matter a great deal for getting a stack of blocks to train.</p>
+<p><strong>Adding instead of replacing.</strong>  A block doesn’t replace the vector on each site with what the attention says.  It <em>adds</em> what the attention says to what was already there</p>
+<div class="math notranslate nohighlight">
+\[x \rightarrow x + \textrm{attention}(x)\]</div>
+<p>and the same for the <code class="docutils literal notranslate"><span class="pre">mlp</span></code>.  So each piece only has to compute a correction to what the site already knows.  In particular the token and the position that we put in at the beginning don’t have to be carefully carried through each layer.  They stay there unless something changes them.</p>
+<p><strong>Normalizing.</strong>  Every time we add something to our vectors they can get bigger, and after a few blocks they can be a very different size from what the next layer was expecting.  So before the vectors go into the attention or the <code class="docutils literal notranslate"><span class="pre">mlp</span></code> we rescale them.  <code class="docutils literal notranslate"><span class="pre">nn.LayerNorm(dim)</span></code> takes the vector on each site, subtracts its mean (over its <code class="docutils literal notranslate"><span class="pre">dim</span></code> components) and divides by its standard deviation.  (It then multiplies by a trainable scale and adds a trainable shift, which start out as one and zero.)</p>
+<p>Putting these together, a block does</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">attention</span><span class="p">(</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">mlp</span><span class="p">(</span><span class="n">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">Block(nn.Module)</span></code> which takes <code class="docutils literal notranslate"><span class="pre">dim</span></code> and <code class="docutils literal notranslate"><span class="pre">heads</span></code>.  In <code class="docutils literal notranslate"><span class="pre">__init__</span></code> you need to make four things:  two <code class="docutils literal notranslate"><span class="pre">nn.LayerNorm(dim)</span></code> (they each have their own trainable scale and shift so you can’t use the same one twice), your <code class="docutils literal notranslate"><span class="pre">MultiHead(dim,</span> <span class="pre">heads)</span></code> (call it <code class="docutils literal notranslate"><span class="pre">self.attention</span></code>), and the <code class="docutils literal notranslate"><span class="pre">mlp</span></code>.  In <code class="docutils literal notranslate"><span class="pre">forward</span></code> you need the two lines above.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul>
+<li><p>Let <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">torch.randn(64,</span> <span class="pre">5,</span> <span class="pre">32)</span></code> and <code class="docutils literal notranslate"><span class="pre">norm</span> <span class="pre">=</span> <span class="pre">nn.LayerNorm(32)</span></code>.  Verify that <code class="docutils literal notranslate"><span class="pre">norm(x)</span></code> is the same (to about <code class="docutils literal notranslate"><span class="pre">atol=1e-4</span></code>) as subtracting the mean and dividing by the standard deviation yourself:</p>
+<p><code class="docutils literal notranslate"><span class="pre">(x</span> <span class="pre">-</span> <span class="pre">x.mean(dim=-1,</span> <span class="pre">keepdim=True))</span> <span class="pre">/</span> <span class="pre">x.std(dim=-1,</span> <span class="pre">keepdim=True,</span> <span class="pre">unbiased=False)</span></code></p>
+<p>(The <code class="docutils literal notranslate"><span class="pre">keepdim=True</span></code> leaves the mean with shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5,</span> <span class="pre">1)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">5)</span></code> so that it lines up with <code class="docutils literal notranslate"><span class="pre">x</span></code> when you subtract.)</p>
+</li>
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">=</span> <span class="pre">Block(32,</span> <span class="pre">4)</span></code> and verify that <code class="docutils literal notranslate"><span class="pre">block(x)</span></code> has the same shape as <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p></li>
+</ul>
+</div>
+</section>
+<section id="step-5-the-whole-thing">
+<h2>Step 5: The Whole Thing<a class="headerlink" href="#step-5-the-whole-thing" title="Link to this heading">#</a></h2>
+<p>We now have all of the pieces.  Go back and look at the picture in <em>The Plan</em>.</p>
+<p>Write a <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">MyTransformer(nn.Module)</span></code> whose <code class="docutils literal notranslate"><span class="pre">__init__</span></code> takes <code class="docutils literal notranslate"><span class="pre">(self,</span> <span class="pre">vocab_size,</span> <span class="pre">dim=128,</span> <span class="pre">heads=4,</span> <span class="pre">layers=4,</span> <span class="pre">max_length=64)</span></code>.  It is your <code class="docutils literal notranslate"><span class="pre">WithPosition</span></code> network with a stack of blocks in the middle.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">__init__</span></code> make</p>
+<ul class="simple">
+<li><p>the token table <code class="docutils literal notranslate"><span class="pre">self.embed</span></code> and the position table <code class="docutils literal notranslate"><span class="pre">self.position</span></code> (exactly as in <code class="docutils literal notranslate"><span class="pre">WithPosition</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.blocks</span></code>, an <code class="docutils literal notranslate"><span class="pre">nn.ModuleList</span></code> of <code class="docutils literal notranslate"><span class="pre">layers</span></code> blocks</p></li>
+<li><p>one last <code class="docutils literal notranslate"><span class="pre">self.norm</span> <span class="pre">=</span> <span class="pre">nn.LayerNorm(dim)</span></code></p></li>
+<li><p>the output layer <code class="docutils literal notranslate"><span class="pre">self.out</span> <span class="pre">=</span> <span class="pre">nn.Linear(dim,</span> <span class="pre">vocab_size)</span></code></p></li>
+<li><p>and then, as the very last line, call <code class="docutils literal notranslate"><span class="pre">SmallStart(self)</span></code> (see below)</p></li>
+</ul>
+<p>In <code class="docutils literal notranslate"><span class="pre">forward</span></code></p>
+<ol class="arabic simple">
+<li><p>add together the token vectors and the position vectors (exactly as in <code class="docutils literal notranslate"><span class="pre">WithPosition</span></code>)</p></li>
+<li><p>send the result through each block in turn:  <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">block</span> <span class="pre">in</span> <span class="pre">self.blocks:</span></code></p></li>
+<li><p>apply <code class="docutils literal notranslate"><span class="pre">self.norm</span></code> and then <code class="docutils literal notranslate"><span class="pre">self.out</span></code></p></li>
+</ol>
+<p>About <code class="docutils literal notranslate"><span class="pre">SmallStart</span></code>:  pytorch fills in a new <code class="docutils literal notranslate"><span class="pre">nn.Embedding</span></code> table with random numbers of size about one.  For a transformer that is too big.  It makes the network start off very confident about its (random) guesses, and it then has to spend a long time unlearning that before it can learn anything.  The following function goes through all of the tables and matrices of a network and makes them start off small instead.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: call this as the last line of your __init__</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">SmallStart</span><span class="p">(</span><span class="n">net</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">piece</span> <span class="ow">in</span> <span class="n">net</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>                              <span class="c1"># every piece inside the network (and inside those...)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">piece</span><span class="p">,</span> <span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">)):</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">piece</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>          <span class="c1"># gaussian random numbers with standard deviation 0.02</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Make a small transformer <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">MyTransformer(len(vocab),</span> <span class="pre">dim=32,</span> <span class="pre">heads=2,</span> <span class="pre">layers=2)</span></code> and verify that if you hand it a batch of 64 of our four word sentences you get back something of shape <code class="docutils literal notranslate"><span class="pre">(64,</span> <span class="pre">4,</span> <span class="pre">14)</span></code>.</p></li>
+<li><p>How many trainable parameters does a default sized <code class="docutils literal notranslate"><span class="pre">MyTransformer(2002)</span></code> have?  (2002 is going to be the size of our vocabulary when we get to the stories.)  Which piece of the network has the most of them?</p></li>
+<li><p>Verify that <code class="docutils literal notranslate"><span class="pre">net(x)[0]</span></code> (the logits for the first sentence in a batch) doesn’t depend on what the other sentences in the batch are.</p></li>
+</ul>
+</div>
+</section>
+<section id="using-your-transformer">
+<h2>Using Your Transformer<a class="headerlink" href="#using-your-transformer" title="Link to this heading">#</a></h2>
+<section id="two-sentences">
+<h3>Two sentences<a class="headerlink" href="#two-sentences" title="Link to this heading">#</a></h3>
+<p>Let’s see what talking has bought us.  We will start with the smallest transformer there is:  one block with one head in it.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train a <code class="docutils literal notranslate"><span class="pre">MyTransformer(len(vocab),</span> <span class="pre">dim=32,</span> <span class="pre">heads=1,</span> <span class="pre">layers=1)</span></code> on the two sentences.</p>
+<ul class="simple">
+<li><p>Plot the loss of all three of your networks (<code class="docutils literal notranslate"><span class="pre">NoTalking</span></code>, <code class="docutils literal notranslate"><span class="pre">WithPosition</span></code> and <code class="docutils literal notranslate"><span class="pre">MyTransformer</span></code>) on the same plot using a log scale for the loss.  Draw horizontal lines at 6.55, 1.0 and 0.50.</p></li>
+<li><p>Print out its guesses at position 2 for <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">alive</span></code> and <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">empty</span></code> and compare them to the exact answer from your <code class="docutils literal notranslate"><span class="pre">GuessX0</span></code>.</p></li>
+<li><p>Generate 1000 sentences with <span class="math notranslate nohighlight">\(T=20\)</span> and make the bar chart.  What fraction are nonsense now?</p></li>
+</ul>
+</div>
+<p>That’s the whole gap closed.  With a single round of attention your network gets down to (nearly) the best possible loss, it changes its mind about the cat when it sees the word <code class="docutils literal notranslate"><span class="pre">empty</span></code>, and your undiffusion has stopped writing nonsense.</p>
+<p>Since you kept a copy of the attention weights we can go and look at who is listening to whom.  After you call your network on a sentence</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Encode</span><span class="p">(</span><span class="s2">"the _ is alive"</span><span class="p">)</span>
+<span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">])</span>          <span class="c1"># x[None] adds an index at the front:  it turns one sentence of shape (4,) into a batch of shape (1, 4)</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">heads</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">weights</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>       <span class="c1"># block 0, head 0, sentence 0 of the batch:  an (L, L) matrix</span>
+</pre></div>
+</div>
+<p>row <span class="math notranslate nohighlight">\(i\)</span> of <code class="docutils literal notranslate"><span class="pre">weights</span></code> tells you how much site <span class="math notranslate nohighlight">\(i\)</span> listened to each of the sites.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>For your trained one block, one head transformer plot the matrix of attention weights (with <code class="docutils literal notranslate"><span class="pre">plt.matshow(weights,</span> <span class="pre">vmin=0,</span> <span class="pre">vmax=1)</span></code>) for the sentences <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">alive</span></code>, <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">_</span> <span class="pre">is</span> <span class="pre">empty</span></code> and <code class="docutils literal notranslate"><span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span> <span class="pre">_</span></code>.  Label the ticks with the words of the sentence.</p>
+<ul class="simple">
+<li><p>Look at the row for position 2 (the masked one) in the first two.  To get its answer right it needs to find out what is at position 4.  Is it listening there?</p></li>
+<li><p>What about when everything is masked?</p></li>
+</ul>
+<p>Don’t expect this to look perfectly clean, and expect it to look somewhat different if you train again.  All the training asks of the network is that it gets the right answer.  It doesn’t have to do it in the way that is easiest for us to read!</p>
+</div>
+</section>
+<section id="stories">
+<h3>Stories<a class="headerlink" href="#stories" title="Link to this heading">#</a></h3>
+<p>Now for the real test.  On the masked diffusion page you trained <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> on a small piece of TinyStories and had it write stories.  Let’s do that again with a network that you built.</p>
+<p>Here is the same code as before for downloading the stories.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: a tiny corpus (the same one as on the masked diffusion page)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://huggingface.co/datasets/roneneldan/TinyStories/resolve/main/TinyStoriesV2-GPT4-valid.txt"</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Range"</span><span class="p">:</span> <span class="s2">"bytes=0-3999999"</span><span class="p">})</span><span class="o">.</span><span class="n">content</span><span class="p">[:</span><span class="mi">4_000_000</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span>
+<span class="n">words</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[a-z']+|[.,!?</span><span class="se">\"</span><span class="s2">]"</span><span class="p">,</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"&lt;|endoftext|&gt;"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">))</span>
+
+<span class="n">story_vocab</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">2000</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"&lt;unk&gt;"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">]</span>
+<span class="n">STORY_UNK</span><span class="p">,</span> <span class="n">STORY_MASK</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">index</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StoryTokens</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">STORY_UNK</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[a-z']+|[.,!?</span><span class="se">\"</span><span class="s2">_]"</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">StoryText</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">index</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">STORY_UNK</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">GetBatch</span><span class="p">(</span><span class="n">batch</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mi">32</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="p">(</span><span class="n">batch</span><span class="p">,))</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">corpus</span><span class="p">[</span><span class="n">s</span><span class="p">:</span><span class="n">s</span> <span class="o">+</span> <span class="n">L</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">start</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens of text, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">story_vocab</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens in the vocabulary"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">StoryText</span><span class="p">(</span><span class="n">GetBatch</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Train a default sized <code class="docutils literal notranslate"><span class="pre">MyTransformer</span></code> on it.  This is the same thing that you did on the masked diffusion page:</p>
+<ul class="simple">
+<li><p>The network is <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">MyTransformer(len(story_vocab)).to(device)</span></code>.  The <code class="docutils literal notranslate"><span class="pre">.to(device)</span></code> moves all of its tables and matrices onto the GPU (if you have one).</p></li>
+<li><p>Your data is <code class="docutils literal notranslate"><span class="pre">x_0</span> <span class="pre">=</span> <span class="pre">GetBatch().to(device)</span></code> and your mask is <code class="docutils literal notranslate"><span class="pre">STORY_MASK</span></code></p></li>
+<li><p>Use 5000 steps.  (As before, if you don’t have a GPU you can get away with 1500.)</p></li>
+<li><p>Keep track of the loss per token, <code class="docutils literal notranslate"><span class="pre">loss.item()</span> <span class="pre">/</span> <span class="pre">32</span></code>, and print it out every few hundred steps so that you know it’s working.</p></li>
+</ul>
+<p>If you get an error complaining that two tensors are on different devices, the culprit is almost certainly the <code class="docutils literal notranslate"><span class="pre">torch.arange</span></code> in your <code class="docutils literal notranslate"><span class="pre">forward</span></code>.  It needs that <code class="docutils literal notranslate"><span class="pre">device=x.device</span></code>.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Plot the loss per token as a function of training step (with a window average).  Draw horizontal lines at 7.6 (guessing every token with equal probability) and 5.4 (knowing which words are common but nothing else).  How does your final loss compare to what you got from <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code>?</p></li>
+<li><p>Make a guesser with <code class="docutils literal notranslate"><span class="pre">GuessStory</span> <span class="pre">=</span> <span class="pre">MakeGuesser(net,</span> <span class="pre">forbidden=[STORY_MASK,</span> <span class="pre">STORY_UNK])</span></code> and write five stories of 32 tokens with your favorite undiffuser and settings from the masked diffusion page.</p></li>
+<li><p>Have it write three stories which start <code class="docutils literal notranslate"><span class="pre">one</span> <span class="pre">day</span> <span class="pre">,</span> <span class="pre">lily</span> <span class="pre">went</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">park</span> <span class="pre">.</span></code> and end <code class="docutils literal notranslate"><span class="pre">and</span> <span class="pre">they</span> <span class="pre">were</span> <span class="pre">all</span> <span class="pre">happy</span> <span class="pre">.</span></code>  (Recall that <code class="docutils literal notranslate"><span class="pre">StoryTokens</span></code> turns a <code class="docutils literal notranslate"><span class="pre">_</span></code> into a mask.)</p></li>
+<li><p>Pick one sentence from the stories, mask one word in it, and plot the attention weights of each of the four heads in the first block and in the last block.  You don’t need to be able to explain what you see.  Do the different heads look at different things?</p></li>
+</ul>
+</div>
+</section>
+<section id="flipping-one-switch-writing-left-to-right">
+<h3>Flipping one switch: writing left to right<a class="headerlink" href="#flipping-one-switch-writing-left-to-right" title="Link to this heading">#</a></h3>
+<p>The models that you are used to talking to (chatGPT, Claude, …) don’t undiffuse.  They write one token at a time from left to right, each time guessing what the next token is given all of the tokens so far.  Their network is also a transformer and it differs from the one you just built in exactly one way:</p>
+<blockquote>
+<div><p>When site <span class="math notranslate nohighlight">\(i\)</span> is listening, it is only allowed to listen to sites <span class="math notranslate nohighlight">\(j \leq i\)</span>.  It can’t look to its right.</p>
+</div></blockquote>
+<p>You already have the tool for forbidding something:  give it an infinite energy.  If we set <span class="math notranslate nohighlight">\(E_{ij} = \infty\)</span> whenever <span class="math notranslate nohighlight">\(j &gt; i\)</span> then the Boltzmann weight <span class="math notranslate nohighlight">\(e^{-E_{ij}}\)</span> of those sites is exactly zero and the weights of the sites that are left still add up to one.  A transformer with this change made to its attention is called <strong>causal</strong> (because what comes out at site <span class="math notranslate nohighlight">\(i\)</span> can only be affected by things at or before <span class="math notranslate nohighlight">\(i\)</span>).</p>
+<p>Add an argument <code class="docutils literal notranslate"><span class="pre">causal=False</span></code> to your <code class="docutils literal notranslate"><span class="pre">Attention</span></code> function.  When it is <code class="docutils literal notranslate"><span class="pre">True</span></code>, set the energies with <span class="math notranslate nohighlight">\(j&gt;i\)</span> to infinity before you do the softmax.  Here is how to do that in pytorch:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">future</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">triu</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">q</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">energy</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line gets the number of sites.  The second makes an <code class="docutils literal notranslate"><span class="pre">(L,</span> <span class="pre">L)</span></code> matrix which is <code class="docutils literal notranslate"><span class="pre">True</span></code> above the diagonal (where <span class="math notranslate nohighlight">\(j&gt;i\)</span>) and <code class="docutils literal notranslate"><span class="pre">False</span></code> everywhere else.  (<code class="docutils literal notranslate"><span class="pre">torch.triu</span></code> keeps the upper triangle of a matrix and <code class="docutils literal notranslate"><span class="pre">diagonal=1</span></code> says to start one above the diagonal.)  The third sets <code class="docutils literal notranslate"><span class="pre">energy</span></code> to infinity wherever <code class="docutils literal notranslate"><span class="pre">future</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.  If you are doing your softmax on <em>minus</em> the energy (i.e. on the dot products) then you want to set those entries to <code class="docutils literal notranslate"><span class="pre">-math.inf</span></code> instead.</p>
+<p>Then add a <code class="docutils literal notranslate"><span class="pre">causal=False</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> of each of your <code class="docutils literal notranslate"><span class="pre">Head</span></code>, <code class="docutils literal notranslate"><span class="pre">MultiHead</span></code>, <code class="docutils literal notranslate"><span class="pre">Block</span></code> and <code class="docutils literal notranslate"><span class="pre">MyTransformer</span></code> and pass it down the chain until it gets to the place where <code class="docutils literal notranslate"><span class="pre">Attention</span></code> is called.  (In <code class="docutils literal notranslate"><span class="pre">Head</span></code> you will need to save it as <code class="docutils literal notranslate"><span class="pre">self.causal</span></code> so that <code class="docutils literal notranslate"><span class="pre">forward</span></code> can use it.)  Nothing else in your network changes.</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<ul class="simple">
+<li><p>Repeat the plot of the attention weights for random <code class="docutils literal notranslate"><span class="pre">q,</span> <span class="pre">k,</span> <span class="pre">v</span> <span class="pre">=</span> <span class="pre">torch.randn(3,</span> <span class="pre">5,</span> <span class="pre">8)</span></code> with <code class="docutils literal notranslate"><span class="pre">causal=True</span></code>.  Verify that the rows still add up to one.</p></li>
+<li><p>Make a <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">MyTransformer(len(vocab),</span> <span class="pre">dim=32,</span> <span class="pre">heads=2,</span> <span class="pre">layers=2,</span> <span class="pre">causal=True)</span></code>.  Call it on <code class="docutils literal notranslate"><span class="pre">Encode(&quot;the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">alive&quot;)</span></code> and on <code class="docutils literal notranslate"><span class="pre">Encode(&quot;the</span> <span class="pre">cat</span> <span class="pre">is</span> <span class="pre">empty&quot;)</span></code>.  These only differ in the last word.  Verify that the logits at the first three positions are identical and the logits at the last position are not.</p></li>
+<li><p>Do the same thing with <code class="docutils literal notranslate"><span class="pre">causal=False</span></code>.  Now all four positions should differ.</p></li>
+</ul>
+</div>
+<p>Now we need to train it.  A left to right model has a different (and simpler) job than our diffusion model did.  There are no masks.  We show the network real text, and at every position we ask it to guess the <strong>next</strong> token:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">what</span> <span class="n">the</span> <span class="n">network</span> <span class="n">sees</span><span class="p">:</span>        <span class="n">once</span>   <span class="n">upon</span>   <span class="n">a</span>      <span class="n">time</span>   <span class="n">there</span>   <span class="n">was</span>
+<span class="n">what</span> <span class="n">it</span> <span class="n">should</span> <span class="n">guess</span><span class="p">:</span>         <span class="n">upon</span>   <span class="n">a</span>      <span class="n">time</span>   <span class="n">there</span>  <span class="n">was</span>     <span class="n">a</span>
+</pre></div>
+</div>
+<p>So the input is the sentence with its last token chopped off, the right answer is the sentence with its first token chopped off, and the loss is the same cross entropy as before:  the average of <span class="math notranslate nohighlight">\(-\log p_\theta(\textrm{the correct next token})\)</span>.  Here it is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># GIVEN: the loss for a left to right model</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">NextTokenLoss</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">x_0</span><span class="p">):</span>
+    <span class="n">logits</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_0</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>                                     <span class="c1"># everything but the last token goes in</span>
+    <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">x_0</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:])</span>    <span class="c1"># everything but the first token is the answer</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can now see why the network has to be causal.  The answer that we want at position <span class="math notranslate nohighlight">\(i\)</span> is the token that is sitting at position <span class="math notranslate nohighlight">\(i+1\)</span> of the input.  If the sites were allowed to listen to their right, the network would just copy it.  It would get a perfect score and it would have learned nothing.  With causal attention the only way to do well is to actually predict.</p>
+<p>Notice also that we are getting a lot out of each sentence.  Position 1 is being trained to continue a one token story, position 2 to continue a two token story, and so on, all at the same time and all with one call to the network.  This only works because of causality:  the output at position 5 is exactly what it would have been if the sentence had stopped there.</p>
+<p>To write with this model you start with some text and then repeat:</p>
+<ol class="arabic simple">
+<li><p>call the network on everything you have so far:  <code class="docutils literal notranslate"><span class="pre">logits</span> <span class="pre">=</span> <span class="pre">net(x[None].to(device))[0,</span> <span class="pre">-1].cpu()</span></code> gives you the logits at the last position, which are the network’s guess for the token that comes next</p></li>
+<li><p>set the logits of the tokens you never want (<code class="docutils literal notranslate"><span class="pre">STORY_MASK</span></code> and <code class="docutils literal notranslate"><span class="pre">STORY_UNK</span></code>) to <code class="docutils literal notranslate"><span class="pre">-math.inf</span></code></p></li>
+<li><p>turn the logits into probabilities with a softmax.  (If you’d like a temperature <span class="math notranslate nohighlight">\(\tau\)</span>, divide the logits by <span class="math notranslate nohighlight">\(\tau\)</span> first.  A logit is minus an energy so this is <span class="math notranslate nohighlight">\(e^{-E/\tau}\)</span>.)</p></li>
+<li><p>sample one token from them:  <code class="docutils literal notranslate"><span class="pre">torch.multinomial(p,</span> <span class="pre">1)</span></code> returns a tensor with one sampled token in it</p></li>
+<li><p>stick it on the end:  <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">=</span> <span class="pre">torch.cat([x,</span> <span class="pre">new_token])</span></code></p></li>
+</ol>
+<p>Write a function <code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">WriteLeftToRight(net,</span> <span class="pre">start,</span> <span class="pre">L=32,</span> <span class="pre">temperature=1.0)</span></code> which does this starting from <code class="docutils literal notranslate"><span class="pre">StoryTokens(start)</span></code> until the story is <code class="docutils literal notranslate"><span class="pre">L</span></code> tokens long, and returns <code class="docutils literal notranslate"><span class="pre">StoryText(x)</span></code>.  Put a <code class="docutils literal notranslate"><span class="pre">&#64;torch.no_grad()</span></code> on the line above your <code class="docutils literal notranslate"><span class="pre">def</span></code> (this tells pytorch that it doesn’t need to keep track of derivatives inside this function, which makes it faster).</p>
+<div class="caution admonition">
+<p class="admonition-title">Grading</p>
+<p>Train a new network <code class="docutils literal notranslate"><span class="pre">net</span> <span class="pre">=</span> <span class="pre">MyTransformer(len(story_vocab),</span> <span class="pre">causal=True).to(device)</span></code> on the stories for 5000 steps using <code class="docutils literal notranslate"><span class="pre">NextTokenLoss(net,</span> <span class="pre">x_0)</span></code> as the loss.  (It is already a loss per token so you don’t need to divide by 32.)</p>
+<ul class="simple">
+<li><p>Plot the loss as a function of training step on the same plot as the loss per token of your diffusion model.</p></li>
+<li><p>Have it write five stories which start with <code class="docutils literal notranslate"><span class="pre">once</span> <span class="pre">upon</span> <span class="pre">a</span> <span class="pre">time</span></code>.  Try a couple of different temperatures.</p></li>
+<li><p>Have your diffusion model from the last section write five stories which start the same way.  How do the two compare?</p></li>
+<li><p>How many times does each model have to call its network to write a 32 token story?  Could either of them do it in fewer?</p></li>
+<li><p>On the masked diffusion page your model could write a story which started <code class="docutils literal notranslate"><span class="pre">one</span> <span class="pre">day</span> <span class="pre">,</span> <span class="pre">lily</span> <span class="pre">went</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">park</span> <span class="pre">.</span></code> and ended <code class="docutils literal notranslate"><span class="pre">and</span> <span class="pre">they</span> <span class="pre">were</span> <span class="pre">all</span> <span class="pre">happy</span> <span class="pre">.</span></code>  Can this one?</p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="what-you-built">
+<h2>What You Built<a class="headerlink" href="#what-you-built" title="Link to this heading">#</a></h2>
+<p>You now have a transformer that you wrote yourself, you know what each piece of it is for, and you have used the same code both as a diffusion model and as a (very small) GPT.</p>
+<p>It is worth going back to the masked diffusion page and reading the <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> code that we handed you.  You should be able to recognize every line.  There are two differences from yours.</p>
+<ul class="simple">
+<li><p><strong>All of the heads are done at once.</strong>  You made a python list of heads and called them one at a time.  <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> uses one big matrix to make the queries, keys and values for all of the heads together and then reshapes the result so that “which head” is one more index of the tensor.  It is the same calculation.  It is just faster.</p></li>
+<li><p><strong>Position is put in differently.</strong>  You added a position vector to the token vector at the very beginning.  <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> also <em>rotates</em> each query and key by an angle which is proportional to its position (the <code class="docutils literal notranslate"><span class="pre">Rotate</span></code> function) before taking the dot products.  The dot product of two rotated vectors only depends on the difference of their angles, so the energies <span class="math notranslate nohighlight">\(E_{ij}\)</span> get to depend directly on how far apart <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are.  This works a bit better, which is why your loss on the stories came out slightly higher.</p></li>
+</ul>
+<p>And here is how the networks that you have met compare.  The first three rows use attention where every site listens to every site and the last two use causal attention.  Other than that (and their size) they are all the thing that you just built.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>attention</p></th>
+<th class="head"><p>blocks</p></th>
+<th class="head"><p>length of the vectors</p></th>
+<th class="head"><p>parameters</p></th>
+<th class="head"><p>trained to</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>your <code class="docutils literal notranslate"><span class="pre">MyTransformer</span></code></p></td>
+<td><p>everybody</p></td>
+<td><p>4</p></td>
+<td><p>128</p></td>
+<td><p>1 million</p></td>
+<td><p>fill in masks (diffusion)</p></td>
+</tr>
+<tr class="row-odd"><td><p>ModernBERT (the chat model)</p></td>
+<td><p>everybody</p></td>
+<td><p>28</p></td>
+<td><p>1024</p></td>
+<td><p>400 million</p></td>
+<td><p>fill in masks (diffusion)</p></td>
+</tr>
+<tr class="row-even"><td><p>Qwen3-0.6B diffusion (the optional bigger model)</p></td>
+<td><p>everybody</p></td>
+<td><p>28</p></td>
+<td><p>1024</p></td>
+<td><p>600 million</p></td>
+<td><p>fill in masks (diffusion)</p></td>
+</tr>
+<tr class="row-odd"><td><p>your causal <code class="docutils literal notranslate"><span class="pre">MyTransformer</span></code></p></td>
+<td><p>only to the left</p></td>
+<td><p>4</p></td>
+<td><p>128</p></td>
+<td><p>1 million</p></td>
+<td><p>guess the next token</p></td>
+</tr>
+<tr class="row-even"><td><p>GPT-2</p></td>
+<td><p>only to the left</p></td>
+<td><p>12</p></td>
+<td><p>768</p></td>
+<td><p>120 million</p></td>
+<td><p>guess the next token</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The Qwen3 model has an interesting history.  It started out life as a causal, left to right model.  The people who made the diffusion version took those trained weights, removed the triangle of infinite energies (that was the <code class="docutils literal notranslate"><span class="pre">see_everything</span></code> in the code we gave you), and trained it some more with the diffusion loss.  You could try this yourself:  you have a trained causal network and you have <code class="docutils literal notranslate"><span class="pre">DiffusionLoss</span></code>.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Further reading</p>
+<ul class="simple">
+<li><p>Vaswani et al., <em>Attention Is All You Need</em> (2017).  The paper that introduced the transformer.</p></li>
+<li><p>Andrej Karpathy, <em>Let’s build GPT: from scratch, in code, spelled out</em> (a video lecture) and the accompanying <code class="docutils literal notranslate"><span class="pre">nanoGPT</span></code> code.  Builds the left to right version at about the level of this page.</p></li>
+<li><p>Ramsauer et al., <em>Hopfield Networks is All You Need</em> (2020).  Shows that the attention you wrote is the update rule of a modern version of the Hopfield network from the first page of this unit.</p></li>
+<li><p>Su et al., <em>RoFormer: Enhanced Transformer with Rotary Position Embedding</em> (2021).  The rotation trick that <code class="docutils literal notranslate"><span class="pre">TinyDenoiser</span></code> uses for position.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./ML"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-set-up">Getting Set Up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-plan">The Plan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-little-pytorch">A Little Pytorch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-words-to-vectors">Step 1: Words to Vectors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-a-network-where-nobody-talks">Step 2: A Network Where Nobody Talks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#knowing-where-you-are">Knowing where you are</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-attention">Step 3: Attention</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-head">A head</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#many-heads">Many heads</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-the-block">Step 4: The Block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-the-whole-thing">Step 5: The Whole Thing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-your-transformer">Using Your Transformer</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#two-sentences">Two sentences</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stories">Stories</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#flipping-one-switch-writing-left-to-right">Flipping one switch: writing left to right</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-built">What You Built</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Bryan Clark
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
